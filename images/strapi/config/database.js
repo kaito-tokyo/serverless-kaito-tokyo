@@ -8,7 +8,8 @@ module.exports = ({ env }) => ({
       },
     },
     pool: {
-      min: 0,
+      min: env.int('DATABASE_POOL_MIN', 0),
+      max: env.int('DATABASE_POOL_MAX', 5),
     },
     debug: false,
   },

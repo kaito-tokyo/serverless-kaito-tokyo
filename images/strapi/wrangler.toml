@@ -21,12 +21,6 @@ class_name = "StrapiContainer"
 image = "./Dockerfile" # Points to the directory containing your Dockerfile.
 max_instances = 5
 
-# Bind the Hyperdrive instance to the Worker.
-# The `binding` name "DB" will be available as `env.DB` in the Worker code.
-[[hyperdrive]]
-binding = "DB"
-id = "b84b826437b3440ebabbb7c20cbc99e6" # The ID from 'wrangler hyperdrive create'
-
 # Define the container that the Worker will manage.
 # The `binding` name "STRAPI_CONTAINER" will be available as `env.STRAPI_CONTAINER`.
 [[durable_objects.bindings]]

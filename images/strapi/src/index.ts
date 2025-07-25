@@ -8,8 +8,7 @@ export interface Env {
   // Durable Object binding for the container, defined in wrangler.toml
   STRAPI_CONTAINER: DurableObjectNamespace;
 
-  // Hyperdrive binding for the database, defined in wrangler.toml
-  DB: Hyperdrive;
+  DB_URL: string;
 
   // Secrets set with `wrangler secret put`
   APP_KEYS: string;
@@ -36,7 +35,7 @@ export class StrapiContainer extends Container<Env> {
     this.envVars = {
       NODE_ENV: 'production',
       // Database configuration
-      DATABASE_URL: this.env.DB.connectionString,
+      DATABASE_URL: this.env.DB_URL,
       // R2 configuration from wrangler.toml [vars] and secrets
       CF_ACCESS_KEY_ID: this.env.CF_ACCESS_KEY_ID,
       CF_SECRET_ACCESS_KEY: this.env.CF_SECRET_ACCESS_KEY,
