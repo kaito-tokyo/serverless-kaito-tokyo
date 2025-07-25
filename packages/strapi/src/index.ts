@@ -1,4 +1,4 @@
-import { Container } from '@cloudflare/containers';
+import { Container } from "@cloudflare/containers";
 
 /**
  * Defines the environment variables and bindings available to the Worker.
@@ -33,7 +33,7 @@ export class StrapiContainer extends Container<Env> {
   constructor(state: DurableObjectState, env: Env) {
     super(state, env);
     this.envVars = {
-      NODE_ENV: 'production',
+      NODE_ENV: "production",
       // Database configuration
       DATABASE_URL: this.env.DB_URL,
       // R2 configuration from wrangler.toml [vars] and secrets
@@ -52,9 +52,13 @@ export class StrapiContainer extends Container<Env> {
 }
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: Env,
+    ctx: ExecutionContext,
+  ): Promise<Response> {
     // Get a stub for the Durable Object that manages our container.
-    const id = env.STRAPI_CONTAINER.idFromName('strapi-singleton');
+    const id = env.STRAPI_CONTAINER.idFromName("strapi-singleton");
     const stub = env.STRAPI_CONTAINER.get(id);
 
     // Forward the request to the container via the Durable Object.

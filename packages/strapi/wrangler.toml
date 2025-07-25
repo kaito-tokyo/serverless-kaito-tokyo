@@ -18,7 +18,7 @@ enabled = true
 [[containers]]
 name = "serverless-kaito-tokyo-strapi-container"
 class_name = "StrapiContainer"
-image = "./Dockerfile" # Points to the directory containing your Dockerfile.
+image = "./image/Dockerfile" # Points to the directory containing your Dockerfile.
 max_instances = 5
 
 # Define the container that the Worker will manage.

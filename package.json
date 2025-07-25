@@ -12,5 +12,9 @@
   },
   "homepage": "https://github.com/kaito-tokyo/serverless-kaito-tokyo#readme",
   "workspaces": [
-  ]
+    "packages/strapi"
+  ],
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  }
 }
