@@ -4,12 +4,11 @@ module.exports = ({ env }) => ({
     connection: {
       connectionString: env('DATABASE_URL'),
       ssl: {
-        rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', false),
+        rejectUnauthorized: false,
       },
     },
     pool: {
-      min: env.int('DATABASE_POOL_MIN', 0),
-      max: env.int('DATABASE_POOL_MAX', 5),
+      min: 0,
     },
     debug: false,
   },

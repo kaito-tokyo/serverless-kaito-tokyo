@@ -22,6 +22,7 @@ ENV PATH=/opt/node_modules/.bin:$PATH
 WORKDIR /opt/app
 
 # Copy the rest of the application source code
+COPY database/ database/
 COPY src/ src/
 COPY config/ config/
 COPY package.json yarn.lock ./
