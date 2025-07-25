@@ -751,6 +751,11 @@
   dependencies:
     "@ucast/mongo2js" "^1.3.0"
 
+"@cloudflare/containers@^0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@cloudflare/containers/-/containers-0.0.25.tgz#cbd80489223c4dd451139c0834015ac11e414cff"
+  integrity sha512-41sCUwGPhMMQI/kwksEZXNWe/GZdQoIy8QlgO4NAF68M4y4NN41IXeQ4n2jn4iJ7tHaV4noe7RI75b7T6h2JGg==
+
 "@codemirror/autocomplete@^6.0.0":
   version "6.18.6"
   resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.18.6.tgz#de26e864a1ec8192a1b241eb86addbb612964ddb"

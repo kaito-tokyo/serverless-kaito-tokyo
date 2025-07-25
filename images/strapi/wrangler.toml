@@ -1,0 +1,32 @@
+# The name of your Worker.
+name = "serverless-kaito-tokyo-strapi-production-worker"
+# The entrypoint for your Worker's code.
+main = "src/index.ts"
+
+# Compatibility settings required for Node.js APIs and modern features.
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# --- Bindings ---
+
+# Bind the Hyperdrive instance to the Worker.
+# The `binding` name "DB" will be available as `env.DB` in the Worker code.
+[[hyperdrive]]
+binding = "DB"
+id = "b84b826437b3440ebabbb7c20cbc99e6" # The ID from 'wrangler hyperdrive create'
+
+# Define the container that the Worker will manage.
+# The `binding` name "STRAPI_CONTAINER" will be available as `env.STRAPI_CONTAINER`.
+[[durable_objects.bindings]]
+name = "STRAPI_CONTAINER"
+class_name = "StrapiContainer"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["StrapiContainer"]
+
+# Environment variables that are not secret.
+[vars]
+CF_ENDPOINT = "https://1169b990c0885e4cfa603c38eef1a9b3.r2.cloudflarestorage.com/assets-serverless-kaito-tokyo"
+CF_BUCKET = "assets-serverless-kaito-tokyo"
+CF_PUBLIC_ACCESS_URL = "https://assets.strapi.kaito.tokyo"
