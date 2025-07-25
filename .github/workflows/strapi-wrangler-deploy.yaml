@@ -1,10 +1,11 @@
-name: Deploy Strapi Wrandgler
+name: "Deploy Strapi Wrandgler"
 
 on:
   push:
     branches:
       - "main"
     paths:
+      - ".github/workflows/strapi-wrangler-deploy.yaml"
       - "packages/strapi/**/*"
 
 jobs:
