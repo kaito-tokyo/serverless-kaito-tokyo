@@ -8,6 +8,10 @@ on:
       - ".github/workflows/strapi-wrangler-deploy.yaml"
       - "packages/strapi/**/*"
 
+defaults:
+  runs:
+    shell: "bash"
+
 jobs:
   DeployStrapiWranger:
     runs-on: "ubuntu-latest"
@@ -17,6 +21,9 @@ jobs:
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
+
+      - name: "Build"
+        run: "npm run build"
 
       - name: "Deploy Wrangler"
         uses: "cloudflare/wrangler-action@v3"
