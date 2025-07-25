@@ -43,5 +43,6 @@
   "strapi": {
     "uuid": "01cbcdc3-3baa-46ca-9699-9ed38dae056d",
     "installId": "491ffba235c9338d7faa826e2a7c828158f26839975d522f8031912d04eeba9e"
-  }
+  },
+  "workspaces": []
 }
