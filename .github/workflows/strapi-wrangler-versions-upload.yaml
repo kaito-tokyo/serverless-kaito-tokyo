@@ -1,19 +1,15 @@
-name: "Deploy Web Wrangler"
+name: "Upload Strapi Versions Wrangler"
 
 on:
-  push:
+  pull_request:
     branches:
       - "main"
     paths:
-      - ".github/workflows/web-wrangler-deploy.yaml"
-      - "packages/web/**/*"
-
-defaults:
-  run:
-    shell: "bash"
+      - ".github/workflows/strapi-wrangler-deploy.yaml"
+      - "packages/strapi/**/*"
 
 jobs:
-  DeployWebWrangler:
+  UploadStrapiVersionsWrangler:
     runs-on: "ubuntu-latest"
 
     timeout-minutes: 10
@@ -22,13 +18,11 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
-      - name: "Build"
-        run: "npm run build"
-
       - name: "Deploy Wrangler"
         uses: "cloudflare/wrangler-action@v3"
         with:
           apiToken: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
           accountId: "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
-          workingDirectory: "packages/web"
+          workingDirectory: "packages/strapi"
           wranglerVersion: "4.26.0"
+          command: "versions upload"

@@ -4,4 +4,8 @@
   "assets": {
     "directory": "./dist"
   },
+  "observability": {
+    "enabled": true,
+  },
+  "preview_urls": true
 }

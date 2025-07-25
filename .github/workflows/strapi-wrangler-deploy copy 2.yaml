@@ -1,4 +1,4 @@
-name: "Deploy Web Wrangler"
+name: "Deploy Strapi Wrangler"
 
 on:
   push:
