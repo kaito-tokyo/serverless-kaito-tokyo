@@ -1,0 +1,37 @@
+---
+import fetchApi from '../../lib/strapi.js';
+import type Novel from '../../interfaces/Novel.js';
+
+import NovelMarkdown from '../../components/NovelMarkdown.astro';
+
+export async function getStaticPaths() {
+  const novels = await fetchApi<Novel[]>({
+    endpoint: 'novels',
+    wrappedByKey: 'data',
+  });
+
+  return novels.map((novel) => ({
+    params: { slug: novel.slug },
+    props: novel,
+  }));
+}
+type Props = Novel;
+
+const novel = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{novel.Title}</title>
+  </head>
+
+  <body>
+    <main>
+      <h1>{novel.Title}</h1>
+      <NovelMarkdown markdownText={novel.Body} />
+    </main>
+  </body>
+</html>

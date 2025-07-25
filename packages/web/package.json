@@ -1,0 +1,16 @@
+{
+  "name": "serverless-kaito-tokyo-web",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.12.3",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
+  }
+}

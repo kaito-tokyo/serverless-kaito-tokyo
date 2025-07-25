@@ -1,0 +1,35 @@
+---
+import fetchApi from "../../lib/strapi.js";
+import type Novel from "../../interfaces/Novel.js";
+
+const novels = await fetchApi<Novel[]>({
+  endpoint: "novels",
+  wrappedByKey: "data",
+});
+console.log(novels[0]);
+---
+
+<!doctype html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>小説 - kaito.tokyo</title>
+  </head>
+  <body>
+    <main>
+      <h1>小説</h1>
+      <ul>
+        {
+          novels.map((novel) => (
+            <li>
+              <a href={`/novel/${novel.slug}`}>
+                <h2>{novel.Title}</h2>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </body>
+</html>

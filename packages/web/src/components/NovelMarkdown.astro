@@ -1,0 +1,42 @@
+---
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+
+const { markdownText } = Astro.props;
+
+const processor = unified().use(remarkParse);
+
+const ast = processor.parse(markdownText);
+---
+
+<div class="novel-markdown">
+  {
+    ast.children.map(function renderNode (node) {
+      switch (node.type) {
+        case "text":
+          return <span class="text">{node.value}</span>;
+        case "paragraph":
+          return <p>{node.children.map(renderNode)}</p>;
+        case "heading":
+          switch (node.depth) {
+            case 1:
+              return <h1>{node.children.map(renderNode)}</h1>;
+            case 2:
+              return <h2>{node.children.map(renderNode)}</h2>;
+            case 3:
+              return <h3>{node.children.map(renderNode)}</h3>;
+            default:
+              return <span>{node.children.map(renderNode)}</span>;
+          }
+        case "link":
+          return (
+            <a href={node.url}>
+              {node.children.map(renderNode)}
+            </a>
+          );
+        default:
+          return null;
+      }
+    })
+  }
+</div>
