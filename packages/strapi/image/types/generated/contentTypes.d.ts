@@ -396,13 +396,6 @@ export interface ApiNovelNovel extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    canonicalUrl: Schema.Attribute.UID<"Slug"> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
@@ -423,18 +416,11 @@ export interface ApiNovelNovel extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<"oneToMany", "api::novel.novel">;
     publishedAt: Schema.Attribute.DateTime;
-    RelatedMaterials: Schema.Attribute.Blocks &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    Slug: Schema.Attribute.String &
+    slug: Schema.Attribute.UID &
       Schema.Attribute.Required &
-      Schema.Attribute.Unique &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
-          localized: false;
+          localized: true;
         };
       }>;
     Title: Schema.Attribute.String &

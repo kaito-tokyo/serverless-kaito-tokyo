@@ -33,6 +33,15 @@
       },
       "required": true
     },
+    "slug": {
+      "type": "uid",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": true
+    },
     "Description": {
       "type": "text",
       "pluginOptions": {
@@ -42,16 +51,6 @@
       },
       "required": true
     },
-    "Slug": {
-      "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "required": true,
-      "unique": true
-    },
     "Body": {
       "type": "richtext",
       "pluginOptions": {
@@ -59,24 +58,6 @@
           "localized": true
         }
       },
-      "required": true
-    },
-    "RelatedMaterials": {
-      "type": "blocks",
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "canonicalUrl": {
-      "type": "uid",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "targetField": "Slug",
       "required": true
     }
   }
