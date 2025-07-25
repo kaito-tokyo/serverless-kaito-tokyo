@@ -30,7 +30,7 @@ jobs:
         working-directory: "packages/web"
         run: "npm run build"
         env:
-          STRAPI_URL: "${{ vars.STRAPI_URL }}"
+          STRAPI_URL: "https://strapi.kaito.tokyo"
 
       - name: "Deploy Wrangler"
         uses: "cloudflare/wrangler-action@v3"
