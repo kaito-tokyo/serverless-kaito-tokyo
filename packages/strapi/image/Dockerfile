@@ -28,7 +28,7 @@ COPY config/ config/
 COPY package.json yarn.lock ./
 
 # Build the Strapi admin panel
-RUN yarn tsc && yarn build
+RUN yarn build
 
 # ----- Stage 2: Production Stage -----
 FROM node:20-alpine

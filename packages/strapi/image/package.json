@@ -31,18 +31,17 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0"
+    "styled-components": "^6.0.0",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250725.0",
     "@types/node": "^20",
     "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "typescript": "^5"
+    "@types/react-dom": "^18"
   },
   "strapi": {
     "uuid": "01cbcdc3-3baa-46ca-9699-9ed38dae056d",
     "installId": "491ffba235c9338d7faa826e2a7c828158f26839975d522f8031912d04eeba9e"
-  },
-  "workspaces": []
+  }
 }
