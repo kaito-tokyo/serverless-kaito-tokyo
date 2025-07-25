@@ -1,13 +1,13 @@
 ---
-import fetchApi from '../../lib/strapi.js';
-import type Novel from '../../interfaces/Novel.js';
+import fetchApi from "../../lib/strapi.js";
+import type Novel from "../../interfaces/Novel.js";
 
-import NovelMarkdown from '../../components/NovelMarkdown.astro';
+import NovelMarkdown from "../../components/NovelMarkdown.astro";
 
 export async function getStaticPaths() {
   const novels = await fetchApi<Novel[]>({
-    endpoint: 'novels',
-    wrappedByKey: 'data',
+    endpoint: "novels",
+    wrappedByKey: "data",
   });
 
   return novels.map((novel) => ({
@@ -20,7 +20,7 @@ type Props = Novel;
 const novel = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja-JP">
   <head>
     <meta charset="UTF-8" />

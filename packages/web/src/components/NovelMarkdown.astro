@@ -11,7 +11,7 @@ const ast = processor.parse(markdownText);
 
 <div class="novel-markdown">
   {
-    ast.children.map(function renderNode (node) {
+    ast.children.map(function renderNode(node) {
       switch (node.type) {
         case "text":
           return <span class="text">{node.value}</span>;
@@ -29,11 +29,7 @@ const ast = processor.parse(markdownText);
               return <span>{node.children.map(renderNode)}</span>;
           }
         case "link":
-          return (
-            <a href={node.url}>
-              {node.children.map(renderNode)}
-            </a>
-          );
+          return <a href={node.url}>{node.children.map(renderNode)}</a>;
         default:
           return null;
       }
