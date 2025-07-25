@@ -22,7 +22,7 @@ ENV PATH=/opt/node_modules/.bin:$PATH
 WORKDIR /opt/app
 
 # Copy the rest of the application source code
-COPY . .
+COPY src/ ./package.json ./yarn.lock ./
 
 # Build the Strapi admin panel
 RUN yarn build

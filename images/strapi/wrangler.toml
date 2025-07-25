@@ -7,7 +7,19 @@ main = "src/index.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-# --- Bindings ---
+# --- Observability ---
+# Enable logging for the Durable Object backing the container.
+[observability.logs]
+enabled = true
+
+# --- Bindings & Definitions ---
+
+# Define the container image and link it to the Durable Object class.
+[[containers]]
+name = "serverless-kaito-tokyo-strapi-container"
+class_name = "StrapiContainer"
+image = "./Dockerfile" # Points to the directory containing your Dockerfile.
+max_instances = 5
 
 # Bind the Hyperdrive instance to the Worker.
 # The `binding` name "DB" will be available as `env.DB` in the Worker code.
@@ -30,6 +42,3 @@ new_sqlite_classes = ["StrapiContainer"]
 CF_ENDPOINT = "https://1169b990c0885e4cfa603c38eef1a9b3.r2.cloudflarestorage.com/assets-serverless-kaito-tokyo"
 CF_BUCKET = "assets-serverless-kaito-tokyo"
 CF_PUBLIC_ACCESS_URL = "https://assets.strapi.kaito.tokyo"
-
-[observability.logs]
-enabled = true
