@@ -24,7 +24,8 @@
       "name": "serverless-kaito-tokyo-strapi-container",
       "class_name": "StrapiContainer",
       "image": "./image/Dockerfile", // Points to the directory containing your Dockerfile.
-      "max_instances": 5,
+      "max_instances": 1,
+      "instance_type": "basic"
     },
   ],
 

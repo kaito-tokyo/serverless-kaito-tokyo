@@ -8,13 +8,13 @@ export interface Env {
   // Durable Object binding for the container, defined in wrangler.toml
   STRAPI_CONTAINER: DurableObjectNamespace;
 
-  DB_URL: string;
-
   // Secrets set with `wrangler secret put`
-  APP_KEYS: string;
-  API_TOKEN_SALT: string;
+  DATABASE_URL: string;
   ADMIN_JWT_SECRET: string;
+  API_TOKEN_SALT: string;
+  APP_KEYS: string;
   JWT_SECRET: string;
+  TRANSFER_TOKEN_SALT: string;
   CF_ACCESS_KEY_ID: string;
   CF_SECRET_ACCESS_KEY: string;
 
@@ -35,7 +35,7 @@ export class StrapiContainer extends Container<Env> {
     this.envVars = {
       NODE_ENV: "production",
       // Database configuration
-      DATABASE_URL: this.env.DB_URL,
+      DATABASE_URL: this.env.DATABASE_URL,
       // R2 configuration from wrangler.toml [vars] and secrets
       CF_ACCESS_KEY_ID: this.env.CF_ACCESS_KEY_ID,
       CF_SECRET_ACCESS_KEY: this.env.CF_SECRET_ACCESS_KEY,
@@ -43,9 +43,10 @@ export class StrapiContainer extends Container<Env> {
       CF_BUCKET: this.env.CF_BUCKET,
       CF_PUBLIC_ACCESS_URL: this.env.CF_PUBLIC_ACCESS_URL,
       // Strapi's required secrets
-      APP_KEYS: this.env.APP_KEYS,
-      API_TOKEN_SALT: this.env.API_TOKEN_SALT,
       ADMIN_JWT_SECRET: this.env.ADMIN_JWT_SECRET,
+      API_TOKEN_SALT: this.env.API_TOKEN_SALT,
+      APP_KEYS: this.env.APP_KEYS,
+      TRANSFER_TOKEN_SALT: this.env.TRANSFER_TOKEN_SALT,
       JWT_SECRET: this.env.JWT_SECRET,
     };
   }

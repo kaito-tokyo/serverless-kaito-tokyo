@@ -1,6 +1,6 @@
-export default ({ env }) => [
-  'strapi::logger',
-  'strapi::errors',
+module.exports = ({ env }) => [
+  "strapi::logger",
+  "strapi::errors",
   {
     name: "strapi::security",
     config: {
@@ -27,11 +27,11 @@ export default ({ env }) => [
       },
     },
   },
-  'strapi::cors',
-  'strapi::poweredBy',
-  'strapi::query',
-  'strapi::body',
-  'strapi::session',
-  'strapi::favicon',
-  'strapi::public',
+  "strapi::cors",
+  "strapi::poweredBy",
+  "strapi::query",
+  "strapi::body",
+  "strapi::session",
+  "strapi::favicon",
+  "strapi::public",
 ];

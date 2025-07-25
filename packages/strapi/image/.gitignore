@@ -1,3 +1,4 @@
+.env
 .strapi/
 build/
 dist/
