@@ -18,9 +18,13 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
-      - name: "Build"
-        run: "npm run build"
+      - name: "Install Dependencies"
         working-directory: "packages/web"
+        run: "npm install"
+
+      - name: "Build"
+        working-directory: "packages/web"
+        run: "npm run build"
 
       - name: "Deploy Wrangler"
         uses: "cloudflare/wrangler-action@v3"

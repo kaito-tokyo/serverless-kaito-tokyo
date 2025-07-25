@@ -22,6 +22,10 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
+      - name: "Install Dependencies"
+        working-directory: "packages/web"
+        run: "npm install"
+
       - name: "Build"
         working-directory: "packages/web"
         run: "npm run build"
