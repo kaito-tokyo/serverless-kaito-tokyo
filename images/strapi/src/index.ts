@@ -31,7 +31,7 @@ export class StrapiContainer extends Container<Env> {
   defaultPort = 1337;
 
   // Pass environment variables and secrets from the Worker's env to the container.
-  constructor(state: , env) {
+  constructor(state: DurableObjectState, env: Env) {
     super(state, env);
     this.envVars = {
       NODE_ENV: 'production',
