@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths:
-      - ".github/workflows/strapi-wrangler-deploy.yaml"
+      - ".github/workflows/web-wrangler-deploy.yaml"
       - "packages/web/**/*"
 
 defaults:
