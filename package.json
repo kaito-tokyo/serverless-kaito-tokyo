@@ -1,0 +1,16 @@
+{
+  "name": "serverless-kaito-tokyo",
+  "version": "0.1.0",
+  "description": "www.kaito.tokyo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaito-tokyo/serverless-kaito-tokyo.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kaito-tokyo/serverless-kaito-tokyo/issues"
+  },
+  "homepage": "https://github.com/kaito-tokyo/serverless-kaito-tokyo#readme",
+  "workspaces": [
+  ]
+}
