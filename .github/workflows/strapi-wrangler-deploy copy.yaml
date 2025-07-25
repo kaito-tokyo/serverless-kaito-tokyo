@@ -6,10 +6,10 @@ on:
       - "main"
     paths:
       - ".github/workflows/web-wrangler-deploy.yaml"
-      - "packages/web/**/*"
+      - "packages/strapi/**/*"
 
 jobs:
-  DeployWebWrangler:
+  DeployStrapiWrangler:
     runs-on: "ubuntu-latest"
 
     timeout-minutes: 10
@@ -23,5 +23,5 @@ jobs:
         with:
           apiToken: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
           accountId: "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
-          workingDirectory: "packages/web"
+          workingDirectory: "packages/strapi"
           wranglerVersion: "4.26.0"
