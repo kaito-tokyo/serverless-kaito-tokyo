@@ -1,0 +1,4 @@
+packages/strapi/image/.strapi/
+packages/strapi/image/build/
+packages/strapi/image/dist/
+packages/strapi/image/node_modules/

@@ -16,5 +16,11 @@
   ],
   "devDependencies": {
     "prettier": "^3.6.2"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
+    "test": "echo \"No tests specified\" && exit 0"
   }
 }

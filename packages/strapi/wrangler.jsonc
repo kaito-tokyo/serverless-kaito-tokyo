@@ -12,8 +12,8 @@
   "observability": {
     // Enable logging for the Durable Object backing the container.
     "logs": {
-      "enabled": true
-    }
+      "enabled": true,
+    },
   },
 
   // --- Bindings & Definitions ---
@@ -24,8 +24,8 @@
       "name": "serverless-kaito-tokyo-strapi-container",
       "class_name": "StrapiContainer",
       "image": "./image/Dockerfile", // Points to the directory containing your Dockerfile.
-      "max_instances": 5
-    }
+      "max_instances": 5,
+    },
   ],
 
   // Define the container that the Worker will manage.
@@ -34,22 +34,22 @@
     "bindings": [
       {
         "name": "STRAPI_CONTAINER",
-        "class_name": "StrapiContainer"
-      }
-    ]
+        "class_name": "StrapiContainer",
+      },
+    ],
   },
 
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": ["StrapiContainer"]
-    }
+      "new_sqlite_classes": ["StrapiContainer"],
+    },
   ],
 
   // Environment variables that are not secret.
   "vars": {
     "CF_ENDPOINT": "https://1169b990c0885e4cfa603c38eef1a9b3.r2.cloudflarestorage.com/assets-serverless-kaito-tokyo",
     "CF_BUCKET": "assets-serverless-kaito-tokyo",
-    "CF_PUBLIC_ACCESS_URL": "https://assets.strapi.kaito.tokyo"
-  }
+    "CF_PUBLIC_ACCESS_URL": "https://assets.strapi.kaito.tokyo",
+  },
 }
