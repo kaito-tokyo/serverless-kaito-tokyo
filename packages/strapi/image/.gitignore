@@ -1,3 +1,4 @@
 .strapi/
 build/
+dist/
 node_modules/

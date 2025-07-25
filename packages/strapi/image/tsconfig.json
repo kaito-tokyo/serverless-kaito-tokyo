@@ -13,8 +13,7 @@
     "noEmitOnError": true,
     "noImplicitThis": true,
     "outDir": "dist",
-    "rootDir": ".",
-    "types": ["@cloudflare/workers-types", "./worker-configuration.d.ts"]
+    "rootDir": "."
   },
   "include": [
     // Include root files
