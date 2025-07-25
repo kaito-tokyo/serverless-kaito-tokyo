@@ -1,0 +1,26 @@
+name: "Prettier"
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/strapi-wrangler-deploy.yaml"
+      - "packages/strapi/**/*"
+
+defaults:
+  run:
+    shell: "bash"
+
+jobs:
+  deploy:
+    runs-on: "ubuntu-latest"
+
+    timeout-minutes: 10
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Run Prettier"
+        run: "npx prettier --check ."

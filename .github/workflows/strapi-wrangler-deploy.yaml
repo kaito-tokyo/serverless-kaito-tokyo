@@ -1,4 +1,4 @@
-name: "Deploy Strapi Wrandgler"
+name: "Deploy Strapi Wrangler"
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - "packages/strapi/**/*"
 
 jobs:
-  deploy:
+  DeployStrapiWranger:
     runs-on: "ubuntu-latest"
 
     timeout-minutes: 10
