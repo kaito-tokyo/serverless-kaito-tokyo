@@ -24,3 +24,4 @@ jobs:
           apiToken: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
           accountId: "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
           workingDirectory: "packages/strapi"
+          wranglerVersion: "4"
