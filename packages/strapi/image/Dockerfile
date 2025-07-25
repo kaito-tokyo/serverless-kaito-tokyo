@@ -25,7 +25,7 @@ WORKDIR /opt/app
 COPY database/ database/
 COPY src/ src/
 COPY config/ config/
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock tsconfig.json ./
 
 # Build the Strapi admin panel
 RUN yarn build
