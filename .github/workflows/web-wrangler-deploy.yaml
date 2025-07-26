@@ -8,6 +8,10 @@ on:
       - ".github/workflows/web-wrangler-deploy.yaml"
       - "packages/web/**/*"
 
+  repository_dispatch:
+    types:
+      - "strapi-updated"
+
 defaults:
   run:
     shell: "bash"
