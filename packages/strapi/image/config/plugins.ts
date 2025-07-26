@@ -29,9 +29,11 @@ export default ({ env }) => ({
     enabled: true,
     resolve: "./src/plugins/my-github-actions-dispatcher",
     config: {
+      appId: env("GITHUB_APP_ID"),
+      installationId: env("GITHUB_INSTALLATION_ID"),
+      privateKey: env("GITHUB_PRIVATE_KEY").replace(/\\n/g, '\n'),
       owner: env("GITHUB_OWNER"),
       repo: env("GITHUB_REPO"),
-      token: env("GITHUB_PAT"),
     }
   }
 });
