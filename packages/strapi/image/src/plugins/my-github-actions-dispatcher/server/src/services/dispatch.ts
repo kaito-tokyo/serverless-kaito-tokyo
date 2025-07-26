@@ -1,4 +1,4 @@
-import { Strapi } from '@strapi/strapi';
+import { Core } from '@strapi/strapi';
 import jwt from 'jsonwebtoken';
 
 interface TokenCache {
@@ -8,8 +8,12 @@ interface TokenCache {
 
 let tokenCache: TokenCache | null = null;
 
-export default ({ strapi }: { strapi: Strapi }) => {
-  const { owner, repo, appId, installationId, privateKey } = strapi.config.get('plugin.my-github-actions-dispatcher');
+export default ({ strapi }: { strapi: Core.Strapi }) => {
+  const owner = strapi.config.get<string>('plugin.my-github-actions-dispatcher.owner');
+  const repo = strapi.config.get<string>('plugin.my-github-actions-dispatcher.repo');
+  const appId = strapi.config.get<string>('plugin.my-github-actions-dispatcher.appId');
+  const installationId = strapi.config.get<string>('plugin.my-github-actions-dispatcher.installationId');
+  const privateKey = strapi.config.get<string>('plugin.my-github-actions-dispatcher.privateKey');
 
   const generateJwt = (): string => {
     const now = Math.floor(Date.now() / 1000);
@@ -38,7 +42,7 @@ export default ({ strapi }: { strapi: Strapi }) => {
       throw new Error(`Failed to get installation access token: ${response.status} ${errorBody}`);
     }
 
-    const data = await response.json();
+    const data = await response.json() as any;
     return data.token;
   };
 
