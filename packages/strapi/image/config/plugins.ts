@@ -1,3 +1,5 @@
+import { resolve } from "path";
+
 export default ({ env }) => ({
   upload: {
     config: {
@@ -23,4 +25,13 @@ export default ({ env }) => ({
       jwtSecret: env("JWT_SECRET"),
     },
   },
+  "my-github-actions-dispatcher": {
+    enabled: true,
+    resolve: "./src/plugins/my-github-actions-dispatcher",
+    config: {
+      owner: env("GITHUB_OWNER"),
+      repo: env("GITHUB_REPO"),
+      token: env("GITHUB_PAT"),
+    }
+  }
 });

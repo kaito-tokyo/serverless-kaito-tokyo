@@ -10,7 +10,12 @@ on:
 
   repository_dispatch:
     types:
-      - "strapi-updated"
+      - "strapi-novel-create"
+      - "strapi-novel-createmany"
+      - "strapi-novel-update"
+      - "strapi-novel-updatemany"
+      - "strapi-novel-delete"
+      - "strapi-novel-deletemany"
 
 defaults:
   run:
