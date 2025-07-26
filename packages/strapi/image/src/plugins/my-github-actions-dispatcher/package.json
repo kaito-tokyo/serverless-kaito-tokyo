@@ -8,12 +8,14 @@
     "description": "A custom plugin to trigger GitHub repository dispatch events."
   },
   "dependencies": {
-    "@strapi/strapi": "^5.19.0",
     "jsonwebtoken": "^9.0.2"
   },
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@strapi/strapi": "^5.19.0"
+  }
 }
