@@ -1,4 +1,13 @@
 {
   "version": "v1",
-  "packages": {}
+  "packages": {
+    "strapi-plugin-github-actions-dispatch": {
+      "signature": "2bb665474bfef3db0d960d436f129b86",
+      "link": true
+    },
+    "strapi-plugin-github-actions-dispatcher": {
+      "signature": "70a741fd9452051ac24081468413189c",
+      "link": true
+    }
+  }
 }

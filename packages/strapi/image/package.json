@@ -31,6 +31,8 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "strapi-plugin-github-actions-dispatch": "link:.yalc/strapi-plugin-github-actions-dispatch",
+    "strapi-plugin-github-actions-dispatcher": "link:.yalc/strapi-plugin-github-actions-dispatcher",
     "styled-components": "^6.0.0"
   },
   "devDependencies": {
@@ -43,5 +45,6 @@
   "strapi": {
     "uuid": "01cbcdc3-3baa-46ca-9699-9ed38dae056d",
     "installId": "491ffba235c9338d7faa826e2a7c828158f26839975d522f8031912d04eeba9e"
-  }
+  },
+  "packageManager": "yarn@4.9.2"
 }

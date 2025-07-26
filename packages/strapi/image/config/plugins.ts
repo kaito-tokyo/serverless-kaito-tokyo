@@ -25,9 +25,8 @@ export default ({ env }) => ({
       jwtSecret: env("JWT_SECRET"),
     },
   },
-  "my-github-actions-dispatcher": {
+  "strapi-plugin-github-actions-dispatch": {
     enabled: true,
-    resolve: "./src/plugins/my-github-actions-dispatcher",
     config: {
       appId: env("GITHUB_APP_ID"),
       installationId: env("GITHUB_INSTALLATION_ID"),
