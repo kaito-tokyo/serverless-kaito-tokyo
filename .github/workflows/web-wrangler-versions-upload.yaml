@@ -1,0 +1,38 @@
+name: "Upload Web Versions Wrangler"
+
+on:
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/web-wrangler-deploy.yaml"
+      - "packages/web/**/*"
+
+jobs:
+  UploadWebVersionsWrangler:
+    runs-on: "ubuntu-latest"
+
+    timeout-minutes: 10
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Install Dependencies"
+        working-directory: "packages/web"
+        run: "npm install"
+
+      - name: "Build"
+        working-directory: "packages/web"
+        run: "npm run build"
+        env:
+          STRAPI_URL: "https://strapi.kaito.tokyo"
+
+      - name: "Deploy Wrangler"
+        uses: "cloudflare/wrangler-action@v3"
+        with:
+          apiToken: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          accountId: "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
+          workingDirectory: "packages/web"
+          wranglerVersion: "4.26.0"
+          command: "versions upload"
