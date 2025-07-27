@@ -2,10 +2,10 @@
   "name": "serverless-kaito-tokyo-web",
   "compatibility_date": "2025-05-05",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
   },
   "observability": {
     "enabled": true,
   },
-  "preview_urls": true
+  "preview_urls": true,
 }

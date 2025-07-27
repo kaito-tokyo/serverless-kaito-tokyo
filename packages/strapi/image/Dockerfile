@@ -1,56 +1,47 @@
 # ----- Stage 1: Build Stage -----
+# This stage installs all dependencies (including devDependencies) and builds the application.
 FROM node:20-alpine AS build
 
 # Install build-time dependencies required for native modules, especially for 'sharp'
-RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev > /dev/null 2>&1
-
-# Set production environment
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /opt/
-
-# Copy package.json and lock file to leverage Docker cache
-COPY package.json yarn.lock ./
-
-# Install production dependencies
-RUN yarn config set network-timeout 600000 -g && yarn install --production
-
-# Add node_modules binaries to PATH
-ENV PATH=/opt/node_modules/.bin:$PATH
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev
 
 WORKDIR /opt/app
 
-# Copy the rest of the application source code
-COPY database/ database/
-COPY src/ src/
-COPY config/ config/
-COPY package.json yarn.lock tsconfig.json ./
+# Copy package.json and the lock file to leverage Docker's cache
+COPY package.json package-lock.json ./
+
+# Install all dependencies using 'npm ci' for a clean, reproducible install from the lock file
+RUN npm ci
+
+# Copy the entire application source code
+COPY . .
 
 # Build the Strapi admin panel
-RUN yarn build
+ENV NODE_ENV=production
+RUN npm run build
+
 
 # ----- Stage 2: Production Stage -----
+# This stage creates a lightweight final image with only production dependencies and built artifacts.
 FROM node:20-alpine
 
-# Only install runtime dependencies for 'sharp'
+# Install only runtime dependencies required for 'sharp'
 RUN apk add --no-cache vips-dev
 
 # Set production environment
 ENV NODE_ENV=production
 
-WORKDIR /opt/
-
-# Copy built node_modules from the build stage
-COPY --from=build /opt/node_modules ./node_modules
-
 WORKDIR /opt/app
 
-# Copy built application code from the build stage
-COPY --from=build /opt/app ./
+# Copy manifests from the build stage
+COPY --from=build /opt/app/package.json /opt/app/package-lock.json ./
 
-# Add node_modules binaries to PATH
-ENV PATH=/opt/node_modules/.bin:$PATH
+# Install only production dependencies.
+# The --omit=dev flag ensures devDependencies are not installed.
+RUN npm ci --omit=dev
+
+# Copy the built application code and node_modules from the build stage
+COPY --from=build /opt/app ./
 
 # Run as a non-root user for security
 USER node
@@ -58,5 +49,5 @@ USER node
 # Expose the default Strapi port
 EXPOSE 1337
 
-# Start the Strapi application
-CMD ["yarn", "start"]
+# Start the application
+CMD ["npm", "run", "start"]

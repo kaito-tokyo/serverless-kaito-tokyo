@@ -1,1 +1,2 @@
-src/plugins/*/node_modules/
+.env
+dist

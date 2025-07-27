@@ -1,8 +1,8 @@
 {
   "name": "serverless-kaito-tokyo-strapi-image",
-  "private": true,
   "version": "0.1.0",
-  "description": "A Strapi application for Cloudflare Containers.",
+  "private": true,
+  "description": "A Strapi application",
   "scripts": {
     "build": "strapi build",
     "console": "strapi console",
@@ -14,36 +14,31 @@
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
-  "author": {
-    "name": "Kaito Udagawa"
-  },
-  "engines": {
-    "node": ">=18.0.0 <=20.x.x",
-    "npm": ">=6.0.0"
-  },
-  "license": "MIT",
   "dependencies": {
     "@cloudflare/containers": "^0.0.25",
     "@kaito-tokyo/strapi-plugin-github-actions-dispatcher": "^0.1.2",
+    "@strapi/plugin-cloud": "5.19.0",
     "@strapi/plugin-users-permissions": "5.19.0",
-    "@strapi/provider-upload-aws-s3": "5.19.0",
+    "@strapi/provider-upload-aws-s3": "^5.19.0",
     "@strapi/strapi": "5.19.0",
-    "pg": "^8.16.3",
+    "better-sqlite3": "11.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
     "styled-components": "^6.0.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250725.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "typescript": "^5"
   },
+  "engines": {
+    "node": ">=18.0.0 <=22.x.x",
+    "npm": ">=6.0.0"
+  },
   "strapi": {
     "uuid": "01cbcdc3-3baa-46ca-9699-9ed38dae056d",
     "installId": "491ffba235c9338d7faa826e2a7c828158f26839975d522f8031912d04eeba9e"
-  },
-  "packageManager": "yarn@4.9.2"
+  }
 }
