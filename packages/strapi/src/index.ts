@@ -48,6 +48,13 @@ export class StrapiContainer extends Container<Env> {
       APP_KEYS: this.env.APP_KEYS,
       TRANSFER_TOKEN_SALT: this.env.TRANSFER_TOKEN_SALT,
       JWT_SECRET: this.env.JWT_SECRET,
+
+      // Additional secrets for plugins
+      GITHUB_APP_ID: this.env.GITHUB_APP_ID,
+      GITHUB_INSTALLATION_ID: this.env.GITHUB_INSTALLATION_ID,
+      GITHUB_PRIVATE_KEY: this.env.GITHUB_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      GITHUB_OWNER: this.env.GITHUB_OWNER,
+      GITHUB_REPO: this.env.GITHUB_REPO,
     };
   }
 }
