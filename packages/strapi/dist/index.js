@@ -1,5 +1,6 @@
 var __defProp = Object.defineProperty;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __name = (target, value) =>
+  __defProp(target, "name", { value, configurable: true });
 
 // ../../node_modules/unenv/dist/runtime/_internal/utils.mjs
 // @__NO_SIDE_EFFECTS__
@@ -28,7 +29,9 @@ __name(notImplementedClass, "notImplementedClass");
 
 // ../../node_modules/unenv/dist/runtime/node/internal/perf_hooks/performance.mjs
 var _timeOrigin = globalThis.performance?.timeOrigin ?? Date.now();
-var _performanceNow = globalThis.performance?.now ? globalThis.performance.now.bind(globalThis.performance) : () => Date.now() - _timeOrigin;
+var _performanceNow = globalThis.performance?.now
+  ? globalThis.performance.now.bind(globalThis.performance)
+  : () => Date.now() - _timeOrigin;
 var nodeTiming = {
   name: "node",
   entryType: "node",
@@ -44,12 +47,12 @@ var nodeTiming = {
   uvMetricsInfo: {
     loopCount: 0,
     events: 0,
-    eventsWaiting: 0
+    eventsWaiting: 0,
   },
   detail: void 0,
   toJSON() {
     return this;
-  }
+  },
 };
 var PerformanceEntry = class {
   static {
@@ -74,7 +77,7 @@ var PerformanceEntry = class {
       entryType: this.entryType,
       startTime: this.startTime,
       duration: this.duration,
-      detail: this.detail
+      detail: this.detail,
     };
   }
 };
@@ -169,19 +172,27 @@ var Performance = class {
     return Date.now() - this.timeOrigin;
   }
   clearMarks(markName) {
-    this._entries = markName ? this._entries.filter((e) => e.name !== markName) : this._entries.filter((e) => e.entryType !== "mark");
+    this._entries = markName
+      ? this._entries.filter((e) => e.name !== markName)
+      : this._entries.filter((e) => e.entryType !== "mark");
   }
   clearMeasures(measureName) {
-    this._entries = measureName ? this._entries.filter((e) => e.name !== measureName) : this._entries.filter((e) => e.entryType !== "measure");
+    this._entries = measureName
+      ? this._entries.filter((e) => e.name !== measureName)
+      : this._entries.filter((e) => e.entryType !== "measure");
   }
   clearResourceTimings() {
-    this._entries = this._entries.filter((e) => e.entryType !== "resource" || e.entryType !== "navigation");
+    this._entries = this._entries.filter(
+      (e) => e.entryType !== "resource" || e.entryType !== "navigation",
+    );
   }
   getEntries() {
     return this._entries;
   }
   getEntriesByName(name, type) {
-    return this._entries.filter((e) => e.name === name && (!type || e.entryType === type));
+    return this._entries.filter(
+      (e) => e.name === name && (!type || e.entryType === type),
+    );
   }
   getEntriesByType(type) {
     return this._entries.filter((e) => e.entryType === type);
@@ -195,7 +206,8 @@ var Performance = class {
     let start;
     let end;
     if (typeof startOrMeasureOptions === "string") {
-      start = this.getEntriesByName(startOrMeasureOptions, "mark")[0]?.startTime;
+      start = this.getEntriesByName(startOrMeasureOptions, "mark")[0]
+        ?.startTime;
       end = this.getEntriesByName(endMark, "mark")[0]?.startTime;
     } else {
       start = Number.parseFloat(startOrMeasureOptions?.start) || this.now();
@@ -205,8 +217,8 @@ var Performance = class {
       startTime: start,
       detail: {
         start,
-        end
-      }
+        end,
+      },
     });
     this._entries.push(entry);
     return entry;
@@ -262,7 +274,10 @@ var PerformanceObserver = class {
     return this;
   }
 };
-var performance = globalThis.performance && "addEventListener" in globalThis.performance ? globalThis.performance : new Performance();
+var performance =
+  globalThis.performance && "addEventListener" in globalThis.performance
+    ? globalThis.performance
+    : new Performance();
 
 // ../../node_modules/@cloudflare/unenv-preset/dist/runtime/polyfill/performance.mjs
 globalThis.performance = performance;
@@ -278,8 +293,7 @@ globalThis.PerformanceResourceTiming = PerformanceResourceTiming;
 import { Writable } from "node:stream";
 
 // ../../node_modules/unenv/dist/runtime/mock/noop.mjs
-var noop_default = Object.assign(() => {
-}, { __unenv__: true });
+var noop_default = Object.assign(() => {}, { __unenv__: true });
 
 // ../../node_modules/unenv/dist/runtime/node/console.mjs
 var _console = globalThis.console;
@@ -293,7 +307,8 @@ var debug = _console?.debug ?? log;
 var table = _console?.table ?? log;
 var error = _console?.error ?? log;
 var warn = _console?.warn ?? error;
-var createTask = _console?.createTask ?? /* @__PURE__ */ notImplemented("console.createTask");
+var createTask =
+  _console?.createTask ?? /* @__PURE__ */ notImplemented("console.createTask");
 var clear = _console?.clear ?? noop_default;
 var count = _console?.count ?? noop_default;
 var countReset = _console?.countReset ?? noop_default;
@@ -308,7 +323,8 @@ var time = _console?.time ?? noop_default;
 var timeEnd = _console?.timeEnd ?? noop_default;
 var timeLog = _console?.timeLog ?? noop_default;
 var timeStamp = _console?.timeStamp ?? noop_default;
-var Console = _console?.Console ?? /* @__PURE__ */ notImplementedClass("console.Console");
+var Console =
+  _console?.Console ?? /* @__PURE__ */ notImplementedClass("console.Console");
 var _times = /* @__PURE__ */ new Map();
 var _stdoutErrorHandler = noop_default;
 var _stderrErrorHandler = noop_default;
@@ -341,7 +357,7 @@ var {
   timeLog: timeLog2,
   timeStamp: timeStamp2,
   trace: trace2,
-  warn: warn2
+  warn: warn2,
 } = workerdConsole;
 Object.assign(workerdConsole, {
   Console,
@@ -350,7 +366,7 @@ Object.assign(workerdConsole, {
   _stderrErrorHandler,
   _stdout,
   _stdoutErrorHandler,
-  _times
+  _times,
 });
 var console_default = workerdConsole;
 
@@ -358,23 +374,28 @@ var console_default = workerdConsole;
 globalThis.console = console_default;
 
 // ../../node_modules/unenv/dist/runtime/node/internal/process/hrtime.mjs
-var hrtime = /* @__PURE__ */ Object.assign(/* @__PURE__ */ __name(function hrtime2(startTime) {
-  const now = Date.now();
-  const seconds = Math.trunc(now / 1e3);
-  const nanos = now % 1e3 * 1e6;
-  if (startTime) {
-    let diffSeconds = seconds - startTime[0];
-    let diffNanos = nanos - startTime[0];
-    if (diffNanos < 0) {
-      diffSeconds = diffSeconds - 1;
-      diffNanos = 1e9 + diffNanos;
+var hrtime = /* @__PURE__ */ Object.assign(
+  /* @__PURE__ */ __name(function hrtime2(startTime) {
+    const now = Date.now();
+    const seconds = Math.trunc(now / 1e3);
+    const nanos = (now % 1e3) * 1e6;
+    if (startTime) {
+      let diffSeconds = seconds - startTime[0];
+      let diffNanos = nanos - startTime[0];
+      if (diffNanos < 0) {
+        diffSeconds = diffSeconds - 1;
+        diffNanos = 1e9 + diffNanos;
+      }
+      return [diffSeconds, diffNanos];
     }
-    return [diffSeconds, diffNanos];
-  }
-  return [seconds, nanos];
-}, "hrtime"), { bigint: /* @__PURE__ */ __name(function bigint() {
-  return BigInt(Date.now() * 1e6);
-}, "bigint") });
+    return [seconds, nanos];
+  }, "hrtime"),
+  {
+    bigint: /* @__PURE__ */ __name(function bigint() {
+      return BigInt(Date.now() * 1e6);
+    }, "bigint"),
+  },
+);
 
 // ../../node_modules/unenv/dist/runtime/node/internal/process/process.mjs
 import { EventEmitter } from "node:events";
@@ -422,8 +443,7 @@ var WriteStream = class {
     }
     try {
       console.log(str);
-    } catch {
-    }
+    } catch {}
     cb && typeof cb === "function" && cb();
     return false;
   }
@@ -462,7 +482,10 @@ var Process = class _Process extends EventEmitter {
     this.env = impl.env;
     this.hrtime = impl.hrtime;
     this.nextTick = impl.nextTick;
-    for (const prop of [...Object.getOwnPropertyNames(_Process.prototype), ...Object.getOwnPropertyNames(EventEmitter.prototype)]) {
+    for (const prop of [
+      ...Object.getOwnPropertyNames(_Process.prototype),
+      ...Object.getOwnPropertyNames(EventEmitter.prototype),
+    ]) {
       const value = this[prop];
       if (typeof value === "function") {
         this[prop] = value.bind(this);
@@ -470,7 +493,9 @@ var Process = class _Process extends EventEmitter {
     }
   }
   emitWarning(warning, type, code) {
-    console.warn(`${code ? `[${code}] ` : ""}${type ? `${type}: ` : ""}${warning}`);
+    console.warn(
+      `${code ? `[${code}] ` : ""}${type ? `${type}: ` : ""}${warning}`,
+    );
   }
   emit(...args) {
     return super.emit(...args);
@@ -482,13 +507,13 @@ var Process = class _Process extends EventEmitter {
   #stdout;
   #stderr;
   get stdin() {
-    return this.#stdin ??= new ReadStream(0);
+    return (this.#stdin ??= new ReadStream(0));
   }
   get stdout() {
-    return this.#stdout ??= new WriteStream(1);
+    return (this.#stdout ??= new WriteStream(1));
   }
   get stderr() {
-    return this.#stderr ??= new WriteStream(2);
+    return (this.#stderr ??= new WriteStream(2));
   }
   #cwd = "/";
   chdir(cwd2) {
@@ -554,10 +579,8 @@ var Process = class _Process extends EventEmitter {
   resourceUsage() {
     return {};
   }
-  ref() {
-  }
-  unref() {
-  }
+  ref() {}
+  unref() {}
   umask() {
     throw createNotImplementedError("process.umask");
   }
@@ -595,10 +618,14 @@ var Process = class _Process extends EventEmitter {
     throw createNotImplementedError("process.cpuUsage");
   }
   setUncaughtExceptionCaptureCallback() {
-    throw createNotImplementedError("process.setUncaughtExceptionCaptureCallback");
+    throw createNotImplementedError(
+      "process.setUncaughtExceptionCaptureCallback",
+    );
   }
   hasUncaughtExceptionCaptureCallback() {
-    throw createNotImplementedError("process.hasUncaughtExceptionCaptureCallback");
+    throw createNotImplementedError(
+      "process.hasUncaughtExceptionCaptureCallback",
+    );
   }
   initgroups() {
     throw createNotImplementedError("process.initgroups");
@@ -612,7 +639,9 @@ var Process = class _Process extends EventEmitter {
   binding() {
     throw createNotImplementedError("process.binding");
   }
-  permission = { has: /* @__PURE__ */ notImplemented("process.permission.has") };
+  permission = {
+    has: /* @__PURE__ */ notImplemented("process.permission.has"),
+  };
   report = {
     directory: "",
     filename: "",
@@ -622,20 +651,27 @@ var Process = class _Process extends EventEmitter {
     reportOnSignal: false,
     reportOnUncaughtException: false,
     getReport: /* @__PURE__ */ notImplemented("process.report.getReport"),
-    writeReport: /* @__PURE__ */ notImplemented("process.report.writeReport")
+    writeReport: /* @__PURE__ */ notImplemented("process.report.writeReport"),
   };
   finalization = {
     register: /* @__PURE__ */ notImplemented("process.finalization.register"),
-    unregister: /* @__PURE__ */ notImplemented("process.finalization.unregister"),
-    registerBeforeExit: /* @__PURE__ */ notImplemented("process.finalization.registerBeforeExit")
+    unregister: /* @__PURE__ */ notImplemented(
+      "process.finalization.unregister",
+    ),
+    registerBeforeExit: /* @__PURE__ */ notImplemented(
+      "process.finalization.registerBeforeExit",
+    ),
   };
-  memoryUsage = Object.assign(() => ({
-    arrayBuffers: 0,
-    rss: 0,
-    external: 0,
-    heapTotal: 0,
-    heapUsed: 0
-  }), { rss: /* @__PURE__ */ __name(() => 0, "rss") });
+  memoryUsage = Object.assign(
+    () => ({
+      arrayBuffers: 0,
+      rss: 0,
+      external: 0,
+      heapTotal: 0,
+      heapUsed: 0,
+    }),
+    { rss: /* @__PURE__ */ __name(() => 0, "rss") },
+  );
   mainModule = void 0;
   domain = void 0;
   send = void 0;
@@ -677,13 +713,11 @@ var Process = class _Process extends EventEmitter {
 // ../../node_modules/@cloudflare/unenv-preset/dist/runtime/node/process.mjs
 var globalProcess = globalThis["process"];
 var getBuiltinModule = globalProcess.getBuiltinModule;
-var { exit, platform, nextTick } = getBuiltinModule(
-  "node:process"
-);
+var { exit, platform, nextTick } = getBuiltinModule("node:process");
 var unenvProcess = new Process({
   env: globalProcess.env,
   hrtime,
-  nextTick
+  nextTick,
 });
 var {
   abort,
@@ -788,7 +822,7 @@ var {
   _pendingMessage,
   _channel,
   _send,
-  _linkedBinding
+  _linkedBinding,
 } = unenvProcess;
 var _process = {
   abort,
@@ -898,7 +932,7 @@ var _process = {
   _pendingMessage,
   _channel,
   _send,
-  _linkedBinding
+  _linkedBinding,
 };
 var process_default = _process;
 
@@ -907,7 +941,8 @@ globalThis.process = process_default;
 
 // ../../node_modules/@cloudflare/containers/dist/lib/helpers.js
 function generateId(length = 9) {
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const alphabet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const bytes = new Uint8Array(length);
   crypto.getRandomValues(bytes);
   let result = "";
@@ -939,13 +974,16 @@ function parseTimeExpression(timeExpression) {
         throw new Error(`unknown time unit ${unit}`);
     }
   }
-  throw new Error(`invalid type for a time expression: ${typeof timeExpression}`);
+  throw new Error(
+    `invalid type for a time expression: ${typeof timeExpression}`,
+  );
 }
 __name(parseTimeExpression, "parseTimeExpression");
 
 // ../../node_modules/@cloudflare/containers/dist/lib/container.js
 import { DurableObject } from "cloudflare:workers";
-var NO_CONTAINER_INSTANCE_ERROR = "there is no container instance that can be provided to this durable object";
+var NO_CONTAINER_INSTANCE_ERROR =
+  "there is no container instance that can be provided to this durable object";
 var RUNTIME_SIGNALLED_ERROR = "runtime signalled the container to exit:";
 var UNEXPECTED_EXIT_ERROR = "container exited with unexpected exit code:";
 var NOT_LISTENING_ERROR = "the container is not listening";
@@ -956,33 +994,61 @@ var DEFAULT_SLEEP_AFTER = "10m";
 var INSTANCE_POLL_INTERVAL_MS = 300;
 var TIMEOUT_TO_GET_CONTAINER_SECONDS = 8;
 var TIMEOUT_TO_GET_PORTS = 20;
-var TRIES_TO_GET_CONTAINER = Math.ceil(TIMEOUT_TO_GET_CONTAINER_SECONDS * 1e3 / INSTANCE_POLL_INTERVAL_MS);
-var TRIES_TO_GET_PORTS = Math.ceil(TIMEOUT_TO_GET_PORTS * 1e3 / INSTANCE_POLL_INTERVAL_MS);
+var TRIES_TO_GET_CONTAINER = Math.ceil(
+  (TIMEOUT_TO_GET_CONTAINER_SECONDS * 1e3) / INSTANCE_POLL_INTERVAL_MS,
+);
+var TRIES_TO_GET_PORTS = Math.ceil(
+  (TIMEOUT_TO_GET_PORTS * 1e3) / INSTANCE_POLL_INTERVAL_MS,
+);
 var FALLBACK_PORT_TO_CHECK = 33;
 var TEMPORARY_HARDCODED_ATTEMPT_MAX = 6;
 var signalToNumbers = {
   SIGINT: 2,
   SIGTERM: 15,
-  SIGKILL: 9
+  SIGKILL: 9,
 };
 function isErrorOfType(e, matchingString) {
   const errorString = e instanceof Error ? e.message : String(e);
   return errorString.toLowerCase().includes(matchingString);
 }
 __name(isErrorOfType, "isErrorOfType");
-var isNoInstanceError = /* @__PURE__ */ __name((error3) => isErrorOfType(error3, NO_CONTAINER_INSTANCE_ERROR), "isNoInstanceError");
-var isRuntimeSignalledError = /* @__PURE__ */ __name((error3) => isErrorOfType(error3, RUNTIME_SIGNALLED_ERROR), "isRuntimeSignalledError");
-var isNotListeningError = /* @__PURE__ */ __name((error3) => isErrorOfType(error3, NOT_LISTENING_ERROR), "isNotListeningError");
-var isContainerExitNonZeroError = /* @__PURE__ */ __name((error3) => isErrorOfType(error3, UNEXPECTED_EXIT_ERROR), "isContainerExitNonZeroError");
+var isNoInstanceError = /* @__PURE__ */ __name(
+  (error3) => isErrorOfType(error3, NO_CONTAINER_INSTANCE_ERROR),
+  "isNoInstanceError",
+);
+var isRuntimeSignalledError = /* @__PURE__ */ __name(
+  (error3) => isErrorOfType(error3, RUNTIME_SIGNALLED_ERROR),
+  "isRuntimeSignalledError",
+);
+var isNotListeningError = /* @__PURE__ */ __name(
+  (error3) => isErrorOfType(error3, NOT_LISTENING_ERROR),
+  "isNotListeningError",
+);
+var isContainerExitNonZeroError = /* @__PURE__ */ __name(
+  (error3) => isErrorOfType(error3, UNEXPECTED_EXIT_ERROR),
+  "isContainerExitNonZeroError",
+);
 function getExitCodeFromError(error3) {
   if (!(error3 instanceof Error)) {
     return null;
   }
   if (isRuntimeSignalledError(error3)) {
-    return +error3.message.toLowerCase().slice(error3.message.toLowerCase().indexOf(RUNTIME_SIGNALLED_ERROR) + RUNTIME_SIGNALLED_ERROR.length + 1);
+    return +error3.message
+      .toLowerCase()
+      .slice(
+        error3.message.toLowerCase().indexOf(RUNTIME_SIGNALLED_ERROR) +
+          RUNTIME_SIGNALLED_ERROR.length +
+          1,
+      );
   }
   if (isContainerExitNonZeroError(error3)) {
-    return +error3.message.toLowerCase().slice(error3.message.toLowerCase().indexOf(UNEXPECTED_EXIT_ERROR) + UNEXPECTED_EXIT_ERROR.length + 1);
+    return +error3.message
+      .toLowerCase()
+      .slice(
+        error3.message.toLowerCase().indexOf(UNEXPECTED_EXIT_ERROR) +
+          UNEXPECTED_EXIT_ERROR.length +
+          1,
+      );
   }
   return null;
 }
@@ -1021,7 +1087,11 @@ var ContainerState = class {
     await this.setStatusAndupdate("stopped");
   }
   async setStoppedWithCode(exitCode2) {
-    this.status = { status: "stopped_with_code", lastChange: Date.now(), exitCode: exitCode2 };
+    this.status = {
+      status: "stopped_with_code",
+      lastChange: Date.now(),
+      exitCode: exitCode2,
+    };
     await this.update();
   }
   async getState() {
@@ -1030,7 +1100,7 @@ var ContainerState = class {
       if (!state) {
         this.status = {
           status: "stopped",
-          lastChange: Date.now()
+          lastChange: Date.now(),
         };
         await this.update();
       } else {
@@ -1044,8 +1114,7 @@ var ContainerState = class {
     await this.update();
   }
   async update() {
-    if (!this.status)
-      throw new Error("status should be init");
+    if (!this.status) throw new Error("status should be init");
     await this.storage.put(CONTAINER_STATE_KEY, this.status);
   }
 };
@@ -1081,14 +1150,15 @@ var Container = class extends DurableObject {
       await this.scheduleNextAlarm();
     });
     if (ctx.container === void 0) {
-      throw new Error("Container is not enabled for this durable object class. Have you correctly setup your wrangler.toml?");
+      throw new Error(
+        "Container is not enabled for this durable object class. Have you correctly setup your wrangler.toml?",
+      );
     }
     this.container = ctx.container;
     if (options) {
       if (options.defaultPort !== void 0)
         this.defaultPort = options.defaultPort;
-      if (options.sleepAfter !== void 0)
-        this.sleepAfter = options.sleepAfter;
+      if (options.sleepAfter !== void 0) this.sleepAfter = options.sleepAfter;
     }
     this.sql`
       CREATE TABLE IF NOT EXISTS container_schedules (
@@ -1111,7 +1181,7 @@ var Container = class extends DurableObject {
    * @returns Promise<State>
    */
   async getState() {
-    return { ...await this.state.getState() };
+    return { ...(await this.state.getState()) };
   }
   // ==========================
   //     CONTAINER STARTING
@@ -1160,13 +1230,18 @@ var Container = class extends DurableObject {
    * @throws Error if no container context is available or if all start attempts fail
    */
   async start(options, waitOptions) {
-    const portToCheck = this.defaultPort ?? (this.requiredPorts ? this.requiredPorts[0] : FALLBACK_PORT_TO_CHECK);
-    await this.startContainerIfNotRunning({
-      abort: waitOptions?.signal,
-      waitInterval: INSTANCE_POLL_INTERVAL_MS,
-      retries: TRIES_TO_GET_CONTAINER,
-      portToCheck
-    }, options);
+    const portToCheck =
+      this.defaultPort ??
+      (this.requiredPorts ? this.requiredPorts[0] : FALLBACK_PORT_TO_CHECK);
+    await this.startContainerIfNotRunning(
+      {
+        abort: waitOptions?.signal,
+        waitInterval: INSTANCE_POLL_INTERVAL_MS,
+        retries: TRIES_TO_GET_CONTAINER,
+        portToCheck,
+      },
+      options,
+    );
     this.setupMonitorCallbacks();
   }
   /**
@@ -1200,14 +1275,23 @@ var Container = class extends DurableObject {
     }
     const state = await this.state.getState();
     cancellationOptions ??= {};
-    let containerGetRetries = cancellationOptions.instanceGetTimeoutMS ? Math.ceil(cancellationOptions.instanceGetTimeoutMS / INSTANCE_POLL_INTERVAL_MS) : TRIES_TO_GET_CONTAINER;
+    let containerGetRetries = cancellationOptions.instanceGetTimeoutMS
+      ? Math.ceil(
+          cancellationOptions.instanceGetTimeoutMS / INSTANCE_POLL_INTERVAL_MS,
+        )
+      : TRIES_TO_GET_CONTAINER;
     cancellationOptions ??= {};
-    let totalPortReadyTries = cancellationOptions.portReadyTimeoutMS ? Math.ceil(cancellationOptions.portReadyTimeoutMS / INSTANCE_POLL_INTERVAL_MS) : TRIES_TO_GET_PORTS;
+    let totalPortReadyTries = cancellationOptions.portReadyTimeoutMS
+      ? Math.ceil(
+          cancellationOptions.portReadyTimeoutMS / INSTANCE_POLL_INTERVAL_MS,
+        )
+      : TRIES_TO_GET_PORTS;
     const options = {
       abort: cancellationOptions.abort,
       retries: containerGetRetries,
-      waitInterval: cancellationOptions.waitInterval ?? INSTANCE_POLL_INTERVAL_MS,
-      portToCheck: portsToCheck[0] ?? FALLBACK_PORT_TO_CHECK
+      waitInterval:
+        cancellationOptions.waitInterval ?? INSTANCE_POLL_INTERVAL_MS,
+      portToCheck: portsToCheck[0] ?? FALLBACK_PORT_TO_CHECK,
     };
     if (state.status === "healthy" && this.container.running) {
       if (this.container.running && !this.monitor) {
@@ -1230,7 +1314,10 @@ var Container = class extends DurableObject {
         let portReady = false;
         for (let i = 0; i < triesLeft && !portReady; i++) {
           try {
-            const combinedSignal = addTimeoutSignal(options.abort, PING_TIMEOUT_MS);
+            const combinedSignal = addTimeoutSignal(
+              options.abort,
+              PING_TIMEOUT_MS,
+            );
             await tcpPort.fetch("http://ping", { signal: combinedSignal });
             portReady = true;
             console.log(`Port ${port} is ready`);
@@ -1239,21 +1326,27 @@ var Container = class extends DurableObject {
             console.warn(`Error checking ${port}: ${errorMessage}`);
             if (!this.container.running) {
               try {
-                await this.onError(new Error(`Container crashed while checking for ports, did you setup the entrypoint correctly?`));
-              } catch {
-              }
+                await this.onError(
+                  new Error(
+                    `Container crashed while checking for ports, did you setup the entrypoint correctly?`,
+                  ),
+                );
+              } catch {}
               throw e;
             }
             if (i === triesLeft - 1) {
               try {
-                await this.onError(`Failed to verify port ${port} is available after ${options.retries} attempts, last error: ${errorMessage}`);
-              } catch {
-              }
+                await this.onError(
+                  `Failed to verify port ${port} is available after ${options.retries} attempts, last error: ${errorMessage}`,
+                );
+              } catch {}
               throw e;
             }
             await Promise.any([
-              new Promise((resolve) => setTimeout(resolve, options.waitInterval)),
-              abortedSignal
+              new Promise((resolve) =>
+                setTimeout(resolve, options.waitInterval),
+              ),
+              abortedSignal,
             ]);
             if (options.abort?.aborted) {
               throw new Error("Container request timed out.");
@@ -1279,7 +1372,9 @@ var Container = class extends DurableObject {
    * @param signal - The signal to send to the container (default: 15 for SIGTERM)
    */
   async stop(signal = "SIGTERM") {
-    this.container.signal(typeof signal === "string" ? signalToNumbers[signal] : signal);
+    this.container.signal(
+      typeof signal === "string" ? signalToNumbers[signal] : signal,
+    );
   }
   /**
    * Destroys the container. It will trigger onError instead of onStop.
@@ -1291,15 +1386,13 @@ var Container = class extends DurableObject {
    * Lifecycle method called when container starts successfully
    * Override this method in subclasses to handle container start events
    */
-  onStart() {
-  }
+  onStart() {}
   /**
    * Lifecycle method called when container shuts down
    * Override this method in subclasses to handle Container stopped events
    * @param params - Object containing exitCode and reason for the stop
    */
-  onStop(_) {
-  }
+  onStop(_) {}
   /**
    * Lifecycle method called when the container is running, and the activity timeout
    * expiration has been reached.
@@ -1361,7 +1454,7 @@ var Container = class extends DurableObject {
         callback,
         payload,
         time: timestamp,
-        type: "scheduled"
+        type: "scheduled",
       };
     }
     if (typeof when === "number") {
@@ -1377,10 +1470,12 @@ var Container = class extends DurableObject {
         payload,
         delayInSeconds: when,
         time: time3,
-        type: "delayed"
+        type: "delayed",
       };
     }
-    throw new Error("Invalid schedule type. 'when' must be a Date or number of seconds");
+    throw new Error(
+      "Invalid schedule type. 'when' must be a Date or number of seconds",
+    );
   }
   // ============
   //     HTTP
@@ -1402,16 +1497,26 @@ var Container = class extends DurableObject {
    * @returns A Response from the container, or WebSocket connection
    */
   async containerFetch(requestOrUrl, portOrInit, portParam) {
-    let { request, port } = this.requestAndPortFromContainerFetchArgs(requestOrUrl, portOrInit, portParam);
+    let { request, port } = this.requestAndPortFromContainerFetchArgs(
+      requestOrUrl,
+      portOrInit,
+      portParam,
+    );
     const state = await this.state.getState();
     if (!this.container.running || state.status !== "healthy") {
       try {
         await this.startAndWaitForPorts(port, { abort: request.signal });
       } catch (e) {
         if (isNoInstanceError(e)) {
-          return new Response("There is no Container instance available at this time.\nThis is likely because you have reached your max concurrent instance count (set in wrangler config) or are you currently provisioning the Container.\nIf you are deploying your Container for the first time, check your dashboard to see provisioning status, this may take a few minutes.", { status: 503 });
+          return new Response(
+            "There is no Container instance available at this time.\nThis is likely because you have reached your max concurrent instance count (set in wrangler config) or are you currently provisioning the Container.\nIf you are deploying your Container for the first time, check your dashboard to see provisioning status, this may take a few minutes.",
+            { status: 503 },
+          );
         } else {
-          return new Response(`Failed to start container: ${e instanceof Error ? e.message : String(e)}`, { status: 500 });
+          return new Response(
+            `Failed to start container: ${e instanceof Error ? e.message : String(e)}`,
+            { status: 500 },
+          );
         }
       }
     }
@@ -1426,10 +1531,15 @@ var Container = class extends DurableObject {
         throw e;
       }
       if (e.message.includes("Network connection lost.")) {
-        return new Response("Container suddenly disconnected, try again", { status: 500 });
+        return new Response("Container suddenly disconnected, try again", {
+          status: 500,
+        });
       }
       console.error(`Error proxying request to container ${this.ctx.id}:`, e);
-      return new Response(`Error proxying request to container: ${e instanceof Error ? e.message : String(e)}`, { status: 500 });
+      return new Response(
+        `Error proxying request to container: ${e instanceof Error ? e.message : String(e)}`,
+        { status: 500 },
+      );
     }
   }
   /**
@@ -1442,9 +1552,11 @@ var Container = class extends DurableObject {
   async fetch(request) {
     const url = new URL(request.url);
     if (this.defaultPort === void 0 && url.port === "") {
-      throw new Error("No port configured for this container. Set the defaultPort in your Container subclass, or set a port with switchPort.");
+      throw new Error(
+        "No port configured for this container. Set the defaultPort in your Container subclass, or set a port with switchPort.",
+      );
     }
-    const portValue = +(url.port === "" ? this.defaultPort ?? "" : url.port);
+    const portValue = +(url.port === "" ? (this.defaultPort ?? "") : url.port);
     if (isNaN(portValue)) {
       throw new Error("port is not a number");
     }
@@ -1485,7 +1597,10 @@ var Container = class extends DurableObject {
    */
   sql(strings, ...values) {
     let query = "";
-    query = strings.reduce((acc, str, i) => acc + str + (i < values.length ? "?" : ""), "");
+    query = strings.reduce(
+      (acc, str, i) => acc + str + (i < values.length ? "?" : ""),
+      "",
+    );
     return [...this.ctx.storage.sql.exec(query, ...values)];
   }
   requestAndPortFromContainerFetchArgs(requestOrUrl, portOrInit, portParam) {
@@ -1495,13 +1610,23 @@ var Container = class extends DurableObject {
       request = requestOrUrl;
       port = typeof portOrInit === "number" ? portOrInit : void 0;
     } else {
-      const url = typeof requestOrUrl === "string" ? requestOrUrl : requestOrUrl.toString();
+      const url =
+        typeof requestOrUrl === "string"
+          ? requestOrUrl
+          : requestOrUrl.toString();
       const init = typeof portOrInit === "number" ? {} : portOrInit || {};
-      port = typeof portOrInit === "number" ? portOrInit : typeof portParam === "number" ? portParam : void 0;
+      port =
+        typeof portOrInit === "number"
+          ? portOrInit
+          : typeof portParam === "number"
+            ? portParam
+            : void 0;
       request = new Request(url, init);
     }
     if (port === void 0 && this.defaultPort === void 0) {
-      throw new Error("No port specified for container fetch. Set defaultPort or specify a port parameter.");
+      throw new Error(
+        "No port specified for container fetch. Set defaultPort or specify a port parameter.",
+      );
     }
     port = port ?? this.defaultPort;
     return { request, port };
@@ -1529,27 +1654,25 @@ var Container = class extends DurableObject {
       const entrypoint = options?.entrypoint ?? this.entrypoint;
       const enableInternet = options?.enableInternet ?? this.enableInternet;
       const startConfig = {
-        enableInternet
+        enableInternet,
       };
-      if (envVars && Object.keys(envVars).length > 0)
-        startConfig.env = envVars;
-      if (entrypoint)
-        startConfig.entrypoint = entrypoint;
+      if (envVars && Object.keys(envVars).length > 0) startConfig.env = envVars;
+      if (entrypoint) startConfig.entrypoint = entrypoint;
       this.renewActivityTimeout();
       const handleError = /* @__PURE__ */ __name(async () => {
         const err = await this.monitor?.catch((err2) => err2);
         if (typeof err === "number") {
-          const toThrow = new Error(`Error starting container, early exit code 0 before we could check for healthiness, did it crash early?`);
+          const toThrow = new Error(
+            `Error starting container, early exit code 0 before we could check for healthiness, did it crash early?`,
+          );
           try {
             await this.onError(toThrow);
-          } catch {
-          }
+          } catch {}
           throw toThrow;
         } else if (!isNoInstanceError(err)) {
           try {
             await this.onError(err);
-          } catch {
-          }
+          } catch {}
           throw err;
         }
       }, "handleError");
@@ -1566,8 +1689,13 @@ var Container = class extends DurableObject {
       this.renewActivityTimeout();
       const port = this.container.getTcpPort(waitOptions.portToCheck);
       try {
-        const combinedSignal = addTimeoutSignal(waitOptions.abort, PING_TIMEOUT_MS);
-        await port.fetch("http://containerstarthealthcheck", { signal: combinedSignal });
+        const combinedSignal = addTimeoutSignal(
+          waitOptions.abort,
+          PING_TIMEOUT_MS,
+        );
+        await port.fetch("http://containerstarthealthcheck", {
+          signal: combinedSignal,
+        });
         return tries;
       } catch (error3) {
         if (isNotListeningError(error3) && this.container.running) {
@@ -1576,16 +1704,24 @@ var Container = class extends DurableObject {
         if (!this.container.running && isNotListeningError(error3)) {
           await handleError();
         }
-        console.warn("Error checking if container is ready:", error3 instanceof Error ? error3.message : String(error3));
+        console.warn(
+          "Error checking if container is ready:",
+          error3 instanceof Error ? error3.message : String(error3),
+        );
         await Promise.any([
           new Promise((res) => setTimeout(res, waitOptions.waitInterval)),
-          abortedSignal
+          abortedSignal,
         ]);
         if (waitOptions.abort?.aborted) {
-          throw new Error("Aborted waiting for container to start as we received a cancellation signal");
+          throw new Error(
+            "Aborted waiting for container to start as we received a cancellation signal",
+          );
         }
         if (TEMPORARY_HARDCODED_ATTEMPT_MAX === tries) {
-          if (error3 instanceof Error && error3.message.includes("Network connection lost")) {
+          if (
+            error3 instanceof Error &&
+            error3.message.includes("Network connection lost")
+          ) {
             this.ctx.abort();
           }
           throw new Error(NO_CONTAINER_INSTANCE_ERROR);
@@ -1593,40 +1729,43 @@ var Container = class extends DurableObject {
         continue;
       }
     }
-    throw new Error(`Container did not start after ${waitOptions.retries} attempts`);
+    throw new Error(
+      `Container did not start after ${waitOptions.retries} attempts`,
+    );
   }
   setupMonitorCallbacks() {
     if (this.monitorSetup) {
       return;
     }
     this.monitorSetup = true;
-    this.monitor?.then(async () => {
-      await this.ctx.blockConcurrencyWhile(async () => {
-        await this.state.setStoppedWithCode(0);
-      });
-    }).catch(async (error3) => {
-      if (isNoInstanceError(error3)) {
-        return;
-      }
-      const exitCode2 = getExitCodeFromError(error3);
-      if (exitCode2 !== null) {
-        await this.state.setStoppedWithCode(exitCode2);
+    this.monitor
+      ?.then(async () => {
+        await this.ctx.blockConcurrencyWhile(async () => {
+          await this.state.setStoppedWithCode(0);
+        });
+      })
+      .catch(async (error3) => {
+        if (isNoInstanceError(error3)) {
+          return;
+        }
+        const exitCode2 = getExitCodeFromError(error3);
+        if (exitCode2 !== null) {
+          await this.state.setStoppedWithCode(exitCode2);
+          this.monitorSetup = false;
+          this.monitor = void 0;
+          return;
+        }
+        try {
+          await this.onError(error3);
+        } catch {}
+      })
+      .finally(() => {
         this.monitorSetup = false;
-        this.monitor = void 0;
-        return;
-      }
-      try {
-        await this.onError(error3);
-      } catch {
-      }
-    }).finally(() => {
-      this.monitorSetup = false;
-      if (this.timeout) {
-        if (this.resolve)
-          this.resolve();
-        clearTimeout(this.timeout);
-      }
-    });
+        if (this.timeout) {
+          if (this.resolve) this.resolve();
+          clearTimeout(this.timeout);
+        }
+      });
   }
   deleteSchedules(name) {
     this.sql`DELETE FROM container_schedules WHERE callback = ${name}`;
@@ -1640,7 +1779,10 @@ var Container = class extends DurableObject {
    */
   async alarm(alarmProps) {
     if (alarmProps.isRetry && alarmProps.retryCount > MAX_ALARM_RETRIES) {
-      const scheduleCount = Number(this.sql`SELECT COUNT(*) as count FROM container_schedules`[0]?.count) || 0;
+      const scheduleCount =
+        Number(
+          this.sql`SELECT COUNT(*) as count FROM container_schedules`[0]?.count,
+        ) || 0;
       const hasScheduledTasks = scheduleCount > 0;
       if (hasScheduledTasks || this.container.running) {
         await this.scheduleNextAlarm();
@@ -1661,7 +1803,9 @@ var Container = class extends DurableObject {
       }
       const callback = this[row.callback];
       if (!callback || typeof callback !== "function") {
-        console.error(`Callback ${row.callback} not found or is not a function`);
+        console.error(
+          `Callback ${row.callback} not found or is not a function`,
+        );
         continue;
       }
       const schedule = this.getSchedule(row.id);
@@ -1669,14 +1813,19 @@ var Container = class extends DurableObject {
         const payload = row.payload ? JSON.parse(row.payload) : void 0;
         await callback.call(this, payload, await schedule);
       } catch (e) {
-        console.error(`Error executing scheduled callback "${row.callback}":`, e);
+        console.error(
+          `Error executing scheduled callback "${row.callback}":`,
+          e,
+        );
       }
       this.sql`DELETE FROM container_schedules WHERE id = ${row.id}`;
     }
     const resultForMinTime = this.sql`
          SELECT * FROM container_schedules;
        `;
-    const minTimeFromSchedules = Math.min(...resultForMinTime.map((r) => r.time * 1e3));
+    const minTimeFromSchedules = Math.min(
+      ...resultForMinTime.map((r) => r.time * 1e3),
+    );
     if (!this.container.running) {
       await this.syncPendingStoppedEvents();
       if (resultForMinTime.length == 0) {
@@ -1740,8 +1889,7 @@ var Container = class extends DurableObject {
   async scheduleNextAlarm(ms = 1e3) {
     const nextTime = ms + Date.now();
     if (this.timeout) {
-      if (this.resolve)
-        this.resolve();
+      if (this.resolve) this.resolve();
       clearTimeout(this.timeout);
     }
     await this.ctx.storage.setAlarm(nextTime);
@@ -1771,7 +1919,7 @@ var Container = class extends DurableObject {
         payload,
         type: "delayed",
         time: schedule.time,
-        delayInSeconds: schedule.delayInSeconds
+        delayInSeconds: schedule.delayInSeconds,
       };
     }
     return {
@@ -1779,7 +1927,7 @@ var Container = class extends DurableObject {
       callback: schedule.callback,
       payload,
       type: "scheduled",
-      time: schedule.time
+      time: schedule.time,
     };
   }
   /**
@@ -1842,7 +1990,7 @@ var StrapiContainer = class extends Container {
       GITHUB_INSTALLATION_ID: this.env.GITHUB_INSTALLATION_ID,
       GITHUB_PRIVATE_KEY: this.env.GITHUB_PRIVATE_KEY.replace(/\\n/g, "\n"),
       GITHUB_OWNER: this.env.GITHUB_OWNER,
-      GITHUB_REPO: this.env.GITHUB_REPO
+      GITHUB_REPO: this.env.GITHUB_REPO,
     };
   }
   static {
@@ -1854,10 +2002,7 @@ var index_default = {
     const id = env2.STRAPI_CONTAINER.idFromName("strapi-singleton");
     const stub = env2.STRAPI_CONTAINER.get(id);
     return stub.fetch(request);
-  }
+  },
 };
-export {
-  StrapiContainer,
-  index_default as default
-};
+export { StrapiContainer, index_default as default };
 //# sourceMappingURL=index.js.map
