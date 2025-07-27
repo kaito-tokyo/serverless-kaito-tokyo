@@ -2010,15 +2010,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kaito-tokyo/strapi-plugin-github-actions-dispatcher@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@kaito-tokyo/strapi-plugin-github-actions-dispatcher@npm:0.1.1"
+"@kaito-tokyo/strapi-plugin-github-actions-dispatcher@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@kaito-tokyo/strapi-plugin-github-actions-dispatcher@npm:0.1.2"
   dependencies:
     jsonwebtoken: "npm:^9.0.2"
   peerDependencies:
     "@strapi/sdk-plugin": ^5.3.2
     "@strapi/strapi": ^5.19.0
-  checksum: 10c0/9d384837b6d2976a7968e28d3c367cd3c8c190e1374443853174604d0a7ddc026ef10f4793ba46f9779ca72e5f5a96267714830df7f3c1502599b08d9f5ba96a
+  checksum: 10c0/f35dc1265556d0d480c1271c2b5aa998584b3fef639c8c5493363d19fe9f465b7b8f982386b0147d17aa319b3533808e70052591a8f3509c331c45a2b14517dd
   languageName: node
   linkType: hard
 
@@ -13937,7 +13937,7 @@ __metadata:
   dependencies:
     "@cloudflare/containers": "npm:^0.0.25"
     "@cloudflare/workers-types": "npm:^4.20250725.0"
-    "@kaito-tokyo/strapi-plugin-github-actions-dispatcher": "npm:^0.1.1"
+    "@kaito-tokyo/strapi-plugin-github-actions-dispatcher": "npm:^0.1.2"
     "@strapi/plugin-users-permissions": "npm:5.19.0"
     "@strapi/provider-upload-aws-s3": "npm:5.19.0"
     "@strapi/strapi": "npm:5.19.0"

@@ -9,6 +9,16 @@ export default {
         }
     },
 
+    async afterCreateMany(event) {
+        const { results } = event;
+        try {
+            await strapi.service('plugin::github-actions-dispatcher.dispatch')
+            .triggerDispatch('strapi-novel-create-many', { data: results });
+        } catch (error) {
+            strapi.log.error('Failed to dispatch GitHub Action for novel creation (many):', error);
+        }
+    },
+
     async afterUpdate(event) {
         const { result } = event;
         try {
@@ -19,6 +29,16 @@ export default {
         }
     },
 
+    async afterUpdateMany(event) {
+        const { results } = event;
+        try {
+            await strapi.service('plugin::github-actions-dispatcher.dispatch')
+            .triggerDispatch('strapi-novel-update-many', { data: results });
+        } catch (error) {
+            strapi.log.error('Failed to dispatch GitHub Action for novel update (many):', error);
+        }
+    },
+
     async afterDelete(event) {
         const { result } = event;
         try {
@@ -26,6 +46,16 @@ export default {
             .triggerDispatch('strapi-novel-delete', { data: result });
         } catch (error) {
             strapi.log.error('Failed to dispatch GitHub Action for novel deletion:', error);
+        }
+    },
+
+    async afterDeleteMany(event) {
+        const { results } = event;
+        try {
+            await strapi.service('plugin::github-actions-dispatcher.dispatch')
+            .triggerDispatch('strapi-novel-delete-many', { data: results });
+        } catch (error) {
+            strapi.log.error('Failed to dispatch GitHub Action for novel deletion (many):', error);
         }
     }
 };

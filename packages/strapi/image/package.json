@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "@cloudflare/containers": "^0.0.25",
-    "@kaito-tokyo/strapi-plugin-github-actions-dispatcher": "^0.1.1",
+    "@kaito-tokyo/strapi-plugin-github-actions-dispatcher": "^0.1.2",
     "@strapi/plugin-users-permissions": "5.19.0",
     "@strapi/provider-upload-aws-s3": "5.19.0",
     "@strapi/strapi": "5.19.0",
