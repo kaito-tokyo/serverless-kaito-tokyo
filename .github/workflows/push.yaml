@@ -1,0 +1,16 @@
+name: "On push"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+permissions:
+  contents: "read"
+
+jobs:
+  PushPrettier:
+    uses: "./.github/workflows/push-prettier.yaml"

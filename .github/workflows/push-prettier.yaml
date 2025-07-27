@@ -1,12 +1,7 @@
 name: "Prettier on push"
 
 on:
-  push:
-    branches:
-      - "main"
-  pull_request:
-    branches:
-      - "main"
+  workflow_call:
 
 defaults:
   run:
