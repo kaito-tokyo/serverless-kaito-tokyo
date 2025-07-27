@@ -1,5 +1,7 @@
+import { Lifecycle } from "@strapi/strapi";
+
 export default {
-    async afterCreate(event) {
+    async afterCreate(event: any) {
         const { result } = event;
         try {
             await strapi.service('plugin::github-actions-dispatcher.dispatch')
@@ -9,7 +11,7 @@ export default {
         }
     },
 
-    async afterCreateMany(event) {
+    async afterCreateMany(event: any) {
         const { results } = event;
         try {
             await strapi.service('plugin::github-actions-dispatcher.dispatch')
@@ -19,7 +21,7 @@ export default {
         }
     },
 
-    async afterUpdate(event) {
+    async afterUpdate(event: any) {
         const { result } = event;
         try {
             await strapi.service('plugin::github-actions-dispatcher.dispatch')
@@ -29,7 +31,7 @@ export default {
         }
     },
 
-    async afterUpdateMany(event) {
+    async afterUpdateMany(event: any) {
         const { results } = event;
         try {
             await strapi.service('plugin::github-actions-dispatcher.dispatch')
@@ -39,7 +41,7 @@ export default {
         }
     },
 
-    async afterDelete(event: LifecycleEvent) {
+    async afterDelete(event: any) {
         const { result } = event;
         try {
             await strapi.service('plugin::github-actions-dispatcher.dispatch')
