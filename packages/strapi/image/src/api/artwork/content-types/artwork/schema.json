@@ -21,7 +21,8 @@
     },
     "slug": {
       "type": "uid",
-      "required": true
+      "required": true,
+      "targetField": "Title"
     },
     "Body": {
       "type": "richtext",
