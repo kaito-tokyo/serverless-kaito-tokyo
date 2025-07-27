@@ -41,11 +41,7 @@ COPY --from=build /opt/app/package.json /opt/app/package-lock.json ./
 RUN npm ci --omit=dev
 
 # Copy the built application code and node_modules from the build stage
-COPY --from=build /opt/app/build ./build
-COPY --from=build /opt/app/config ./config
-COPY --from=build /opt/app/database ./database
-COPY --from=build /opt/app/src ./src
-COPY --from=build /opt/app/public ./public
+COPY --from=build /opt/app ./
 
 # Run as a non-root user for security
 USER node
