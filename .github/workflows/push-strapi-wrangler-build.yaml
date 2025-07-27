@@ -3,6 +3,9 @@ name: "Build Strapi Wrangler on push"
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 defaults:
   run:
     shell: "bash"
