@@ -42,15 +42,6 @@
       },
       "required": true
     },
-    "Description": {
-      "type": "text",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "required": true
-    },
     "Body": {
       "type": "richtext",
       "pluginOptions": {
@@ -59,6 +50,15 @@
         }
       },
       "required": true
+    },
+    "Note": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": false
     }
   }
 }
