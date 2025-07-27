@@ -1,56 +1,67 @@
 # ----- Stage 1: Build Stage -----
+# This stage installs dependencies and builds the application.
 FROM node:20-alpine AS build
 
 # Install build-time dependencies required for native modules, especially for 'sharp'
-RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev > /dev/null 2>&1
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev
 
-# Set production environment
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /opt/
-
-# Copy package.json and lock file to leverage Docker cache
-COPY package.json yarn.lock ./
-
-# Install production dependencies
-RUN yarn config set network-timeout 600000 -g && yarn install --production
-
-# Add node_modules binaries to PATH
-ENV PATH=/opt/node_modules/.bin:$PATH
+# Enable Corepack to use the version of Yarn defined in the project
+RUN corepack enable
 
 WORKDIR /opt/app
 
-# Copy the rest of the application source code
+# Copy package.json, yarn.lock, and .yarnrc.yml first to leverage Docker's cache
+# Use a wildcard to prevent errors if .yarnrc.yml doesn't exist
+COPY package.json yarn.lock .yarnrc.yml ./
+
+# Copy Yarn Berry binaries and plugins
+COPY .yarn ./.yarn
+
+# Install dependencies. The --immutable flag prevents the lock file from being changed.
+RUN yarn install --immutable
+
+# Copy the entire application source code
 COPY database/ database/
 COPY src/ src/
 COPY config/ config/
-COPY package.json yarn.lock tsconfig.json ./
+COPY types/ types/
+COPY package.json yarn.lock .yarnrc.yml tsconfig.json ./
 
 # Build the Strapi admin panel
+# It's more reliable to set NODE_ENV directly in the RUN command than passing it as an ARG
+ENV NODE_ENV=production
 RUN yarn build
 
+
 # ----- Stage 2: Production Stage -----
+# This stage creates a lightweight final image with only the built artifacts and production dependencies.
 FROM node:20-alpine
 
-# Only install runtime dependencies for 'sharp'
+# Install only runtime dependencies required for 'sharp'
 RUN apk add --no-cache vips-dev
 
 # Set production environment
 ENV NODE_ENV=production
 
-WORKDIR /opt/
-
-# Copy built node_modules from the build stage
-COPY --from=build /opt/node_modules ./node_modules
+# Enable Corepack
+RUN corepack enable
 
 WORKDIR /opt/app
 
-# Copy built application code from the build stage
-COPY --from=build /opt/app ./
+# Copy files required for the production environment from the build stage
+COPY --from=build /opt/app/package.json /opt/app/yarn.lock /opt/app/.yarnrc.yml ./
+COPY --from=build /opt/app/.yarn ./.yarn
 
-# Add node_modules binaries to PATH
-ENV PATH=/opt/node_modules/.bin:$PATH
+# Since .yarn/cache is copied, this installation will be very fast.
+# This builds the production dependencies, excluding devDependencies.
+RUN yarn install --production --immutable
+
+# Copy built assets and necessary source code from the build stage
+COPY --from=build /opt/app/build ./build
+COPY --from=build /opt/app/config ./config
+COPY --from=build /opt/app/database ./database
+COPY --from=build /opt/app/src ./src
+COPY --from=build /opt/app/public ./public
 
 # Run as a non-root user for security
 USER node
@@ -58,5 +69,6 @@ USER node
 # Expose the default Strapi port
 EXPOSE 1337
 
-# Start the Strapi application
+# Start the application
+# With Yarn Berry, it's common to run via PnP using 'yarn start'
 CMD ["yarn", "start"]
