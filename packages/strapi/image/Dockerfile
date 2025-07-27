@@ -12,10 +12,7 @@ WORKDIR /opt/app
 
 # Copy package.json, yarn.lock, and .yarnrc.yml first to leverage Docker's cache
 # Use a wildcard to prevent errors if .yarnrc.yml doesn't exist
-COPY package.json yarn.lock .yarnrc.yml ./
-
-# Copy Yarn Berry binaries and plugins
-COPY .yarn ./.yarn
+COPY package.json yarn.lock ./
 
 # Install dependencies. The --immutable flag prevents the lock file from being changed.
 RUN yarn install --immutable
@@ -25,7 +22,7 @@ COPY database/ database/
 COPY src/ src/
 COPY config/ config/
 COPY types/ types/
-COPY package.json yarn.lock .yarnrc.yml tsconfig.json ./
+COPY .pnp.cjs .pnp.loader.mjs package.json yarn.lock tsconfig.json ./
 
 # Build the Strapi admin panel
 # It's more reliable to set NODE_ENV directly in the RUN command than passing it as an ARG
