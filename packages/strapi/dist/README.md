@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "serverless-kaito-tokyo-strapi-production-worker" generated at 2025-07-27T08:26:29.191Z.
