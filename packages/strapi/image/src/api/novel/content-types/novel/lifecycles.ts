@@ -39,7 +39,7 @@ export default {
         }
     },
 
-    async afterDelete(event) {
+    async afterDelete(event: LifecycleEvent) {
         const { result } = event;
         try {
             await strapi.service('plugin::github-actions-dispatcher.dispatch')
