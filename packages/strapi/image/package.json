@@ -24,6 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "@cloudflare/containers": "^0.0.25",
+    "@kaito-tokyo/strapi-plugin-github-actions-dispatcher": "^0.1.2",
     "@strapi/plugin-users-permissions": "5.19.0",
     "@strapi/provider-upload-aws-s3": "5.19.0",
     "@strapi/strapi": "5.19.0",
@@ -43,5 +44,6 @@
   "strapi": {
     "uuid": "01cbcdc3-3baa-46ca-9699-9ed38dae056d",
     "installId": "491ffba235c9338d7faa826e2a7c828158f26839975d522f8031912d04eeba9e"
-  }
+  },
+  "packageManager": "yarn@4.9.2"
 }

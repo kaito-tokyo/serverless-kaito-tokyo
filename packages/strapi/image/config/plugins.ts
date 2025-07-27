@@ -23,4 +23,14 @@ export default ({ env }) => ({
       jwtSecret: env("JWT_SECRET"),
     },
   },
+  "github-actions-dispatcher": {
+    enabled: true,
+    config: {
+      appId: env("GITHUB_APP_ID"),
+      installationId: env("GITHUB_INSTALLATION_ID"),
+      privateKey: env("GITHUB_PRIVATE_KEY").replace(/\\n/g, '\n'),
+      owner: env("GITHUB_OWNER"),
+      repo: env("GITHUB_REPO"),
+    }
+  }
 });
