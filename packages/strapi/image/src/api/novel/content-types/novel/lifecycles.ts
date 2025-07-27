@@ -1,5 +1,3 @@
-import { Lifecycle } from "@strapi/strapi";
-
 export default {
     async afterCreate(event: any) {
         const { result } = event;
