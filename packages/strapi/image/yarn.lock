@@ -13875,7 +13875,6 @@ __metadata:
     react: "npm:^18.0.0"
     react-dom: "npm:^18.0.0"
     react-router-dom: "npm:^6.0.0"
-    strapi-plugin-github-actions-dispatch: "link:.yalc/strapi-plugin-github-actions-dispatch"
     strapi-plugin-github-actions-dispatcher: "link:.yalc/strapi-plugin-github-actions-dispatcher"
     styled-components: "npm:^6.0.0"
     typescript: "npm:^5"
@@ -14350,12 +14349,6 @@ __metadata:
   checksum: 10c0/c78375e82e956d7a64be6e63c809c7f058f5303efcaf62ea48350af072bacdb99c06cba39209b45a071c1acbd49116af30df1df9abb448df78a6005b72f10537
   languageName: node
   linkType: hard
-
-"strapi-plugin-github-actions-dispatch@link:.yalc/strapi-plugin-github-actions-dispatch::locator=serverless-kaito-tokyo-strapi-image%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "strapi-plugin-github-actions-dispatch@link:.yalc/strapi-plugin-github-actions-dispatch::locator=serverless-kaito-tokyo-strapi-image%40workspace%3A."
-  languageName: node
-  linkType: soft
 
 "strapi-plugin-github-actions-dispatcher@link:.yalc/strapi-plugin-github-actions-dispatcher::locator=serverless-kaito-tokyo-strapi-image%40workspace%3A.":
   version: 0.0.0-use.local

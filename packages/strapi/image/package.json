@@ -31,7 +31,6 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
-    "strapi-plugin-github-actions-dispatch": "link:.yalc/strapi-plugin-github-actions-dispatch",
     "strapi-plugin-github-actions-dispatcher": "link:.yalc/strapi-plugin-github-actions-dispatcher",
     "styled-components": "^6.0.0"
   },
