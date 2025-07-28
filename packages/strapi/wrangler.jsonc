@@ -49,7 +49,7 @@
 
   // Environment variables that are not secret.
   "vars": {
-    "CF_ENDPOINT": "https://1169b990c0885e4cfa603c38eef1a9b3.r2.cloudflarestorage.com/assets-serverless-kaito-tokyo",
+    "CF_ENDPOINT": "https://1169b990c0885e4cfa603c38eef1a9b3.r2.cloudflarestorage.com",
     "CF_BUCKET": "assets-serverless-kaito-tokyo",
     "CF_PUBLIC_ACCESS_URL": "https://assets.strapi.kaito.tokyo",
     "GITHUB_APP_ID": "1671475",
