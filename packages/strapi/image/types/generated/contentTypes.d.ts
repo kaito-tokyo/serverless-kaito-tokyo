@@ -398,6 +398,7 @@ export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
     Note: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID & Schema.Attribute.Required;
+    Thumbnail: Schema.Attribute.Media<"images"> & Schema.Attribute.Required;
     Title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
