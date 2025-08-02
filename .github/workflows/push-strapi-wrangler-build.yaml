@@ -39,10 +39,12 @@ jobs:
 
       - name: "Build Strapi Docker image"
         run: |
-          npx wrangler containers build \
-            --path-to-docker ./ci/docker.prod \
-            --tag serverless-kaito-tokyo-strapi-container:latest \
-            .
+          docker buildx build \
+            --tag "registry.cloudflare.com/serverless-kaito-tokyo-strapi-container:latest" \
+            --cache-from "type=gha" \
+            --cache-to "type=gha,mode=max" \
+            --load \
+            "./packages/strapi/image"
 
       - name: "Build Strapi Wrangler"
         working-directory: "./packages/strapi"
