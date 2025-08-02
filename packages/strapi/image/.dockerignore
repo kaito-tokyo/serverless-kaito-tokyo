@@ -1,2 +1,8 @@
+.strapi/
+dist/
+node_modules/
 .env
-dist
+.gitignore
+.nvmrc
+.strapi-updater.json
+Dockerfile

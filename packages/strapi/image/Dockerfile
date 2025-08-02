@@ -14,12 +14,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # Copy the entire application source code
-COPY config config
-COPY database database
-COPY public public
-COPY src src
-COPY types types
-COPY tsconfig.json ./
+COPY . .
 
 # Build the Strapi admin panel
 ENV NODE_ENV=production
