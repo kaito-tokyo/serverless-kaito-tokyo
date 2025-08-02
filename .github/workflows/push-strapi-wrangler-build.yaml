@@ -28,6 +28,10 @@ jobs:
       - name: "Install dependencies"
         run: "npm ci"
 
+      - name: "Build Strapi Docker image"
+        working-directory: "./packages/strapi/image"
+        run: "docker build ."
+
       - name: "Build Strapi Wrangler"
         working-directory: "./packages/strapi"
         run: "npx wrangler build"
