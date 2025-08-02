@@ -20,7 +20,17 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
-      - name: "Setup Node.js"
+      - name: "Set up Docker Buildx"
+        uses: "docker/setup-buildx-action@v3"
+
+      - name: "Build Strapi Docker image"
+        uses: "docker/build-push-action@v6"
+        with:
+          context: "./packages/strapi/image"
+          cache-from: "type=gha"
+          cache-to: "type=gha,mode=max"
+
+      - name: "Set up Node.js"
         uses: "actions/setup-node@v4"
         with:
           node-version: "20"
