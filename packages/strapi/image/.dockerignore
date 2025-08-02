@@ -1,4 +1,5 @@
 .strapi/
+ci/
 dist/
 node_modules/
 .env
