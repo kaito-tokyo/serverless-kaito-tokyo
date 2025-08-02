@@ -49,3 +49,5 @@ jobs:
       - name: "Build Strapi Wrangler"
         working-directory: "./packages/strapi"
         run: "npx wrangler build"
+        env:
+          DOCKER_BUILDKIT: "1"
