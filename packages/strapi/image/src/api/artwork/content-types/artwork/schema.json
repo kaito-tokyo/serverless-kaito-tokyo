@@ -44,9 +44,6 @@
     "Body": {
       "type": "richtext",
       "required": false
-    },
-    "Note": {
-      "type": "text"
     }
   }
 }
