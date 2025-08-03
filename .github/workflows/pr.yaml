@@ -1,0 +1,19 @@
+name: "Pull request"
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+permissions:
+  contents: "read"
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  PrUploadWebVersionsWrangler:
+    uses: "./.github/workflows/pr-web-wrangler-versions-upload.yaml"
+    permissions:
+      contents: "read"
