@@ -1,9 +1,12 @@
-export interface Novel {
+import type { StrapiImage } from "./StrapiImage.js";
+
+export interface Artwork {
   readonly id: number;
 
   readonly Body: string;
   readonly Date: string;
   readonly Description: string;
+  readonly Thumbnail: StrapiImage;
   readonly Title: string;
 
   readonly slug: string;
