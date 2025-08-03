@@ -6,7 +6,8 @@ export interface Artwork {
   readonly Body: string;
   readonly Date: string;
   readonly Description: string;
-  readonly Thumbnail: StrapiImage;
+  readonly SdrImage: StrapiImage;
+  readonly HdrImage: StrapiImage;
   readonly Title: string;
 
   readonly slug: string;
