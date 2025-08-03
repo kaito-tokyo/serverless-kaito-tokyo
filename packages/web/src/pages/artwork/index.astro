@@ -7,11 +7,19 @@ const artworks = await fetchApi<Artwork[]>({
   wrappedByKey: "data",
 });
 
-function getThumbnailUrl(artwork: Artwork): string {
+function getSdrImageSrcset(artwork: Artwork): string {
   const {
-    SdrImage: { url, hash },
+    SdrImage: {
+      formats: { small, medium, large, thumbnail },
+    },
   } = artwork;
-  return url.replace(hash, `small_${hash}`);
+  return `
+    ${thumbnail.url} ${thumbnail.width}w
+    ${small.url} ${small.width}w,
+    ${medium.url} ${medium.width}w,
+    ${large.url} ${large.width}w,
+    ${artwork.SdrImage.url} ${artwork.SdrImage.width}w
+  `;
 }
 ---
 
@@ -30,7 +38,11 @@ function getThumbnailUrl(artwork: Artwork): string {
           artworks.map((artwork) => (
             <li>
               <a href={`/artwork/${artwork.slug}`}>
-                <img src={getThumbnailUrl(artwork)} alt={artwork.Title} />
+                <img
+                  src={artwork.SdrImage.formats.large.url}
+                  srcset={getSdrImageSrcset(artwork)}
+                  alt={artwork.Title}
+                />
                 <h2>{artwork.Title}</h2>
               </a>
             </li>

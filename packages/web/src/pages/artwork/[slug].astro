@@ -6,9 +6,10 @@ import ArtworkMarkdown from "../../components/ArtworkMarkdown.astro";
 
 export async function getStaticPaths() {
   const artworks = await fetchApi<Artwork[]>({
-    endpoint: "artworks",
+    endpoint: "artworks?populate=*",
     wrappedByKey: "data",
   });
+  console.log(JSON.stringify(artworks, null, 2));
 
   return artworks.map((artwork) => ({
     params: { slug: artwork.slug },
@@ -18,6 +19,23 @@ export async function getStaticPaths() {
 type Props = Artwork;
 
 const artwork = Astro.props;
+
+console.log(JSON.stringify(artwork, null, 2));
+
+function getSdrImageSrcset(artwork: Artwork): string {
+  const {
+    SdrImage: {
+      formats: { small, medium, large, thumbnail },
+    },
+  } = artwork;
+  return `
+    ${thumbnail.url} ${thumbnail.width}w
+    ${small.url} ${small.width}w,
+    ${medium.url} ${medium.width}w,
+    ${large.url} ${large.width}w,
+    ${artwork.SdrImage.url} ${artwork.SdrImage.width}w
+  `;
+}
 ---
 
 <!doctype html>
@@ -31,7 +49,14 @@ const artwork = Astro.props;
   <body>
     <main>
       <h1>{artwork.Title}</h1>
-      <ArtworkMarkdown markdownText={artwork.Body} />
+      <img
+        src={artwork.SdrImage.formats.large.url}
+        srcset={getSdrImageSrcset(artwork)}
+        sizes="(max-width: 600px) 90vw, 517px"
+        alt={artwork.Title}
+        loading="lazy"
+        decoding="async"
+      />
     </main>
   </body>
 </html>
