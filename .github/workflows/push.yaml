@@ -18,6 +18,11 @@ concurrency:
 jobs:
   PushPrettier:
     uses: "./.github/workflows/push-prettier.yaml"
+    permissions:
+      contents: "read"
 
   PushStrapiImageBuild:
     uses: "./.github/workflows/push-strapi-image-build.yaml"
+    permissions:
+      contents: "read"
+      packages: "write"
