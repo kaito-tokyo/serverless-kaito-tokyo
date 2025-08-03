@@ -8,7 +8,9 @@ const artworks = await fetchApi<Artwork[]>({
 });
 
 function getThumbnailUrl(artwork: Artwork): string {
-  const { Thumbnail: { url, hash } } = artwork;
+  const {
+    Thumbnail: { url, hash },
+  } = artwork;
   return url.replace(hash, `small_${hash}`);
 }
 ---
