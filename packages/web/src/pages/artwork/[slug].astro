@@ -1,0 +1,37 @@
+---
+import fetchApi from "../../lib/strapi.js";
+import type { Artwork } from "../../interfaces/Artwork.js";
+
+import ArtworkMarkdown from "../../components/ArtworkMarkdown.astro";
+
+export async function getStaticPaths() {
+  const artworks = await fetchApi<Artwork[]>({
+    endpoint: "artworks",
+    wrappedByKey: "data",
+  });
+
+  return artworks.map((artwork) => ({
+    params: { slug: artwork.slug },
+    props: artwork,
+  }));
+}
+type Props = Artwork;
+
+const artwork = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{artwork.Title}</title>
+  </head>
+
+  <body>
+    <main>
+      <h1>{artwork.Title}</h1>
+      <ArtworkMarkdown markdownText={artwork.Body} />
+    </main>
+  </body>
+</html>

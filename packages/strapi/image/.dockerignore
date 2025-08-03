@@ -1,2 +1,8 @@
+.strapi/
+dist/
+node_modules/
+.dockerignore
 .env
-dist
+.gitignore
+.nvmrc
+Dockerfile

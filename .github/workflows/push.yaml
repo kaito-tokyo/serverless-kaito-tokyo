@@ -11,9 +11,18 @@ on:
 permissions:
   contents: "read"
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: "${{ github.ref == 'refs/heads/main' }}"
+
 jobs:
   PushPrettier:
     uses: "./.github/workflows/push-prettier.yaml"
+    permissions:
+      contents: "read"
 
-  PushStrapiWrangler:
-    uses: "./.github/workflows/push-strapi-wrangler-build.yaml"
+  PushStrapiImageBuild:
+    uses: "./.github/workflows/push-strapi-image-build.yaml"
+    permissions:
+      contents: "read"
+      packages: "write"

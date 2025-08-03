@@ -1,0 +1,42 @@
+---
+import fetchApi from "../../lib/strapi.js";
+import type { Artwork } from "../../interfaces/Artwork.js";
+
+const artworks = await fetchApi<Artwork[]>({
+  endpoint: "artworks?populate=*",
+  wrappedByKey: "data",
+});
+
+function getThumbnailUrl(artwork: Artwork): string {
+  const {
+    Thumbnail: { url, hash },
+  } = artwork;
+  return url.replace(hash, `small_${hash}`);
+}
+---
+
+<!doctype html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>イラスト - kaito.tokyo</title>
+  </head>
+  <body>
+    <main>
+      <h1>イラスト</h1>
+      <ul>
+        {
+          artworks.map((artwork) => (
+            <li>
+              <a href={`/artwork/${artwork.slug}`}>
+                <img src={getThumbnailUrl(artwork)} alt={artwork.Title} />
+                <h2>{artwork.Title}</h2>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </body>
+</html>

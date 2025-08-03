@@ -1,12 +1,11 @@
 ---
 import fetchApi from "../../lib/strapi.js";
-import type Novel from "../../interfaces/Novel.js";
+import type { Novel } from "../../interfaces/Novel.js";
 
 const novels = await fetchApi<Novel[]>({
   endpoint: "novels",
   wrappedByKey: "data",
 });
-console.log(novels[0]);
 ---
 
 <!doctype html>
