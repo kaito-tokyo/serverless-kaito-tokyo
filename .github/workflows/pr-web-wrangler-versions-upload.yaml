@@ -2,6 +2,13 @@ name: "Upload Web Versions Wrangler on pull request"
 
 on:
   workflow_call:
+    inputs:
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+        type: "string"
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
 
 permissions:
   contents: "read"
@@ -34,7 +41,7 @@ jobs:
         uses: "cloudflare/wrangler-action@v3"
         with:
           apiToken: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
-          accountId: "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
+          accountId: "${{ inputs.CLOUDFLARE_ACCOUNT_ID }}"
           workingDirectory: "packages/web"
           wranglerVersion: "4.26.0"
           command: "versions upload"

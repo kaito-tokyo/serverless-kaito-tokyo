@@ -16,4 +16,7 @@ jobs:
   PrUploadWebVersionsWrangler:
     uses: "./.github/workflows/pr-web-wrangler-versions-upload.yaml"
     permissions:
-      contents: "read"
+      contents: "read"   
+    secrets: "inherit"
+    with:
+      CLOUDFLARE_ACCOUNT_ID: "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"   
