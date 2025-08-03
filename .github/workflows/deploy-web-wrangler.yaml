@@ -16,6 +16,16 @@ on:
       - "strapi-novel-updatemany"
       - "strapi-novel-delete"
       - "strapi-novel-deletemany"
+      - "strapi-artwork-create"
+      - "strapi-artwork-createmany"
+      - "strapi-artwork-update"
+      - "strapi-artwork-updatemany"
+      - "strapi-artwork-delete"
+      - "strapi-artwork-deletemany"
+
+concurrency:
+  group: "${{ github.workflow }}"
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -23,7 +33,7 @@ defaults:
 
 jobs:
   DeployWebWrangler:
-    runs-on: "ubuntu-latest"
+    runs-on: "ubuntu-24.04"
 
     timeout-minutes: 10
 

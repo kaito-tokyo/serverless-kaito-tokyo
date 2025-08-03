@@ -1,16 +1,25 @@
-name: "Upload Web Versions Wrangler"
+name: "Upload Web Versions Wrangler on pull request"
 
 on:
-  pull_request:
-    branches:
-      - "main"
-    paths:
-      - ".github/workflows/web-wrangler-deploy.yaml"
-      - "packages/web/**/*"
+  workflow_call:
+    inputs:
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+        type: "string"
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+
+permissions:
+  contents: "read"
+
+defaults:
+  run:
+    shell: "bash"
 
 jobs:
   UploadWebVersionsWrangler:
-    runs-on: "ubuntu-latest"
+    runs-on: "ubuntu-24.04"
 
     timeout-minutes: 10
 
@@ -32,7 +41,7 @@ jobs:
         uses: "cloudflare/wrangler-action@v3"
         with:
           apiToken: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
-          accountId: "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
+          accountId: "${{ inputs.CLOUDFLARE_ACCOUNT_ID }}"
           workingDirectory: "packages/web"
           wranglerVersion: "4.26.0"
           command: "versions upload"
