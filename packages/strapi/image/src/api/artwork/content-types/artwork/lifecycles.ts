@@ -69,7 +69,7 @@ export default {
     }
   },
 
-  async afterDeleteMany(event) {
+  async afterDeleteMany(event: any) {
     const { results } = event;
     try {
       await strapi
