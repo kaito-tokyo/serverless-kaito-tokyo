@@ -15,5 +15,5 @@ jobs:
   PushPrettier:
     uses: "./.github/workflows/push-prettier.yaml"
 
-  PushStrapiWrangler:
-    uses: "./.github/workflows/push-strapi-wrangler-build.yaml"
+  PushStrapiImageBuild:
+    uses: "./.github/workflows/push-strapi-image-build.yaml"

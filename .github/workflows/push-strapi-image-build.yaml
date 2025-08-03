@@ -1,0 +1,36 @@
+name: "Build Strapi Image on push"
+
+on:
+  workflow_call:
+
+permissions:
+  contents: "read"
+  packages: "write"
+
+defaults:
+  run:
+    shell: "bash"
+
+jobs:
+  BuildStrapiImage:
+    runs-on: "24.04"
+
+    timeout-minutes: 30
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Docker Buildx"
+        run: "docker buildx create --use"
+
+      - name: "Login to GitHub Packages"
+        run: "echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u ${{ github.actor }} --password-stdin"
+
+      - name: "Build Strapi Image"
+        working-directory: "./packages/strapi/image"
+        run: |
+          docker buildx build \
+            --cache-from 'type=registry,src=ghcr.io/${{ github.repository }}/strapi-container-cache:main' \
+            --cache-to 'type=registry,dest=ghcr.io/${{ github.repository }}/strapi-containercache:main,mode=max' \
+            .
