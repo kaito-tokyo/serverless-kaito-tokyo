@@ -32,5 +32,5 @@ jobs:
         run: |
           docker buildx build \
             --cache-from 'type=registry,ref=ghcr.io/${{ github.repository }}/strapi-container-cache:main' \
-            --cache-to 'type=registry,ref=ghcr.io/${{ github.repository }}/strapi-containercache:main,mode=max' \
+            --cache-to 'type=registry,ref=ghcr.io/${{ github.repository }}/strapi-container-cache:main,mode=max' \
             .
