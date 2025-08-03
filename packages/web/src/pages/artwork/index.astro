@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import "../../styles/global.css";
 import fetchApi from "../../lib/strapi.js";
 import type { Artwork } from "../../interfaces/Artwork.js";
 
@@ -7,21 +7,6 @@ const artworks = await fetchApi<Artwork[]>({
   endpoint: "artworks?populate=*",
   wrappedByKey: "data",
 });
-
-function getSdrImageSrcset(artwork: Artwork): string {
-  const {
-    SdrImage: {
-      formats: { small, medium, large, thumbnail },
-    },
-  } = artwork;
-  return `
-    ${thumbnail.url} ${thumbnail.width}w
-    ${small.url} ${small.width}w,
-    ${medium.url} ${medium.width}w,
-    ${large.url} ${large.width}w,
-    ${artwork.SdrImage.url} ${artwork.SdrImage.width}w
-  `;
-}
 ---
 
 <!doctype html>
@@ -33,20 +18,23 @@ function getSdrImageSrcset(artwork: Artwork): string {
   </head>
   <body>
     <main>
-      <h1>イラスト</h1>
+      <h1>イラスト - Kaito.tokyo</h1>
       <ul>
         {
           artworks.map((artwork) => (
-            <li>
-              <a href={`/artwork/${artwork.slug}`}>
+            <a href={`/artwork/${artwork.slug}`}>
+              <li>
                 <img
-                  src={artwork.SdrImage.formats.large.url}
-                  srcset={getSdrImageSrcset(artwork)}
+                  src={artwork.SdrImage.url}
                   alt={artwork.Title}
+                  loading="eager"
+                  decoding="sync"
+                  width="200"
                 />
-                <h2>{artwork.Title}</h2>
-              </a>
-            </li>
+                <p>{artwork.Date}</p>
+                <p>{artwork.Title}</p>
+              </li>
+            </a>
           ))
         }
       </ul>
@@ -55,9 +43,21 @@ function getSdrImageSrcset(artwork: Artwork): string {
 </html>
 
 <style>
-  main {
-    background: #000000;
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    background: hsla(0, 0%, 98%, 0.9);
     border-radius: 20px;
-    padding: 10px;
+    padding: 15px 0;
+    border: 2px solid black;
   }
 </style>
