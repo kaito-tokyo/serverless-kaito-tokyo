@@ -36,9 +36,9 @@ function getSdrImageSrcset(artwork: Artwork): string {
   } = artwork;
   return `
     ${thumbnail.url} ${thumbnail.width}w
-    ${small.url} ${small.width}w,
-    ${medium.url} ${medium.width}w,
-    ${large.url} ${large.width}w,
+    ${small.url} ${small.width}w
+    ${medium.url} ${medium.width}w
+    ${large.url} ${large.width}w
     ${artwork.SdrImage.url} ${artwork.SdrImage.width}w
   `;
 }
