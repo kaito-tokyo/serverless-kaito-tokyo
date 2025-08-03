@@ -60,7 +60,7 @@ export default {
     try {
       await strapi
         .service("plugin::github-actions-dispatcher.dispatch")
-        .triggerDispatch("strapi-artowork-delete", { data: result });
+        .triggerDispatch("strapi-artwork-delete", { data: result });
     } catch (error) {
       strapi.log.error(
         "Failed to dispatch GitHub Action for artwork deletion:",
@@ -69,7 +69,7 @@ export default {
     }
   },
 
-  async afterDeleteMany(event) {
+  async afterDeleteMany(event: any) {
     const { results } = event;
     try {
       await strapi
