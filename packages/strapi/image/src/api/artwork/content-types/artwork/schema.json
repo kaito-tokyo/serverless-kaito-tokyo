@@ -23,18 +23,30 @@
       "type": "uid",
       "required": true
     },
-    "Body": {
-      "type": "richtext",
-      "required": true
-    },
-    "Note": {
-      "type": "text"
-    },
-    "Thumbnail": {
+    "SdrImage": {
       "type": "media",
       "multiple": false,
       "required": true,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "HdrImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Body": {
+      "type": "richtext",
+      "required": false
+    },
+    "Note": {
+      "type": "text"
     }
   }
 }
