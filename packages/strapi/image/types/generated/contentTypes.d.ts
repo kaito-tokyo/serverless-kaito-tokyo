@@ -384,21 +384,21 @@ export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    Body: Schema.Attribute.RichText & Schema.Attribute.Required;
+    Body: Schema.Attribute.RichText;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
     Date: Schema.Attribute.Date & Schema.Attribute.Required;
+    HdrImage: Schema.Attribute.Media<"images" | "files" | "videos" | "audios">;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       "oneToMany",
       "api::artwork.artwork"
     > &
       Schema.Attribute.Private;
-    Note: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
+    SdrImage: Schema.Attribute.Media<"images"> & Schema.Attribute.Required;
     slug: Schema.Attribute.UID & Schema.Attribute.Required;
-    Thumbnail: Schema.Attribute.Media<"images"> & Schema.Attribute.Required;
     Title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
