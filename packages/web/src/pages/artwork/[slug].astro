@@ -20,7 +20,7 @@ const artwork = Astro.props;
 
 if (!artwork.SdrImage || !artwork.SdrImage.formats) {
   console.warn(`Artwork ${artwork.slug} has no SdrImage or formats.`);
-  throw "Error: Artwork image data is missing.";
+  throw new Error("Artwork image data is missing.");
 }
 
 function getSdrImageSrcset(artwork: Artwork): string {
