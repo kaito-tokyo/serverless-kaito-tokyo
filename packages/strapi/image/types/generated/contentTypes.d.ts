@@ -396,7 +396,6 @@ export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
       "api::artwork.artwork"
     > &
       Schema.Attribute.Private;
-    Note: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     SdrImage: Schema.Attribute.Media<"images"> & Schema.Attribute.Required;
     slug: Schema.Attribute.UID & Schema.Attribute.Required;
