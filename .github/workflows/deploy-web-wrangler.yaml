@@ -10,7 +10,7 @@ on:
 
   repository_dispatch:
     types:
-      - "github-actions-dispatcher-dispatch"
+      - "strapi-plugin-github-actions-dispatcher"
 
 concurrency:
   group: "${{ github.workflow }}"
