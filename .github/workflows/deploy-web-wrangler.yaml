@@ -10,7 +10,8 @@ on:
 
   repository_dispatch:
     types:
-      - "strapi-plugin-github-actions-dispatcher"
+      - "strapi-artwork-update"
+      - "strapi-novel-update"
 
 concurrency:
   group: "${{ github.workflow }}"
