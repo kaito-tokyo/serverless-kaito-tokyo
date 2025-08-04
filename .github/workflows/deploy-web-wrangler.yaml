@@ -10,18 +10,7 @@ on:
 
   repository_dispatch:
     types:
-      - "strapi-novel-create"
-      - "strapi-novel-createmany"
-      - "strapi-novel-update"
-      - "strapi-novel-updatemany"
-      - "strapi-novel-delete"
-      - "strapi-novel-deletemany"
-      - "strapi-artwork-create"
-      - "strapi-artwork-createmany"
-      - "strapi-artwork-update"
-      - "strapi-artwork-updatemany"
-      - "strapi-artwork-delete"
-      - "strapi-artwork-deletemany"
+      - "github-actions-dispatcher-dispatch"
 
 concurrency:
   group: "${{ github.workflow }}"
