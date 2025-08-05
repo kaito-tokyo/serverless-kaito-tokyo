@@ -11,7 +11,7 @@ const artworks = await fetchApi<Artwork[]>({
 const groupedArtworks: { [key: string]: Artwork[] } = {};
 artworks.forEach((artwork) => {
   const date = new Date(artwork.Date);
-  const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+  const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
   if (!groupedArtworks[month]) {
     groupedArtworks[month] = [];
   }
@@ -29,38 +29,52 @@ artworks.forEach((artwork) => {
   <body>
     <main>
       <h1>イラスト - Kaito.tokyo</h1>
-      {Object.entries(groupedArtworks).map(([month, artworksInMonth]) => (
-        <section>
-          <h2>{new Date(month).toLocaleString('ja-JP', { year: 'numeric', month: 'long' })}</h2>
-          <ul>
-            {artworksInMonth.map((artwork) => {
-              if (!artwork.SdrImage || !artwork.SdrImage.url || !artwork.SdrImage.width || !artwork.SdrImage.height) {
-                return null; // Skip artworks without an image
-              }
-              return (
-                <a href={`/artwork/${artwork.slug}`}>
-                  <li>
-                    <img
-                      src={artwork.SdrImage.url}
-                      alt={artwork.Title}
-                      loading="eager"
-                      decoding="sync"
-                      width="200"
-                      height={
-                        artwork.SdrImage.width > 0 && artwork.SdrImage.height > 0
-                          ? (200 / artwork.SdrImage.width) * artwork.SdrImage.height
-                          : undefined
-                      }
-                    />
-                    <p>{artwork.Date}</p>
-                    <p>{artwork.Title}</p>
-                  </li>
-                </a>
-              );
-            })}
-          </ul>
-        </section>
-      ))}
+      {
+        Object.entries(groupedArtworks).map(([month, artworksInMonth]) => (
+          <section>
+            <h2>
+              {new Date(month).toLocaleString("ja-JP", {
+                year: "numeric",
+                month: "long",
+              })}
+            </h2>
+            <ul>
+              {artworksInMonth.map((artwork) => {
+                if (
+                  !artwork.SdrImage ||
+                  !artwork.SdrImage.url ||
+                  !artwork.SdrImage.width ||
+                  !artwork.SdrImage.height
+                ) {
+                  return null; // Skip artworks without an image
+                }
+                return (
+                  <a href={`/artwork/${artwork.slug}`}>
+                    <li>
+                      <img
+                        src={artwork.SdrImage.url}
+                        alt={artwork.Title}
+                        loading="eager"
+                        decoding="sync"
+                        width="200"
+                        height={
+                          artwork.SdrImage.width > 0 &&
+                          artwork.SdrImage.height > 0
+                            ? (200 / artwork.SdrImage.width) *
+                              artwork.SdrImage.height
+                            : undefined
+                        }
+                      />
+                      <p>{artwork.Date}</p>
+                      <p>{artwork.Title}</p>
+                    </li>
+                  </a>
+                );
+              })}
+            </ul>
+          </section>
+        ))
+      }
     </main>
   </body>
 </html>

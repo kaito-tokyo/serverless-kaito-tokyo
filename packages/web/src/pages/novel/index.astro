@@ -10,7 +10,7 @@ const novels = await fetchApi<Novel[]>({
 const groupedNovels: { [key: string]: Novel[] } = {};
 novels.forEach((novel) => {
   const date = new Date(novel.Date);
-  const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+  const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
   if (!groupedNovels[month]) {
     groupedNovels[month] = [];
   }
@@ -28,20 +28,27 @@ novels.forEach((novel) => {
   <body>
     <main>
       <h1>小説</h1>
-      {Object.entries(groupedNovels).map(([month, novelsInMonth]) => (
-        <section>
-          <h2>{new Date(month).toLocaleString('ja-JP', { year: 'numeric', month: 'long' })}</h2>
-          <ul>
-            {novelsInMonth.map((novel) => (
-              <li>
-                <a href={`/novel/${novel.slug}`}>
-                  <h2>{novel.Title}</h2>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      {
+        Object.entries(groupedNovels).map(([month, novelsInMonth]) => (
+          <section>
+            <h2>
+              {new Date(month).toLocaleString("ja-JP", {
+                year: "numeric",
+                month: "long",
+              })}
+            </h2>
+            <ul>
+              {novelsInMonth.map((novel) => (
+                <li>
+                  <a href={`/novel/${novel.slug}`}>
+                    <h2>{novel.Title}</h2>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
     </main>
   </body>
 </html>
