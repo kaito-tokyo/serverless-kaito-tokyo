@@ -28,12 +28,18 @@ const groupedArtworks = groupByMonth(artworks);
             <h2>
               {(() => {
                 const [year, monthStr] = month.split("-");
-                // monthIndex is zero-based
-                const dateObj = new Date(Number(year), Number(monthStr) - 1);
-                return dateObj.toLocaleString("ja-JP", {
-                  year: "numeric",
-                  month: "long",
-                });
+                // The month parameter in the Date constructor is zero-based
+                const isValidYear = /^\d{4}$/.test(year);
+                const isValidMonth = /^\d{1,2}$/.test(monthStr) && Number(monthStr) >= 1 && Number(monthStr) <= 12;
+                if (isValidYear && isValidMonth) {
+                  const dateObj = new Date(Number(year), Number(monthStr) - 1);
+                  return dateObj.toLocaleString("ja-JP", {
+                    year: "numeric",
+                    month: "long",
+                  });
+                } else {
+                  return `${year}-${monthStr}`; // fallback to raw string
+                }
               })()}
             </h2>
             <ul>
