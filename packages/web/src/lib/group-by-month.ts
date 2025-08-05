@@ -2,7 +2,9 @@ interface ItemWithDate {
   Date: string;
 }
 
-export const groupByMonth = <T extends ItemWithDate>(items: T[]): { [key: string]: T[] } => {
+export const groupByMonth = <T extends ItemWithDate>(
+  items: T[],
+): { [key: string]: T[] } => {
   const groupedItems: { [key: string]: T[] } = {};
   items.forEach((item) => {
     const date = new Date(item.Date);
