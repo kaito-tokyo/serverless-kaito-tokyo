@@ -33,10 +33,15 @@ artworks.forEach((artwork) => {
         Object.entries(groupedArtworks).map(([month, artworksInMonth]) => (
           <section>
             <h2>
-              {new Date(month).toLocaleString("ja-JP", {
-                year: "numeric",
-                month: "long",
-              })}
+              {(() => {
+                const [year, monthStr] = month.split("-");
+                // monthIndex is zero-based
+                const dateObj = new Date(Number(year), Number(monthStr) - 1);
+                return dateObj.toLocaleString("ja-JP", {
+                  year: "numeric",
+                  month: "long",
+                });
+              })()}
             </h2>
             <ul>
               {artworksInMonth.map((artwork) => {

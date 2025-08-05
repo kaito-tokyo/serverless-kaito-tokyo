@@ -32,16 +32,20 @@ novels.forEach((novel) => {
         Object.entries(groupedNovels).map(([month, novelsInMonth]) => (
           <section>
             <h2>
-              {new Date(month).toLocaleString("ja-JP", {
-                year: "numeric",
-                month: "long",
-              })}
+              {(() => {
+                const [year, monthStr] = month.split("-");
+                const date = new Date(Number(year), Number(monthStr) - 1, 1);
+                return date.toLocaleString("ja-JP", {
+                  year: "numeric",
+                  month: "long",
+                });
+              })()}
             </h2>
             <ul>
               {novelsInMonth.map((novel) => (
                 <li>
                   <a href={`/novel/${novel.slug}`}>
-                    <h2>{novel.Title}</h2>
+                    <h3>{novel.Title}</h3>
                   </a>
                 </li>
               ))}
