@@ -1,11 +1,11 @@
 name: "Build Strapi Image on push"
 
-on:
-  workflow_call:
-
 permissions:
   contents: "read"
   packages: "write"
+
+on:
+  workflow_call:
 
 defaults:
   run:

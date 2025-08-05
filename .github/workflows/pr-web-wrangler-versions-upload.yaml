@@ -1,5 +1,8 @@
 name: "Upload Web Versions Wrangler on pull request"
 
+permissions:
+  contents: "read"
+
 on:
   workflow_call:
     inputs:
@@ -9,9 +12,6 @@ on:
     secrets:
       CLOUDFLARE_API_TOKEN:
         required: true
-
-permissions:
-  contents: "read"
 
 defaults:
   run:

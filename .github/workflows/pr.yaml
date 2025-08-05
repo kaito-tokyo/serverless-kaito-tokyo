@@ -1,12 +1,12 @@
 name: "Pull request"
 
+permissions:
+  contents: "read"
+
 on:
   pull_request:
     branches:
       - "main"
-
-permissions:
-  contents: "read"
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.ref }}"

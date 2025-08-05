@@ -1,5 +1,8 @@
 name: "Deploy Web Wrangler"
 
+permissions:
+  contents: "read"
+
 on:
   push:
     branches:
