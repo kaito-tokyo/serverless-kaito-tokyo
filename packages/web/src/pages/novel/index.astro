@@ -1,14 +1,41 @@
 ---
 import fetchApi from "../../lib/strapi.js";
 import type { Novel } from "../../interfaces/Novel.js";
+import { groupByMonth } from "../../lib/group-by-month.js";
 
 const novels = await fetchApi<Novel[]>({
   endpoint: "novels?sort=Date:desc",
   wrappedByKey: "data",
 });
 
-import { groupByMonth } from "../../lib/group-by-month.js";
 const groupedNovels = groupByMonth(novels);
+
+const formatMonthForDisplay = (month: string) => {
+  const [year, monthStr] = month.split("-");
+  if (
+    typeof year === "string" &&
+    typeof monthStr === "string" &&
+    /^\d{4}$/.test(year) &&
+    /^\d{1,2}$/.test(monthStr) &&
+    !Number.isNaN(Number(year)) &&
+    !Number.isNaN(Number(monthStr))
+  ) {
+    const date = new Date(Number(year), Number(monthStr) - 1, 1);
+    return date.toLocaleString("ja-JP", {
+      year: "numeric",
+      month: "long",
+    });
+  } else {
+    return month || "Invalid date";
+  }
+};
+
+const monthlyNovels = Array.from(groupedNovels.entries()).map(
+  ([month, novelsInMonth]) => ({
+    formattedMonth: formatMonthForDisplay(month),
+    novels: novelsInMonth,
+  }),
+);
 ---
 
 <!doctype html>
@@ -22,33 +49,11 @@ const groupedNovels = groupByMonth(novels);
     <main>
       <h1>小説</h1>
       {
-        Object.entries(groupedNovels).map(([month, novelsInMonth]) => (
+        monthlyNovels.map(({ formattedMonth, novels }) => (
           <section>
-            <h2>
-              {(() => {
-                const [year, monthStr] = month.split("-");
-                // Validate year and monthStr
-                if (
-                  typeof year === "string" &&
-                  typeof monthStr === "string" &&
-                  /^\d{4}$/.test(year) &&
-                  /^\d{1,2}$/.test(monthStr) &&
-                  !Number.isNaN(Number(year)) &&
-                  !Number.isNaN(Number(monthStr))
-                ) {
-                  const date = new Date(Number(year), Number(monthStr) - 1, 1);
-                  return date.toLocaleString("ja-JP", {
-                    year: "numeric",
-                    month: "long",
-                  });
-                } else {
-                  // Fallback: show raw month string or "Invalid date"
-                  return month || "Invalid date";
-                }
-              })()}
-            </h2>
+            <h2>{formattedMonth}</h2>
             <ul>
-              {novelsInMonth.map((novel) => (
+              {novels.map((novel) => (
                 <li>
                   <a href={`/novel/${novel.slug}`}>
                     <h3>{novel.Title}</h3>

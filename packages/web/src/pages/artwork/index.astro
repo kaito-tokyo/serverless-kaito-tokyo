@@ -2,14 +2,59 @@
 import "../../styles/global.css";
 import fetchApi from "../../lib/strapi.js";
 import type { Artwork } from "../../interfaces/Artwork.js";
+import { groupByMonth } from "../../lib/group-by-month.js";
 
 const artworks = await fetchApi<Artwork[]>({
   endpoint: "artworks?populate=*&sort=Date:desc",
   wrappedByKey: "data",
 });
 
-import { groupByMonth } from "../../lib/group-by-month.js";
 const groupedArtworks = groupByMonth(artworks);
+
+const formatMonthForDisplay = (month: string) => {
+  const [year, monthStr] = month.split("-");
+  const isValidYear = /^\d{4}$/.test(year);
+  const isValidMonth =
+    /^\d{1,2}$/.test(monthStr) &&
+    Number(monthStr) >= 1 &&
+    Number(monthStr) <= 12;
+  if (isValidYear && isValidMonth) {
+    const dateObj = new Date(Number(year), Number(monthStr) - 1);
+    return dateObj.toLocaleString("ja-JP", {
+      year: "numeric",
+      month: "long",
+    });
+  }
+  return `${year}-${monthStr}`; // fallback to raw string
+};
+
+const monthlyArtworks = Array.from(groupedArtworks.entries())
+  .map(([month, artworksInMonth]) => {
+    const processedArtworks = artworksInMonth
+      .map((artwork) => {
+        if (
+          !artwork.SdrImage?.url ||
+          !artwork.SdrImage.width ||
+          !(artwork.SdrImage.width > 0) ||
+          !artwork.SdrImage.height ||
+          !(artwork.SdrImage.height > 0)
+        ) {
+          return null;
+        }
+        return {
+          ...artwork,
+          displayHeight:
+            (200 / artwork.SdrImage.width) * artwork.SdrImage.height,
+        };
+      })
+      .filter(Boolean);
+
+    return {
+      formattedMonth: formatMonthForDisplay(month),
+      artworks: processedArtworks,
+    };
+  })
+  .filter((group) => group.artworks.length > 0);
 ---
 
 <!doctype html>
@@ -23,61 +68,26 @@ const groupedArtworks = groupByMonth(artworks);
     <main>
       <h1>イラスト - Kaito.tokyo</h1>
       {
-        Object.entries(groupedArtworks).map(([month, artworksInMonth]) => (
+        monthlyArtworks.map(({ formattedMonth, artworks }) => (
           <section>
-            <h2>
-              {(() => {
-                const [year, monthStr] = month.split("-");
-                // The month parameter in the Date constructor is zero-based
-                const isValidYear = /^\d{4}$/.test(year);
-                const isValidMonth =
-                  /^\d{1,2}$/.test(monthStr) &&
-                  Number(monthStr) >= 1 &&
-                  Number(monthStr) <= 12;
-                if (isValidYear && isValidMonth) {
-                  const dateObj = new Date(Number(year), Number(monthStr) - 1);
-                  return dateObj.toLocaleString("ja-JP", {
-                    year: "numeric",
-                    month: "long",
-                  });
-                } else {
-                  return `${year}-${monthStr}`; // fallback to raw string
-                }
-              })()}
-            </h2>
+            <h2>{formattedMonth}</h2>
             <ul>
-              {artworksInMonth.map((artwork) => {
-                if (
-                  !artwork.SdrImage ||
-                  !artwork.SdrImage.url ||
-                  !artwork.SdrImage.width ||
-                  !artwork.SdrImage.height
-                ) {
-                  return null; // Skip artworks without an image
-                }
-                return (
-                  <a href={`/artwork/${artwork.slug}`}>
-                    <li>
-                      <img
-                        src={artwork.SdrImage.url}
-                        alt={artwork.Title}
-                        loading="eager"
-                        decoding="sync"
-                        width="200"
-                        height={
-                          artwork.SdrImage.width > 0 &&
-                          artwork.SdrImage.height > 0
-                            ? (200 / artwork.SdrImage.width) *
-                              artwork.SdrImage.height
-                            : undefined
-                        }
-                      />
-                      <p>{artwork.Date}</p>
-                      <p>{artwork.Title}</p>
-                    </li>
-                  </a>
-                );
-              })}
+              {artworks.map((artwork) => (
+                <a href={`/artwork/${artwork.slug}`}>
+                  <li>
+                    <img
+                      src={artwork.SdrImage.url}
+                      alt={artwork.Title}
+                      loading="eager"
+                      decoding="sync"
+                      width="200"
+                      height={artwork.displayHeight}
+                    />
+                    <p>{artwork.Date}</p>
+                    <p>{artwork.Title}</p>
+                  </li>
+                </a>
+              ))}
             </ul>
           </section>
         ))
