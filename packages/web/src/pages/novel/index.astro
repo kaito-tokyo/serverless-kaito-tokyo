@@ -28,12 +28,18 @@ const monthlyNovels = Array.from(groupedNovels.entries()).map(
         <h2>{formattedMonth}</h2>
         <ul>
           {novels.map((novel) => (
-            <a href={`/novel/${novel.slug}`}>
-              <li>
-                <p>{novel.Date}</p>
-                <p>{novel.Title}</p>
-              </li>
-            </a>
+            <li>
+                <a href={`/novel/${novel.slug}`}>
+                  <p>{novel.Date}</p>
+                  <p>{novel.Title}</p>
+                </a>
+                <p>
+                  {novel.Body.split("\n")
+                    .filter((line) => !line.startsWith("#"))
+                    .join("\n")
+                    .substring(0, 100)}...
+                </p>
+            </li>
           ))}
         </ul>
       </section>
