@@ -31,7 +31,7 @@ const artworks = await fetchApi<Artwork[]>({
                   decoding="sync"
                   width="200"
                   height={
-                    artwork.SdrImage.width && artwork.SdrImage.height
+                    artwork.SdrImage.width > 0 && artwork.SdrImage.height > 0
                       ? (200 / artwork.SdrImage.width) * artwork.SdrImage.height
                       : undefined
                   }
