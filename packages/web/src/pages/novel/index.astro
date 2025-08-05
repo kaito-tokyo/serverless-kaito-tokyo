@@ -1,4 +1,5 @@
 ---
+import Layout from "../../layouts/Layout.astro";
 import fetchApi from "../../lib/strapi.js";
 import type { Novel } from "../../interfaces/Novel.js";
 import { groupByMonth } from "../../lib/group-by-month.js";
@@ -19,32 +20,43 @@ const monthlyNovels = Array.from(groupedNovels.entries()).map(
 );
 ---
 
-<!doctype html>
-<html lang="ja-JP">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>小説 - kaito.tokyo</title>
-  </head>
-  <body>
-    <main>
-      <h1>小説</h1>
-      {
-        monthlyNovels.map(({ formattedMonth, novels }) => (
-          <section>
-            <h2>{formattedMonth}</h2>
-            <ul>
-              {novels.map((novel) => (
-                <li>
-                  <a href={`/novel/${novel.slug}`}>
-                    <h3>{novel.Title}</h3>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))
-      }
-    </main>
-  </body>
-</html>
+<Layout title="小説 - kaito.tokyo">
+  <h1>小説</h1>
+  {
+    monthlyNovels.map(({ formattedMonth, novels }) => (
+      <section>
+        <h2>{formattedMonth}</h2>
+        <ul>
+          {novels.map((novel) => (
+            <a href={`/novel/${novel.slug}`}>
+              <li>
+                <p>{novel.Date}</p>
+                <p>{novel.Title}</p>
+              </li>
+            </a>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Layout>
+
+<style>
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    background: hsla(0, 0%, 98%, 0.9);
+    border-radius: 20px;
+    padding: 15px 0;
+    border: 2px solid black;
+  }
+</style>
