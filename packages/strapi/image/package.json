@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@cloudflare/containers": "^0.0.25",
-    "@kaito-tokyo/strapi-plugin-github-actions-dispatcher": "^0.1.2",
+    "@kaito-tokyo/strapi-plugin-github-actions-dispatcher": "^0.1.6",
     "@strapi/plugin-cloud": "5.20.0",
     "@strapi/plugin-users-permissions": "5.20.0",
     "@strapi/provider-upload-aws-s3": "5.20.0",

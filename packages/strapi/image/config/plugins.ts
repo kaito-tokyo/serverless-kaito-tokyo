@@ -31,6 +31,18 @@ export default ({ env }) => ({
       privateKey: env("GITHUB_PRIVATE_KEY", "").replace(/\\n/g, "\n"),
       owner: env("GITHUB_OWNER"),
       repo: env("GITHUB_REPO"),
+      eventConfigs: [
+        {
+          uid: "api::artwork.artwork",
+          eventType: "strapi-artwork-update",
+          actions: ["create", "update", "delete", "publish", "unpublish"],
+        },
+        {
+          uid: "api::novel.novel",
+          eventType: "strapi-novel-update",
+          actions: ["create", "update", "delete", "publish", "unpublish"],
+        },
+      ],
     },
   },
 });
