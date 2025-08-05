@@ -1,5 +1,8 @@
 name: "Deploy Strapi Wrangler"
 
+permissions:
+  contents: "read"
+
 on:
   push:
     branches:
