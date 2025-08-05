@@ -2,11 +2,43 @@
 import "../../styles/global.css";
 import fetchApi from "../../lib/strapi.js";
 import type { Artwork } from "../../interfaces/Artwork.js";
+import { groupByMonth } from "../../lib/group-by-month.js";
+import { formatMonthForDisplay } from "../../lib/format-month.js";
 
 const artworks = await fetchApi<Artwork[]>({
-  endpoint: "artworks?populate=*",
+  endpoint: "artworks?populate=*&sort=Date:desc",
   wrappedByKey: "data",
 });
+
+const groupedArtworks = groupByMonth(artworks);
+
+const monthlyArtworks = Array.from(groupedArtworks.entries())
+  .map(([month, artworksInMonth]) => {
+    const processedArtworks = artworksInMonth
+      .map((artwork) => {
+        if (
+          !artwork.SdrImage?.url ||
+          !artwork.SdrImage.width ||
+          !(artwork.SdrImage.width > 0) ||
+          !artwork.SdrImage.height ||
+          !(artwork.SdrImage.height > 0)
+        ) {
+          return null;
+        }
+        return {
+          ...artwork,
+          displayHeight:
+            (200 / artwork.SdrImage.width) * artwork.SdrImage.height,
+        };
+      })
+      .filter((artwork) => artwork !== null);
+
+    return {
+      formattedMonth: formatMonthForDisplay(month),
+      artworks: processedArtworks,
+    };
+  })
+  .filter((group) => group.artworks.length > 0);
 ---
 
 <!doctype html>
@@ -19,30 +51,31 @@ const artworks = await fetchApi<Artwork[]>({
   <body>
     <main>
       <h1>イラスト - Kaito.tokyo</h1>
-      <ul>
-        {
-          artworks.map((artwork) => (
-            <a href={`/artwork/${artwork.slug}`}>
-              <li>
-                <img
-                  src={artwork.SdrImage.url}
-                  alt={artwork.Title}
-                  loading="eager"
-                  decoding="sync"
-                  width="200"
-                  height={
-                    artwork.SdrImage.width > 0 && artwork.SdrImage.height > 0
-                      ? (200 / artwork.SdrImage.width) * artwork.SdrImage.height
-                      : undefined
-                  }
-                />
-                <p>{artwork.Date}</p>
-                <p>{artwork.Title}</p>
-              </li>
-            </a>
-          ))
-        }
-      </ul>
+      {
+        monthlyArtworks.map(({ formattedMonth, artworks }) => (
+          <section>
+            <h2>{formattedMonth}</h2>
+            <ul>
+              {artworks.map((artwork) => (
+                <a href={`/artwork/${artwork.slug}`}>
+                  <li>
+                    <img
+                      src={artwork.SdrImage.url}
+                      alt={artwork.Title}
+                      loading="eager"
+                      decoding="sync"
+                      width="200"
+                      height={artwork.displayHeight}
+                    />
+                    <p>{artwork.Date}</p>
+                    <p>{artwork.Title}</p>
+                  </li>
+                </a>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
     </main>
   </body>
 </html>
