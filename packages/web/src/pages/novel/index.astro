@@ -7,15 +7,8 @@ const novels = await fetchApi<Novel[]>({
   wrappedByKey: "data",
 });
 
-const groupedNovels: { [key: string]: Novel[] } = {};
-novels.forEach((novel) => {
-  const date = new Date(novel.Date);
-  const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-  if (!groupedNovels[month]) {
-    groupedNovels[month] = [];
-  }
-  groupedNovels[month].push(novel);
-});
+import { groupByMonth } from "../../lib/group-by-month.js";
+const groupedNovels = groupByMonth(novels);
 ---
 
 <!doctype html>

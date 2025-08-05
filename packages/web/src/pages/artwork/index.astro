@@ -8,15 +8,8 @@ const artworks = await fetchApi<Artwork[]>({
   wrappedByKey: "data",
 });
 
-const groupedArtworks: { [key: string]: Artwork[] } = {};
-artworks.forEach((artwork) => {
-  const date = new Date(artwork.Date);
-  const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-  if (!groupedArtworks[month]) {
-    groupedArtworks[month] = [];
-  }
-  groupedArtworks[month].push(artwork);
-});
+import { groupByMonth } from "../../lib/group-by-month.js";
+const groupedArtworks = groupByMonth(artworks);
 ---
 
 <!doctype html>
