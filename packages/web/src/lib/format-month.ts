@@ -12,5 +12,5 @@ export const formatMonthForDisplay = (month: string) => {
       month: "long",
     });
   }
-  return `${year}-${monthStr}`; // fallback to raw string
+  return "Invalid Date"; // fallback to user-friendly message
 };

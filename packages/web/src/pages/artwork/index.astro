@@ -31,7 +31,7 @@ const monthlyArtworks = Array.from(groupedArtworks.entries())
             (200 / artwork.SdrImage.width) * artwork.SdrImage.height,
         };
       })
-      .filter(Boolean);
+      .filter((artwork) => artwork !== null);
 
     return {
       formattedMonth: formatMonthForDisplay(month),

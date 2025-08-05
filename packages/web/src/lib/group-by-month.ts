@@ -19,7 +19,7 @@ export const groupByMonth = <T extends ItemWithDate>(
     if (!groupedItems.has(month)) {
       groupedItems.set(month, []);
     }
-    groupedItems.get(month)?.push(item);
+    groupedItems.get(month)!.push(item);
   });
   return groupedItems;
 };
