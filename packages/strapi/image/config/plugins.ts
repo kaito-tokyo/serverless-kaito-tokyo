@@ -42,7 +42,7 @@ export default ({ env }) => ({
           eventType: "strapi-novel-update",
           actions: ["create", "update", "delete", "publish", "unpublish"],
         },
-      ]
+      ],
     },
   },
 });
