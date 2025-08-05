@@ -3,8 +3,18 @@ import fetchApi from "../../lib/strapi.js";
 import type { Novel } from "../../interfaces/Novel.js";
 
 const novels = await fetchApi<Novel[]>({
-  endpoint: "novels",
+  endpoint: "novels?sort=Date:desc",
   wrappedByKey: "data",
+});
+
+const groupedNovels: { [key: string]: Novel[] } = {};
+novels.forEach((novel) => {
+  const date = new Date(novel.Date);
+  const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+  if (!groupedNovels[month]) {
+    groupedNovels[month] = [];
+  }
+  groupedNovels[month].push(novel);
 });
 ---
 
@@ -18,17 +28,20 @@ const novels = await fetchApi<Novel[]>({
   <body>
     <main>
       <h1>小説</h1>
-      <ul>
-        {
-          novels.map((novel) => (
-            <li>
-              <a href={`/novel/${novel.slug}`}>
-                <h2>{novel.Title}</h2>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+      {Object.entries(groupedNovels).map(([month, novelsInMonth]) => (
+        <section>
+          <h2>{new Date(month).toLocaleString('ja-JP', { year: 'numeric', month: 'long' })}</h2>
+          <ul>
+            {novelsInMonth.map((novel) => (
+              <li>
+                <a href={`/novel/${novel.slug}`}>
+                  <h2>{novel.Title}</h2>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
     </main>
   </body>
 </html>
