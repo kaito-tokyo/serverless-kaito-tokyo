@@ -1,5 +1,5 @@
 ---
-import "../../styles/global.css";
+import Layout from "../../layouts/Layout.astro";
 import fetchApi from "../../lib/strapi.js";
 import type { Artwork } from "../../interfaces/Artwork.js";
 import { groupByMonth } from "../../lib/group-by-month.js";
@@ -41,44 +41,34 @@ const monthlyArtworks = Array.from(groupedArtworks.entries())
   .filter((group) => group.artworks.length > 0);
 ---
 
-<!doctype html>
-<html lang="ja-JP">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>イラスト - kaito.tokyo</title>
-  </head>
-  <body>
-    <main>
-      <h1>イラスト - Kaito.tokyo</h1>
-      {
-        monthlyArtworks.map(({ formattedMonth, artworks }) => (
-          <section>
-            <h2>{formattedMonth}</h2>
-            <ul>
-              {artworks.map((artwork) => (
-                <a href={`/artwork/${artwork.slug}`}>
-                  <li>
-                    <img
-                      src={artwork.SdrImage.url}
-                      alt={artwork.Title}
-                      loading="eager"
-                      decoding="sync"
-                      width="200"
-                      height={artwork.displayHeight}
-                    />
-                    <p>{artwork.Date}</p>
-                    <p>{artwork.Title}</p>
-                  </li>
-                </a>
-              ))}
-            </ul>
-          </section>
-        ))
-      }
-    </main>
-  </body>
-</html>
+<Layout title="イラスト - kaito.tokyo">
+  <h1>イラスト - Kaito.tokyo</h1>
+  {
+    monthlyArtworks.map(({ formattedMonth, artworks }) => (
+      <section>
+        <h2>{formattedMonth}</h2>
+        <ul>
+          {artworks.map((artwork) => (
+            <a href={`/artwork/${artwork.slug}`}>
+              <li>
+                <img
+                  src={artwork.SdrImage.url}
+                  alt={artwork.Title}
+                  loading="eager"
+                  decoding="sync"
+                  width="200"
+                  height={artwork.displayHeight}
+                />
+                <p>{artwork.Date}</p>
+                <p>{artwork.Title}</p>
+              </li>
+            </a>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Layout>
 
 <style>
   ul {
