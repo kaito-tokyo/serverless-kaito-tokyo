@@ -3,6 +3,7 @@ import fetchApi from "../../lib/strapi.js";
 import type { Novel } from "../../interfaces/Novel.js";
 
 import NovelMarkdown from "../../components/NovelMarkdown.astro";
+import BottomSpacing from "../../components/BottomSpacing.astro";
 
 export async function getStaticPaths() {
   const novels = await fetchApi<Novel[]>({
@@ -32,6 +33,9 @@ const novel = Astro.props;
     <main>
       <h1>{novel.Title}</h1>
       <NovelMarkdown markdownText={novel.Body} />
+      <hr />
+      <a href="/novel">戻る</a>
+      <BottomSpacing />
     </main>
   </body>
 </html>

@@ -3,6 +3,8 @@ import "../../styles/global.css";
 import fetchApi from "../../lib/strapi.js";
 import type { Artwork } from "../../interfaces/Artwork.js";
 
+import BottomSpacing from "../../components/BottomSpacing.astro";
+
 export async function getStaticPaths() {
   const artworks = await fetchApi<Artwork[]>({
     endpoint: "artworks?populate=*",
@@ -88,6 +90,9 @@ function getSdrImageSrcset(artwork: Artwork): string {
           )
         }
       </section>
+      <hr />
+      <a href="/artwork">戻る</a>
+      <BottomSpacing />
     </main>
   </body>
 </html>
