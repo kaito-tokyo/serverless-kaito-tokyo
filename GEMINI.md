@@ -7,4 +7,4 @@ When creating a pull request, please include a summary of the changes and a list
 
 When using the gh command, please escape backticks appropriately, considering shell interpretation.
 
-When editing files, please add a blank line at theend of the file.
+When editing files, please add a blank line at the end of the file.
