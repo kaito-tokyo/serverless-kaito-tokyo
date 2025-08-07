@@ -1,11 +1,76 @@
 ---
-import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
+import fetchApi from "../lib/strapi.js";
+import type { Artwork } from "../interfaces/Artwork.js";
+import type { Novel } from "../interfaces/Novel.js";
+import ArtworkCard from "../components/ArtworkCard.astro";
+import NovelCard from "../components/NovelCard.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const artworks = await fetchApi<Artwork[]>({
+  endpoint: "artworks?populate=*&sort=Date:desc&pagination[limit]=20",
+  wrappedByKey: "data",
+});
+
+const novels = await fetchApi<Novel[]>({
+  endpoint: "novels?sort=Date:desc&pagination[limit]=20",
+  wrappedByKey: "data",
+});
+
+const combined = [
+  ...artworks.map((artwork) => ({ ...artwork, type: "artwork" as const })),
+  ...novels.map((novel) => ({ ...novel, type: "novel" as const })),
+];
+
+const sorted = combined.sort(
+  (a, b) => new Date(b.Date).getTime() - new Date(a.Date).getTime(),
+);
+
+const latest = sorted.slice(0, 20);
+
+const processedLatest = latest
+  .map((item) => {
+    if (item.type === "artwork") {
+      if (
+        !item.SdrImage?.url ||
+        !item.SdrImage.width ||
+        !(item.SdrImage.width > 0) ||
+        !item.SdrImage.height ||
+        !(item.SdrImage.height > 0)
+      ) {
+        return null;
+      }
+      return {
+        ...item,
+        displayHeight: (200 / item.SdrImage.width) * item.SdrImage.height,
+      };
+    }
+    return item;
+  })
+  .filter((item) => item !== null);
 ---
 
-<Layout>
-  <Welcome />
+<Layout title="最新の作品 - Kaito.tokyo">
+  <h1>最新の作品 - Kaito.tokyo</h1>
+  <ul>
+    {
+      processedLatest.map((item) =>
+        item.type === "artwork" ? (
+          <ArtworkCard artwork={item} />
+        ) : (
+          <NovelCard novel={item} />
+        ),
+      )
+    }
+  </ul>
 </Layout>
+
+<style>
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+  }
+</style>
