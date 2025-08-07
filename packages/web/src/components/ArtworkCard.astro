@@ -10,8 +10,8 @@ interface Props {
 const { artwork } = Astro.props;
 ---
 
-<a href={`/artwork/${artwork.slug}`}>
-  <li>
+<li>
+  <a href={`/artwork/${artwork.slug}`}>
     <img
       src={artwork.SdrImage.url}
       alt={artwork.Title}
@@ -22,8 +22,8 @@ const { artwork } = Astro.props;
     />
     <p>{artwork.Date}</p>
     <p>{artwork.Title}</p>
-  </li>
-</a>
+  </a>
+</li>
 
 <style>
   li {
@@ -34,11 +34,6 @@ const { artwork } = Astro.props;
     border-radius: 20px;
     padding: 15px 0;
     border: 2px solid black;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
   }
 
   p {
