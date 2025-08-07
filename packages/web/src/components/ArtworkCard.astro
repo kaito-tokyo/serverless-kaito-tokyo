@@ -1,5 +1,5 @@
 ---
-import type { Artwork } from "../interfaces/Artwork";
+import type { Artwork } from "../interfaces/Artwork.js";
 
 interface Props {
   artwork: Artwork & {
@@ -29,7 +29,6 @@ const { artwork } = Astro.props;
   li {
     width: 200px;
     margin: 0;
-    padding: 0;
     background: hsla(0, 0%, 98%, 0.9);
     border-radius: 20px;
     padding: 15px 0;
