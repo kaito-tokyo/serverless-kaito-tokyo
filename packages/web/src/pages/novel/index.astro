@@ -4,6 +4,7 @@ import fetchApi from "../../lib/strapi.js";
 import type { Novel } from "../../interfaces/Novel.js";
 import { groupByMonth } from "../../lib/group-by-month.js";
 import { formatMonthForDisplay } from "../../lib/format-month.js";
+import NovelCard from "../../components/NovelCard.astro";
 
 const novels = await fetchApi<Novel[]>({
   endpoint: "novels?sort=Date:desc",
@@ -28,18 +29,7 @@ const monthlyNovels = Array.from(groupedNovels.entries()).map(
         <h2>{formattedMonth}</h2>
         <ul>
           {novels.map((novel) => (
-            <li>
-              <a href={`/novel/${novel.slug}`}>
-                <p>{novel.Date}</p>
-                <p>{novel.Title}</p>
-                <p class="body-preview">
-                  {novel.Body.split("\n")
-                    .filter((line) => !line.startsWith("#"))
-                    .join("\n")
-                    .substring(0, 100)}
-                </p>
-              </a>
-            </li>
+            <NovelCard novel={novel} />
           ))}
         </ul>
       </section>
@@ -54,34 +44,6 @@ const monthlyNovels = Array.from(groupedNovels.entries()).map(
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-
-  li {
-    width: 200px;
-    margin: 0;
-    padding: 15px 0;
-    background: hsla(0, 0%, 98%, 0.9);
-    border: 2px solid black;
-    border-radius: 20px;
-  }
-
-  li > a {
-    display: block;
-    text-decoration: none;
-  }
-
-  li p {
-    margin: 5px 0;
-    padding: 0 10px;
-  }
-
-  li p.body-preview {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 7;
-    color: var(--color-text);
-    text-indent: 1em;
-    text-overflow: ellipsis;
+    gap: 8px;
   }
 </style>

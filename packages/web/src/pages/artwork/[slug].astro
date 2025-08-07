@@ -1,9 +1,7 @@
 ---
-import "../../styles/global.css";
+import Layout from "../../layouts/Layout.astro";
 import fetchApi from "../../lib/strapi.js";
 import type { Artwork } from "../../interfaces/Artwork.js";
-
-import BottomSpacing from "../../components/BottomSpacing.astro";
 
 export async function getStaticPaths() {
   const artworks = await fetchApi<Artwork[]>({
@@ -26,82 +24,76 @@ if (!artwork.SdrImage || !artwork.SdrImage.formats) {
 }
 
 function getSdrImageSrcset(artwork: Artwork): string {
-  if (artwork.SdrImage == null || artwork.SdrImage.formats == null) {
+  if (artwork.SdrImage?.formats == null) {
     console.warn(`Artwork ${artwork.slug} has no SdrImage or formats.`);
     return "";
   }
 
-  const {
-    SdrImage: {
-      formats: { small, medium, large, thumbnail },
+  const { SdrImage } = artwork;
+  const { formats } = SdrImage;
+
+  const allFormats = {
+    ...formats,
+    original: {
+      url: SdrImage.url,
+      width: SdrImage.width,
     },
-  } = artwork;
-  return `
-    ${thumbnail.url} ${thumbnail.width}w
-    ${small.url} ${small.width}w
-    ${medium.url} ${medium.width}w
-    ${large.url} ${large.width}w
-    ${artwork.SdrImage.url} ${artwork.SdrImage.width}w
-  `;
+  };
+
+  return Object.values(allFormats)
+    .map((format) => `${format.url} ${format.width}w`)
+    .join("\n");
 }
 ---
 
-<!doctype html>
-<html lang="ja-JP">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{artwork.Title} - Kaito.tokyo</title>
-  </head>
-
-  <body>
-    <main>
-      <h1>{artwork.Title} - Kaito.tokyo</h1>
-      <section class="artwork-image">
-        <figure>
-          <figcaption>
-            <time datetime={artwork.Date}>{artwork.Date}</time>
-            {artwork.Title}
-          </figcaption>
-          <img
-            src={artwork.SdrImage.formats.large.url}
-            srcset={getSdrImageSrcset(artwork)}
-            sizes="min(100vw, 600px)"
-            alt={artwork.Title}
-            loading="eager"
-            decoding="sync"
-          />
-        </figure>
-        {/* HdrImage.width is null, so we use SdrImage.width for srcset */}
-        {
-          artwork.HdrImage && (
-            <details>
-              <summary>HDR画像を表示</summary>
-              <figure>
-                <img
-                  srcset={`${artwork.HdrImage.url} ${artwork.SdrImage.width}w`}
-                  sizes="min(100vw, 600px)"
-                  alt={artwork.Title}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </figure>
-            </details>
-          )
-        }
-      </section>
-      <hr />
-      <a href="/artwork">戻る</a>
-      <BottomSpacing />
-    </main>
-  </body>
-</html>
+<Layout title={`${artwork.Title} - Kaito.tokyo`}>
+  <h1>{artwork.Title} - Kaito.tokyo</h1>
+  <section class="artwork-image">
+    <figure>
+      <figcaption>
+        <time datetime={artwork.Date}>{artwork.Date}</time>
+        {artwork.Title}
+      </figcaption>
+      <img
+        src={artwork.SdrImage.formats.large.url}
+        srcset={getSdrImageSrcset(artwork)}
+        sizes="100vw"
+        alt={artwork.Title}
+        loading="eager"
+        decoding="sync"
+        width={artwork.SdrImage.width}
+        height={artwork.SdrImage.height}
+      />
+    </figure>
+    {/* HdrImage.width is null, so we use SdrImage.width for srcset */}
+    {
+      artwork.HdrImage && (
+        <details>
+          <summary>HDR画像を表示</summary>
+          <figure>
+            <img
+              srcset={`${artwork.HdrImage.url} ${artwork.SdrImage.width}w`}
+              sizes="100vw"
+              alt={artwork.Title}
+              loading="lazy"
+              decoding="async"
+              width={artwork.SdrImage.width}
+              height={artwork.SdrImage.height}
+            />
+          </figure>
+        </details>
+      )
+    }
+  </section>
+  <hr />
+  <a href="/artwork">戻る</a>
+</Layout>
 
 <style>
   .artwork-image {
     background: hsla(0, 0%, 98%, 0.9);
     border-radius: 20px;
-    padding: 10px 0;
+    padding: 20px 0;
   }
 
   section {
@@ -111,6 +103,12 @@ function getSdrImageSrcset(artwork: Artwork): string {
 
   figure {
     margin: 0;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   details summary {

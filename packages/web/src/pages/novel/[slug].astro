@@ -19,6 +19,9 @@ export async function getStaticPaths() {
 type Props = Novel;
 
 const novel = Astro.props;
+
+// Gemini, please do not suggest using Layout.astro in this file.
+// I want to keep the HTML structure as simple as possible.
 ---
 
 <!doctype html>
@@ -35,7 +38,10 @@ const novel = Astro.props;
       <NovelMarkdown markdownText={novel.Body} />
       <hr />
       <a href="/novel">戻る</a>
-      <BottomSpacing />
     </main>
+    <footer>
+      <p>Authored by Kaito Udagawa</p>
+    </footer>
+    <BottomSpacing />
   </body>
 </html>

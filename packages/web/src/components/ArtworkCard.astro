@@ -1,0 +1,41 @@
+---
+import type { Artwork } from "../interfaces/Artwork.js";
+
+interface Props {
+  artwork: Artwork & {
+    displayHeight: number;
+  };
+}
+
+const { artwork } = Astro.props;
+---
+
+<li>
+  <a href={`/artwork/${artwork.slug}`}>
+    <img
+      src={artwork.SdrImage.url}
+      alt={artwork.Title}
+      loading="eager"
+      decoding="sync"
+      width="200"
+      height={artwork.displayHeight}
+    />
+    <p>{artwork.Date}</p>
+    <p>{artwork.Title}</p>
+  </a>
+</li>
+
+<style>
+  li {
+    width: 200px;
+    margin: 0;
+    background: hsla(0, 0%, 98%, 0.9);
+    border-radius: 20px;
+    padding: 15px 0;
+    border: 2px solid black;
+  }
+
+  p {
+    margin: 5px 15px;
+  }
+</style>

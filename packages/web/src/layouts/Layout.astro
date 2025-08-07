@@ -28,6 +28,9 @@ const { title } = Astro.props;
     <main>
       <slot />
     </main>
+    <footer>
+      <p>Authored by Kaito Udagawa</p>
+    </footer>
   </body>
 </html>
 
@@ -47,5 +50,11 @@ const { title } = Astro.props;
   nav {
     display: flex;
     gap: 1rem;
+  }
+
+  footer {
+    padding: 1rem;
+    border-top: 1px solid #ccc;
+    text-align: center;
   }
 </style>
