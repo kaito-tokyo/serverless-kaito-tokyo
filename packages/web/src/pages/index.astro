@@ -11,8 +11,8 @@ import { processArtwork } from "../lib/artwork-processor.js";
 const artworks = await fetchApi<Artwork[]>({
   endpoint: "artworks",
   query: {
-    "populate": "*",
-    "sort": "Date:desc",
+    populate: "*",
+    sort: "Date:desc",
     "pagination[limit]": "20",
   },
   wrappedByKey: "data",
@@ -21,7 +21,7 @@ const artworks = await fetchApi<Artwork[]>({
 const novels = await fetchApi<Novel[]>({
   endpoint: "novels",
   query: {
-    "sort": "Date:desc",
+    sort: "Date:desc",
     "pagination[limit]": "20",
   },
   wrappedByKey: "data",
