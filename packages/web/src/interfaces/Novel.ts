@@ -3,7 +3,7 @@ export interface Novel {
 
   readonly Body: string;
   readonly Date: string;
-  readonly Description: string;
+  readonly Description: string | null;
   readonly Title: string;
 
   readonly slug: string;
