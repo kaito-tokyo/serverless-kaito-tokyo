@@ -1,6 +1,7 @@
 ---
 import fetchApi from "../../lib/strapi.js";
 import type { Novel } from "../../interfaces/Novel.js";
+import matter from "gray-matter";
 
 import NovelMarkdown from "../../components/NovelMarkdown.astro";
 import BottomSpacing from "../../components/BottomSpacing.astro";
@@ -19,6 +20,7 @@ export async function getStaticPaths() {
 type Props = Novel;
 
 const novel = Astro.props;
+const metadata = novel.Description ? matter(novel.Description) : { data: {} };
 
 // Gemini, please do not suggest using Layout.astro in this file.
 // I want to keep the HTML structure as simple as possible.
@@ -35,8 +37,17 @@ const novel = Astro.props;
   <body>
     <main>
       <h1>{novel.Title}</h1>
+      {(metadata.data.first || metadata.data.previous || metadata.data.next) && (
+        <>
+          <nav>
+            {metadata.data.first && <a href={`/novel/${metadata.data.first}`}>最初から読む</a>}
+            {metadata.data.previous && <a href={`/novel/${metadata.data.previous}`}>前の話を読む</a>}
+            {metadata.data.next && <a href={`/novel/${metadata.data.next}`}>次の話を読む</a>}
+          </nav>
+          <hr />
+        </>
+      )}
       <NovelMarkdown markdownText={novel.Body} />
-      <hr />
       <a href="/novel">戻る</a>
     </main>
     <footer>
