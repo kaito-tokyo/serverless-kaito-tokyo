@@ -6,13 +6,24 @@ import type { Novel } from "../interfaces/Novel.js";
 import ArtworkCard from "../components/ArtworkCard.astro";
 import NovelCard from "../components/NovelCard.astro";
 
+import { processArtwork } from "../lib/artwork-processor.js";
+
 const artworks = await fetchApi<Artwork[]>({
-  endpoint: "artworks?populate=*&sort=Date:desc&pagination[limit]=20",
+  endpoint: "artworks",
+  query: {
+    populate: "*",
+    sort: "Date:desc",
+    "pagination[limit]": "20",
+  },
   wrappedByKey: "data",
 });
 
 const novels = await fetchApi<Novel[]>({
-  endpoint: "novels?sort=Date:desc&pagination[limit]=20",
+  endpoint: "novels",
+  query: {
+    sort: "Date:desc",
+    "pagination[limit]": "20",
+  },
   wrappedByKey: "data",
 });
 
@@ -30,19 +41,7 @@ const latest = sorted.slice(0, 20);
 const processedLatest = latest
   .map((item) => {
     if (item.type === "artwork") {
-      if (
-        !item.SdrImage?.url ||
-        !item.SdrImage.width ||
-        !(item.SdrImage.width > 0) ||
-        !item.SdrImage.height ||
-        !(item.SdrImage.height > 0)
-      ) {
-        return null;
-      }
-      return {
-        ...item,
-        displayHeight: (200 / item.SdrImage.width) * item.SdrImage.height,
-      };
+      return processArtwork(item);
     }
     return item;
   })

@@ -6,8 +6,14 @@ import { groupByMonth } from "../../lib/group-by-month.js";
 import { formatMonthForDisplay } from "../../lib/format-month.js";
 import ArtworkCard from "../../components/ArtworkCard.astro";
 
+import { processArtwork } from "../../lib/artwork-processor.js";
+
 const artworks = await fetchApi<Artwork[]>({
-  endpoint: "artworks?populate=*&sort=Date:desc",
+  endpoint: "artworks",
+  query: {
+    populate: "*",
+    sort: "Date:desc",
+  },
   wrappedByKey: "data",
 });
 
@@ -16,22 +22,7 @@ const groupedArtworks = groupByMonth(artworks);
 const monthlyArtworks = Array.from(groupedArtworks.entries())
   .map(([month, artworksInMonth]) => {
     const processedArtworks = artworksInMonth
-      .map((artwork) => {
-        if (
-          !artwork.SdrImage?.url ||
-          !artwork.SdrImage.width ||
-          !(artwork.SdrImage.width > 0) ||
-          !artwork.SdrImage.height ||
-          !(artwork.SdrImage.height > 0)
-        ) {
-          return null;
-        }
-        return {
-          ...artwork,
-          displayHeight:
-            (200 / artwork.SdrImage.width) * artwork.SdrImage.height,
-        };
-      })
+      .map(processArtwork)
       .filter((artwork) => artwork !== null);
 
     return {

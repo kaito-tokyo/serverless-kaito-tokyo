@@ -19,18 +19,35 @@ export default async function fetchApi<T>({
   wrappedByKey,
   wrappedByList,
 }: Props): Promise<T> {
+  const strapiUrl = import.meta.env.STRAPI_URL;
+  if (!strapiUrl) {
+    throw new Error("STRAPI_URL is not defined in environment variables.");
+  }
+
   if (endpoint.startsWith("/")) {
     endpoint = endpoint.slice(1);
   }
 
-  const url = new URL(`${import.meta.env.STRAPI_URL}/api/${endpoint}`);
-
+  const url = new URL(`${strapiUrl}/api/${endpoint}`);
   if (query) {
-    Object.entries(query).forEach(([key, value]) => {
-      url.searchParams.append(key, value);
-    });
+    url.search = new URLSearchParams(query).toString();
   }
+
   const res = await fetch(url.toString());
+
+  if (!res.ok) {
+    const errorBody = await res
+      .json()
+      .catch(() => ({ message: "No error body." }));
+    console.error(
+      "Failed to fetch API:",
+      res.status,
+      res.statusText,
+      errorBody,
+    );
+    throw new Error(`Failed to fetch API: ${res.status} ${res.statusText}`);
+  }
+
   let data = await res.json();
 
   if (wrappedByKey) {
