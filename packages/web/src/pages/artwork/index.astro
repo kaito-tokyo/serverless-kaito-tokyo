@@ -7,7 +7,11 @@ import { formatMonthForDisplay } from "../../lib/format-month.js";
 import ArtworkCard from "../../components/ArtworkCard.astro";
 
 const artworks = await fetchApi<Artwork[]>({
-  endpoint: "artworks?populate=*&sort=Date:desc",
+  endpoint: "artworks",
+  query: {
+    "populate": "*",
+    "sort": "Date:desc",
+  },
   wrappedByKey: "data",
 });
 

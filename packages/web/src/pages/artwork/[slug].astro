@@ -5,7 +5,10 @@ import type { Artwork } from "../../interfaces/Artwork.js";
 
 export async function getStaticPaths() {
   const artworks = await fetchApi<Artwork[]>({
-    endpoint: "artworks?populate=*",
+    endpoint: "artworks",
+    query: {
+      "populate": "*",
+    },
     wrappedByKey: "data",
   });
 

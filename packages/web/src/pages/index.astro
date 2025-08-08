@@ -7,12 +7,21 @@ import ArtworkCard from "../components/ArtworkCard.astro";
 import NovelCard from "../components/NovelCard.astro";
 
 const artworks = await fetchApi<Artwork[]>({
-  endpoint: "artworks?populate=*&sort=Date:desc&pagination[limit]=20",
+  endpoint: "artworks",
+  query: {
+    "populate": "*",
+    "sort": "Date:desc",
+    "pagination[limit]": "20",
+  },
   wrappedByKey: "data",
 });
 
 const novels = await fetchApi<Novel[]>({
-  endpoint: "novels?sort=Date:desc&pagination[limit]=20",
+  endpoint: "novels",
+  query: {
+    "sort": "Date:desc",
+    "pagination[limit]": "20",
+  },
   wrappedByKey: "data",
 });
 
