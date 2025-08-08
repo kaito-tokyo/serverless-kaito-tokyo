@@ -1,4 +1,4 @@
-import type { Artwork } from "../interfaces/Artwork";
+import type { Artwork } from "../interfaces/Artwork.js";
 
 export function processArtwork(artwork: Artwork) {
   if (
