@@ -17,6 +17,11 @@ export interface Env {
   TRANSFER_TOKEN_SALT: string;
   CF_ACCESS_KEY_ID: string;
   CF_SECRET_ACCESS_KEY: string;
+  GITHUB_APP_ID: string;
+  GITHUB_INSTALLATION_ID: string;
+  GITHUB_PRIVATE_KEY: string;
+  GITHUB_OWNER: string;
+  GITHUB_REPO: string;
 
   // Variables from the [vars] section in wrangler.toml
   CF_ENDPOINT: string;
