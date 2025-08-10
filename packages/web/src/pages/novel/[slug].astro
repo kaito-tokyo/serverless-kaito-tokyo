@@ -32,6 +32,9 @@ const metadata = novel.Description ? matter(novel.Description) : { data: {} };
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{novel.Title}</title>
+    <meta property="og:title" content={novel.Title} />
+    <meta property="og:image" content={`/novel/og/${novel.slug}.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
 
   <body>
