@@ -23,7 +23,7 @@ const GET = async ({ props }) => {
   const novel = props as Novel;
 
   const fontPath = path.resolve(
-    "./public/assets/fonts/NotoSerifJP-Regular.otf",
+    "./src/assets/fonts/NotoSerifJP-ExtraLight.ttf",
   );
   const fontData = fs.readFileSync(fontPath);
 
@@ -41,8 +41,12 @@ const GET = async ({ props }) => {
         border: "20px solid #e0e0e0",
       }}
     >
-      <h1 style={{ fontSize: "60px", marginBottom: "20px" }}>${novel.Title}</h1>
-      <p style={{ fontSize: "30px" }}>${body}...</p>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <h1 style={{ fontSize: "60px", marginBottom: "20px" }}>
+          ${novel.Title}
+        </h1>
+        <p style={{ fontSize: "30px" }}>${body}...</p>
+      </div>
     </div>
   `);
 
@@ -53,7 +57,7 @@ const GET = async ({ props }) => {
       {
         name: "Noto Serif JP",
         data: fontData,
-        weight: 400,
+        weight: 200,
         style: "normal",
       },
     ],
