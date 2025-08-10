@@ -3,6 +3,7 @@
   "compatibility_date": "2025-05-05",
   "main": "./dist/_worker.js/index.js",
   "assets": {
+    "binding": "ASSETS",
     "directory": "./dist",
     "run_worker_first": ["/api/*"],
   },
