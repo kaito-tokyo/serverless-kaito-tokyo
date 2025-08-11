@@ -15,7 +15,23 @@
       "type": "uid",
       "required": true
     },
-    "Html": {
+    "Title": {
+      "type": "string",
+      "required": true
+    },
+    "Description": {
+      "type": "text",
+      "required": true
+    },
+    "Lang": {
+      "type": "string",
+      "required": true
+    },
+    "Head": {
+      "type": "text",
+      "required": true
+    },
+    "Body": {
       "type": "text",
       "required": true
     }
