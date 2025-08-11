@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "novel_apps",
+  "info": {
+    "singularName": "novel-app",
+    "pluralName": "novel-apps",
+    "displayName": "NovelApp"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "uid",
+      "required": true
+    },
+    "Html": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
