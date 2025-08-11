@@ -49,7 +49,12 @@ function getSdrImageSrcset(artwork: Artwork): string {
 }
 ---
 
-<Layout title={`${artwork.Title} - Kaito.tokyo`}>
+<Layout
+  title={`${artwork.Title} - Kaito.tokyo`}
+  description={artwork.Title}
+  ogp_image={`${Astro.url.origin}${artwork.SdrImage.formats.large.url}`}
+  ogp_url={Astro.url.href}
+>
   <h1>{artwork.Title} - Kaito.tokyo</h1>
   <section class="artwork-image">
     <figure>

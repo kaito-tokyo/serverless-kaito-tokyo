@@ -1,5 +1,5 @@
+import { getNovelBodyPreview } from "../../../lib/novel-processor";
 import satori from "satori";
-import { html } from "satori-html";
 import sharp from "sharp";
 import fetchApi from "../../../lib/strapi";
 import type { Novel } from "../../../interfaces/Novel";
@@ -26,12 +26,15 @@ const GET = async ({ props }) => {
     "./src/assets/fonts/NotoSerifJP-ExtraLight.ttf",
   );
   const fontData = fs.readFileSync(fontPath);
+  const boldFontPath = path.resolve("./src/assets/fonts/NotoSerifJP-Bold.ttf");
+  const boldFontData = fs.readFileSync(boldFontPath);
 
-  const body = novel.Body.slice(0, 100);
+  const body = `${getNovelBodyPreview(novel, 300)}`;
 
-  const template = html(`
-    <div
-      style={{
+  const template = {
+    type: "div",
+    props: {
+      style: {
         display: "flex",
         flexDirection: "column",
         width: "1200px",
@@ -39,16 +42,37 @@ const GET = async ({ props }) => {
         padding: "40px",
         backgroundColor: "#f5f5f5",
         border: "20px solid #e0e0e0",
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <h1 style={{ fontSize: "60px", marginBottom: "20px" }}>
-          ${novel.Title}
-        </h1>
-        <p style={{ fontSize: "30px" }}>${body}...</p>
-      </div>
-    </div>
-  `);
+      },
+      children: [
+        {
+          type: "div",
+          props: {
+            style: {
+              fontFamily: "'Noto Serif JP Bold'",
+              fontSize: "40px",
+              marginBottom: "20px",
+            },
+            children: `『${novel.Title}』`,
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: {
+              fontSize: "40px",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 7,
+              textIndent: "1em",
+            },
+            children: body,
+          },
+        },
+      ],
+    },
+  };
 
   const svg = await satori(template, {
     width: 1200,
@@ -58,6 +82,12 @@ const GET = async ({ props }) => {
         name: "Noto Serif JP",
         data: fontData,
         weight: 200,
+        style: "normal",
+      },
+      {
+        name: "Noto Serif JP Bold",
+        data: boldFontData,
+        weight: 700,
         style: "normal",
       },
     ],
