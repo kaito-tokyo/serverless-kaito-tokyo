@@ -1,5 +1,6 @@
 ---
 import type { Novel } from "../interfaces/Novel.js";
+import { getNovelBodyPreview } from "../lib/novel-processor.js";
 
 interface Props {
   novel: Novel;
@@ -12,14 +13,7 @@ const { novel } = Astro.props;
   <a href={`/novel/${novel.slug}`}>
     <p>{novel.Date}</p>
     <p>{novel.Title}</p>
-    <p class="body-preview">
-      {
-        novel.Body.split("\n")
-          .filter((line) => !line.startsWith("#"))
-          .join("\n")
-          .substring(0, 100)
-      }
-    </p>
+    <p class="body-preview">{getNovelBodyPreview(novel)}</p>
   </a>
 </li>
 
