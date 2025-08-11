@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import fetchApi from "../../lib/strapi.js";
+import type { NovelApp } from "../../interfaces/NovelApp.js";
+
+const novelApps = await fetchApi<NovelApp[]>({
+  endpoint: "novel-apps?sort=publishedAt:desc",
+  wrappedByKey: "data",
+});
+---
+
+<Layout title="アプリ - kaito.tokyo">
+  <h1>アプリ</h1>
+  <ul>
+    {
+      novelApps.map((app) => (
+        <li>
+          <a href={`/novel-app/${app.slug}`}>{app.slug}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
+
+<style>
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+</style>
