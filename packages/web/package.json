@@ -17,5 +17,8 @@
     "satori-html": "^0.3.2",
     "sharp": "^0.34.3",
     "unified": "^11.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1"
   }
 }

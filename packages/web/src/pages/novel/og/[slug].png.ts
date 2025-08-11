@@ -5,6 +5,7 @@ import fetchApi from "../../../lib/strapi";
 import type { Novel } from "../../../interfaces/Novel";
 import fs from "fs";
 import path from "path";
+import type { APIRoute } from "astro";
 
 export async function getStaticPaths() {
   const novels = await fetchApi<Novel[]>({
@@ -18,9 +19,8 @@ export async function getStaticPaths() {
   }));
 }
 
-// @ts-ignore
-const GET = async ({ props }) => {
-  const novel = props as Novel;
+export const GET: APIRoute<Novel> = async ({ props }) => {
+  const novel = props;
 
   const fontPath = path.resolve(
     "./src/assets/fonts/NotoSerifJP-ExtraLight.ttf",
@@ -95,11 +95,9 @@ const GET = async ({ props }) => {
 
   const png = await sharp(Buffer.from(svg)).png().toBuffer();
 
-  return new Response(png, {
+  return new Response(new Uint8Array(png), {
     headers: {
       "Content-Type": "image/png",
     },
   });
 };
-
-export { GET };
