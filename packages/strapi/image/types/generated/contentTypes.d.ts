@@ -406,6 +406,35 @@ export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiNovelAppNovelApp extends Struct.CollectionTypeSchema {
+  collectionName: "novel_apps";
+  info: {
+    displayName: "NovelApp";
+    pluralName: "novel-apps";
+    singularName: "novel-app";
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+    Html: Schema.Attribute.Text & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      "oneToMany",
+      "api::novel-app.novel-app"
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiNovelNovel extends Struct.CollectionTypeSchema {
   collectionName: "novels";
   info: {
@@ -978,6 +1007,7 @@ declare module "@strapi/strapi" {
       "admin::transfer-token-permission": AdminTransferTokenPermission;
       "admin::user": AdminUser;
       "api::artwork.artwork": ApiArtworkArtwork;
+      "api::novel-app.novel-app": ApiNovelAppNovelApp;
       "api::novel.novel": ApiNovelNovel;
       "plugin::content-releases.release": PluginContentReleasesRelease;
       "plugin::content-releases.release-action": PluginContentReleasesReleaseAction;
