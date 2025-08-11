@@ -48,7 +48,7 @@ export const GET: APIRoute<Novel> = async ({ props }) => {
           type: "div",
           props: {
             style: {
-              fontFamily: "'Noto Serif JP Bold'",
+              fontFamily: "Noto Serif JP Bold",
               fontSize: "40px",
               marginBottom: "20px",
             },
