@@ -36,7 +36,10 @@ const description = novel.Description ?? getNovelBodyPreview(novel);
     <title>{novel.Title}</title>
     <meta property="og:title" content={novel.Title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`/novel/og/${novel.slug}.png`} />
+    <meta
+      property="og:image"
+      content={`${new URL(`/novel/og/${novel.slug}.png`, Astro.site).href}`}
+    />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
 
