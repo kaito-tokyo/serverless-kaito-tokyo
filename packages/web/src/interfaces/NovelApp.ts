@@ -1,8 +1,12 @@
 export interface NovelApp {
   readonly id: number;
 
-  readonly Html: string;
   readonly slug: string;
+  readonly Title: string;
+  readonly Description: string;
+  readonly Lang: string;
+  readonly Head: string;
+  readonly Body: string;
 
   readonly createdAt: string;
   readonly updatedAt: string;

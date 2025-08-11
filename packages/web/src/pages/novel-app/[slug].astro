@@ -1,7 +1,6 @@
 ---
 import fetchApi from "../../lib/strapi.js";
 import type { NovelApp } from "../../interfaces/NovelApp.js";
-import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
   const novelApps = await fetchApi<NovelApp[]>({
@@ -17,6 +16,24 @@ export async function getStaticPaths() {
 type Props = NovelApp;
 
 const app = Astro.props;
+const description = app.Description ?? "";
 ---
 
-<html set:html={app.Html} />
+<!doctype html>
+<html lang={app.Lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{app.Title}</title>
+    <meta property="og:title" content={app.Title} />
+    <meta property="og:description" content={description} />
+    <meta
+      property="og:image"
+      content={`${new URL(`/novel-app/og/${app.slug}.png`, Astro.site).href}`}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <Fragment set:html={app.Head} />
+  </head>
+
+  <body set:html={app.Body} />
+</html>
