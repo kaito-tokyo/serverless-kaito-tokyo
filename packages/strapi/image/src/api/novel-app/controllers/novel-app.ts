@@ -2,6 +2,6 @@
  * novel-app controller
  */
 
-import { factories } from '@strapi/strapi'
+import { factories } from "@strapi/strapi";
 
-export default factories.createCoreController('api::novel-app.novel-app');
+export default factories.createCoreController("api::novel-app.novel-app");
