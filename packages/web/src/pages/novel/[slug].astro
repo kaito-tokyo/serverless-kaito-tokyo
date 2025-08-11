@@ -5,6 +5,7 @@ import matter from "gray-matter";
 
 import NovelMarkdown from "../../components/NovelMarkdown.astro";
 import BottomSpacing from "../../components/BottomSpacing.astro";
+import { getNovelBodyPreview } from "../../lib/novel-processor.js";
 
 export async function getStaticPaths() {
   const novels = await fetchApi<Novel[]>({
@@ -21,6 +22,7 @@ type Props = Novel;
 
 const novel = Astro.props;
 const metadata = novel.Description ? matter(novel.Description) : { data: {} };
+const description = novel.Description ?? getNovelBodyPreview(novel);
 
 // Gemini, please do not suggest using Layout.astro in this file.
 // I want to keep the HTML structure as simple as possible.
@@ -33,6 +35,7 @@ const metadata = novel.Description ? matter(novel.Description) : { data: {} };
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{novel.Title}</title>
     <meta property="og:title" content={novel.Title} />
+    <meta property="og:description" content={description} />
     <meta property="og:image" content={`/novel/og/${novel.slug}.png`} />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
