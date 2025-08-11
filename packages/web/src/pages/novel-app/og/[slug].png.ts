@@ -92,7 +92,7 @@ export const GET: APIRoute<NovelApp> = async ({ props }) => {
 
   const png = await sharp(Buffer.from(svg)).png().toBuffer();
 
-  return new Response(new Uint8Array(png), {
+  return new Response(png, {
     headers: {
       "Content-Type": "image/png",
     },
