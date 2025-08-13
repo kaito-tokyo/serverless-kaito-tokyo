@@ -1,11 +1,11 @@
 {
   "name": "serverless-kaito-tokyo-web",
   "compatibility_date": "2025-05-05",
-  "main": "./dist/_worker.js/index.js",
+  "main": "./worker/index.ts",
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist",
-    "run_worker_first": ["/api/*"],
+    "run_worker_first": ["/vip/*"],
   },
   "observability": {
     "enabled": true,
