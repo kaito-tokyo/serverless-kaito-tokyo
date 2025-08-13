@@ -35,12 +35,12 @@ export default ({ env }) => ({
         {
           uid: "api::artwork.artwork",
           eventType: "strapi-artwork-update",
-          actions: ["publish", "unpublish"],
+          actions: ["create", "update", "delete", "publish", "unpublish"],
         },
         {
           uid: "api::novel.novel",
           eventType: "strapi-novel-update",
-          actions: ["publish", "unpublish"],
+          actions: ["create", "update", "delete", "publish", "unpublish"],
         },
       ],
     },
