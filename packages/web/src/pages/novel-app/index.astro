@@ -15,7 +15,9 @@ const novelApps = await fetchApi<NovelApp[]>({
     {
       novelApps.map((app) => (
         <li>
-          <a href={`/novel-app/${app.slug}`}>{app.slug}</a>
+          <a href={`${app.Vip ? "/vip" : ""}/novel-app/${app.slug}`}>
+            {app.Title}
+          </a>
         </li>
       ))
     }

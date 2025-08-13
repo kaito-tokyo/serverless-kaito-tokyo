@@ -7,6 +7,7 @@ export interface NovelApp {
   readonly Lang: string;
   readonly Head: string;
   readonly Body: string;
+  readonly Vip: boolean;
 
   readonly createdAt: string;
   readonly updatedAt: string;
