@@ -129,10 +129,8 @@ const { slug } = Astro.params;
         `/api/vip/roleplay-chat/${encodeURIComponent(slug)}`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ message }),
+          body: new URLSearchParams({ message }),
+          credentials: "include",
         },
       );
 
