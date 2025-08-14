@@ -1,6 +1,6 @@
 {
   // The name of your Worker.
-  "name": "serverless-kaito-tokyo-strapi-production-worker",
+  "name": "serverless-kaito-tokyo-strapi",
   // The entrypoint for your Worker's code.
   "main": "src/index.ts",
 
