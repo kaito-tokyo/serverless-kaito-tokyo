@@ -21,7 +21,7 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     );
   }
 
-  const assetPath = `/internal/roleplay-chat/${slug}.json`;
+  const assetPath = `/internal/roleplay-actor/${slug}.json`;
   const assetUrl = new URL(assetPath, "http://internal");
 
   const assetResponse = await c.env.ASSETS.fetch(new Request(assetUrl));
