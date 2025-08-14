@@ -1,6 +1,7 @@
 /// <reference path="../../worker-configuration.d.ts" />
 
 import { Hono } from "hono";
+import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
 
 type Bindings = {
   AI: Ai;
@@ -20,9 +21,8 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     );
   }
 
-  const assetPath = `/vip/roleplay-chat/system-prompt/${slug}.txt`;
-  const url = new URL(c.req.url);
-  const assetUrl = `${url.origin}${assetPath}`;
+  const assetPath = `/internal/roleplay-actor/${slug}.json`;
+  const assetUrl = new URL(assetPath, "http://internal");
 
   const assetResponse = await c.env.ASSETS.fetch(new Request(assetUrl));
 
@@ -30,10 +30,10 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     return c.json({ error: "System prompt asset not found." }, 404);
   }
 
-  const system_prompt = await assetResponse.text();
+  const { SystemPrompt }: RoleplayActor = await assetResponse.json();
 
   const messages = [
-    { role: "system", content: system_prompt },
+    { role: "system", content: SystemPrompt },
     { role: "user", content: message as string },
   ];
 
