@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "roleplay_actors",
+  "info": {
+    "singularName": "roleplay-actor",
+    "pluralName": "roleplay-actors",
+    "displayName": "RoleplayActor"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "uid",
+      "required": true
+    },
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "SystemPrompt": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
