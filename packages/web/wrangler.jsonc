@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "serverless-kaito-tokyo-web",
   "compatibility_date": "2025-05-05",
-  "main": "./worker/src/index.ts",
+  "main": "./api/src/index.ts",
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
