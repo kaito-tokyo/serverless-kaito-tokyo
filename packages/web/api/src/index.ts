@@ -2,11 +2,22 @@
 
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { sign, verify } from "hono/jwt";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
 
 type Bindings = {
   AI: Ai;
   ASSETS: Fetcher;
+  API_JWS_SECRET: string;
+};
+
+type Message = {
+  role: string;
+  content: string;
+};
+
+type ChatState = {
+  previousMessages: Message[];
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -24,14 +35,33 @@ app.use(
 app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   const slug = c.req.param("slug");
   const params = await c.req.parseBody();
-  let previousMessages = params.previousMessages
-    ? JSON.parse(params.previousMessages.toString())
-    : [];
-  const { nextUserMessage } = params;
+  const nextUserMessage = params.message as string;
+  const previousStateJws = params.previousState as string | undefined;
+  let previousMessages: Message[] = [];
+  if (previousStateJws) {
+    try {
+      const payload = (await verify(
+        previousStateJws.toString(),
+        c.env.API_JWS_SECRET,
+      )) as ChatState;
+      if (payload) {
+        previousMessages = payload.previousMessages;
+      }
+    } catch (e) {
+      return c.json({ error: "Invalid previous state token." }, 400);
+    }
+  }
 
   if (!nextUserMessage) {
     return c.json(
       { error: 'Please provide a "message" in the request body.' },
+      400,
+    );
+  }
+
+  if ([...nextUserMessage].length > 140) {
+    return c.json(
+      { error: "The message must be 140 characters or less." },
       400,
     );
   }
@@ -47,7 +77,7 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
 
   const { SystemPrompt }: RoleplayActor = await assetResponse.json();
 
-  const messages = [
+  const messages: Message[] = [
     { role: "system", content: SystemPrompt },
     ...previousMessages,
     { role: "user", content: nextUserMessage },
@@ -57,13 +87,18 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     messages,
   });
 
-  const responseMessages = [
+  const responseMessages: Message[] = [
     ...previousMessages,
     { role: "user", content: nextUserMessage },
     { role: "assistant", content: response },
   ];
 
-  return c.json(responseMessages);
+  const previousState = await sign(
+    { previousMessages: responseMessages },
+    c.env.API_JWS_SECRET,
+  );
+
+  return c.json({ response, previousState });
 });
 
 export default app;

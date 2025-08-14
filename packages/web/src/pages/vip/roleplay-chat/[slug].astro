@@ -108,7 +108,7 @@ const { slug } = Astro.params;
   const messageInput = document.getElementById("message-input");
   const sendButton = document.getElementById("send-button");
 
-  let chatHistory = [];
+  let previousStateToken = null;
 
   function addMessage(message, sender) {
     const messageElement = document.createElement("div");
@@ -119,31 +119,24 @@ const { slug } = Astro.params;
   }
 
   async function sendMessage() {
-    const nextUserMessageContent = messageInput.value.trim();
-    if (!nextUserMessageContent) return;
+    const message = messageInput.value.trim();
+    if (!message) return;
 
-    const userMessage = {
-      role: "user",
-      content: nextUserMessageContent,
-    };
-
-    addMessage(userMessage.content, userMessage.role);
-
-    const previousMessages = chatHistory;
-    chatHistory = [...previousMessages, userMessage];
-
+    addMessage(message, "user");
     messageInput.value = "";
     sendButton.disabled = true;
 
     try {
+      const body = new URLSearchParams({ message });
+      if (previousStateToken) {
+        body.append("previousState", previousStateToken);
+      }
+
       const response = await fetch(
         `/api/vip/roleplay-chat/${encodeURIComponent(slug)}`,
         {
           method: "POST",
-          body: new URLSearchParams({
-            nextUserMessage: userMessage.content,
-            previousMessages: JSON.stringify(previousMessages),
-          }),
+          body: body,
           credentials: "include",
         },
       );
@@ -152,33 +145,18 @@ const { slug } = Astro.params;
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const newChatHistory = await response.json();
-      const assistantMessage = newChatHistory[newChatHistory.length - 1];
+      const data = await response.json();
+      const assistantMessage = data.response;
+      previousStateToken = data.previousState;
 
-      if (assistantMessage && assistantMessage.role === "assistant") {
-        addMessage(assistantMessage.content, assistantMessage.role);
-        chatHistory = newChatHistory;
+      if (assistantMessage) {
+        addMessage(assistantMessage, "assistant");
       } else {
         throw new Error("Invalid response from server.");
       }
     } catch (error) {
-      console.error(
-        "Error sending message:",
-        error && error.message ? error.message : error,
-      );
-      let userErrorMessage = "An unexpected error occurred.";
-      if (error instanceof TypeError) {
-        userErrorMessage =
-          "Network error: Please check your connection and try again.";
-      } else if (error.message && error.message.startsWith("HTTP error!")) {
-        userErrorMessage =
-          "Server error: Unable to process your request at the moment.";
-      }
-      addMessage(userErrorMessage, "assistant");
-      chatHistory.pop();
-      if (chatBox.lastChild) {
-        chatBox.removeChild(chatBox.lastChild);
-      }
+      console.error("Error sending message:", error);
+      addMessage("Sorry, something went wrong.", "assistant");
     } finally {
       sendButton.disabled = false;
       messageInput.focus();
