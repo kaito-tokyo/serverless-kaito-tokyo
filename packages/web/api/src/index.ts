@@ -37,7 +37,7 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     { role: "user", content: message as string },
   ];
 
-  const response = await c.env.AI.run("@cf/meta/llama-2-7b-chat-int8", {
+  const response = await c.env.AI.run("@cf/google/gemma-3-12b-it", {
     messages,
   });
 
