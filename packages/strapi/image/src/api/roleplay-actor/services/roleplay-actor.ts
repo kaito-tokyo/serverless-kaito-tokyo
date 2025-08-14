@@ -2,6 +2,8 @@
  * roleplay-actor service
  */
 
-import { factories } from '@strapi/strapi';
+import { factories } from "@strapi/strapi";
 
-export default factories.createCoreService('api::roleplay-actor.roleplay-actor');
+export default factories.createCoreService(
+  "api::roleplay-actor.roleplay-actor",
+);
