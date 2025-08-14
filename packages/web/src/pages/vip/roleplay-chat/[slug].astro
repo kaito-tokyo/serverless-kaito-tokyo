@@ -108,6 +108,8 @@ const { slug } = Astro.params;
   const messageInput = document.getElementById("message-input");
   const sendButton = document.getElementById("send-button");
 
+  let chatHistory = [];
+
   function addMessage(message, sender) {
     const messageElement = document.createElement("div");
     messageElement.classList.add("message", `${sender}-message`);
@@ -117,10 +119,19 @@ const { slug } = Astro.params;
   }
 
   async function sendMessage() {
-    const message = messageInput.value.trim();
-    if (!message) return;
+    const nextUserMessageContent = messageInput.value.trim();
+    if (!nextUserMessageContent) return;
 
-    addMessage(message, "user");
+    const userMessage = {
+      role: "user",
+      content: nextUserMessageContent,
+    };
+
+    addMessage(userMessage.content, userMessage.role);
+
+    const previousMessages = chatHistory;
+    chatHistory = [...previousMessages, userMessage];
+
     messageInput.value = "";
     sendButton.disabled = true;
 
@@ -129,7 +140,10 @@ const { slug } = Astro.params;
         `/api/vip/roleplay-chat/${encodeURIComponent(slug)}`,
         {
           method: "POST",
-          body: new URLSearchParams({ message }),
+          body: new URLSearchParams({
+            nextUserMessage: userMessage.content,
+            previousMessages: JSON.stringify(previousMessages),
+          }),
           credentials: "include",
         },
       );
@@ -138,9 +152,14 @@ const { slug } = Astro.params;
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      if (data.reply) {
-        addMessage(data.reply, "assistant");
+      const newChatHistory = await response.json();
+      const assistantMessage = newChatHistory[newChatHistory.length - 1];
+
+      if (assistantMessage && assistantMessage.role === "assistant") {
+        addMessage(assistantMessage.content, assistantMessage.role);
+        chatHistory = newChatHistory;
+      } else {
+        throw new Error("Invalid response from server.");
       }
     } catch (error) {
       console.error(
@@ -156,6 +175,10 @@ const { slug } = Astro.params;
           "Server error: Unable to process your request at the moment.";
       }
       addMessage(userErrorMessage, "assistant");
+      chatHistory.pop();
+      if (chatBox.lastChild) {
+        chatBox.removeChild(chatBox.lastChild);
+      }
     } finally {
       sendButton.disabled = false;
       messageInput.focus();

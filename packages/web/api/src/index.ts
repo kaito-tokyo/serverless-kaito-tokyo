@@ -1,6 +1,7 @@
 /// <reference path="../../worker-configuration.d.ts" />
 
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
 
 type Bindings = {
@@ -10,11 +11,25 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
+app.use(
+  "/api/vip/roleplay-chat/:slug",
+  cors({
+    origin: ["http://localhost:4321", "https://www.kaito.tokyo"],
+    allowMethods: ["POST", "OPTIONS"],
+    allowHeaders: ["Content-Type"],
+    credentials: true,
+  }),
+);
+
 app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   const slug = c.req.param("slug");
-  const { message } = await c.req.parseBody();
+  const params = await c.req.parseBody();
+  let previousMessages = params.previousMessages
+    ? JSON.parse(params.previousMessages.toString())
+    : [];
+  const { nextUserMessage } = params;
 
-  if (!message) {
+  if (!nextUserMessage) {
     return c.json(
       { error: 'Please provide a "message" in the request body.' },
       400,
@@ -34,14 +49,21 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
 
   const messages = [
     { role: "system", content: SystemPrompt },
-    { role: "user", content: message as string },
+    ...previousMessages,
+    { role: "user", content: nextUserMessage },
   ];
 
-  const response = await c.env.AI.run("@cf/google/gemma-3-12b-it", {
+  const { response } = await c.env.AI.run("@cf/google/gemma-3-12b-it", {
     messages,
   });
 
-  return c.json(response);
+  const responseMessages = [
+    ...previousMessages,
+    { role: "user", content: nextUserMessage },
+    { role: "assistant", content: response },
+  ];
+
+  return c.json(responseMessages);
 });
 
 export default app;
