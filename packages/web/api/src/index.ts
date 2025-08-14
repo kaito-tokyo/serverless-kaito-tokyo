@@ -11,7 +11,7 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   const slug = c.req.param("slug");
-  const { message } = await c.req.json();
+  const { message } = await c.req.parseBody();
 
   if (!message) {
     return c.json(
