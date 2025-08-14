@@ -59,6 +59,13 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     );
   }
 
+  if ([...nextUserMessage].length > 140) {
+    return c.json(
+      { error: "The message must be 140 characters or less." },
+      400,
+    );
+  }
+
   const assetPath = `/internal/roleplay-actor/${slug}.json`;
   const assetUrl = new URL(assetPath, "http://internal");
 
