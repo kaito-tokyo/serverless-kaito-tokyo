@@ -502,6 +502,37 @@ export interface ApiNovelNovel extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiRoleplayActorRoleplayActor
+  extends Struct.CollectionTypeSchema {
+  collectionName: "roleplay_actors";
+  info: {
+    displayName: "RoleplayActor";
+    pluralName: "roleplay-actors";
+    singularName: "roleplay-actor";
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      "oneToMany",
+      "api::roleplay-actor.roleplay-actor"
+    > &
+      Schema.Attribute.Private;
+    Name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID & Schema.Attribute.Required;
+    SystemPrompt: Schema.Attribute.Text & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: "strapi_releases";
@@ -1014,6 +1045,7 @@ declare module "@strapi/strapi" {
       "api::artwork.artwork": ApiArtworkArtwork;
       "api::novel-app.novel-app": ApiNovelAppNovelApp;
       "api::novel.novel": ApiNovelNovel;
+      "api::roleplay-actor.roleplay-actor": ApiRoleplayActorRoleplayActor;
       "plugin::content-releases.release": PluginContentReleasesRelease;
       "plugin::content-releases.release-action": PluginContentReleasesReleaseAction;
       "plugin::i18n.locale": PluginI18NLocale;
