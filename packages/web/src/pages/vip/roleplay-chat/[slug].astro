@@ -125,13 +125,16 @@ const { slug } = Astro.params;
     sendButton.disabled = true;
 
     try {
-      const response = await fetch(`/api/vip/roleplay-chat/${encodeURIComponent(slug)}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `/api/vip/roleplay-chat/${encodeURIComponent(slug)}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message }),
         },
-        body: JSON.stringify({ message }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -142,12 +145,17 @@ const { slug } = Astro.params;
         addMessage(data.reply, "assistant");
       }
     } catch (error) {
-      console.error("Error sending message:", error && error.message ? error.message : error);
+      console.error(
+        "Error sending message:",
+        error && error.message ? error.message : error,
+      );
       let userErrorMessage = "An unexpected error occurred.";
       if (error instanceof TypeError) {
-        userErrorMessage = "Network error: Please check your connection and try again.";
+        userErrorMessage =
+          "Network error: Please check your connection and try again.";
       } else if (error.message && error.message.startsWith("HTTP error!")) {
-        userErrorMessage = "Server error: Unable to process your request at the moment.";
+        userErrorMessage =
+          "Server error: Unable to process your request at the moment.";
       }
       addMessage(userErrorMessage, "assistant");
     } finally {
