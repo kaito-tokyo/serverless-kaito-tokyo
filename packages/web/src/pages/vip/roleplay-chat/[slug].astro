@@ -21,18 +21,24 @@ const { slug } = Astro.params;
 ---
 
 <Layout title={`${actor.Name} - Roleplay Chat`}>
-  <main>
-    <div id="chat-container">
-      <div id="chat-box"></div>
-      <div id="input-container">
-        <input type="text" id="message-input" placeholder="Type a message..." />
-        <button id="send-button">Send</button>
-      </div>
+  <div id="chat-container">
+    <div id="chat-name">{actor.Name}</div>
+    <div id="chat-box"></div>
+    <div id="input-container">
+      <input type="text" id="message-input" placeholder="Type a message..." />
+      <button id="send-button">Send</button>
     </div>
-  </main>
+  </div>
 </Layout>
 
-<style>
+<style is:global>
+  :root {
+    --primary-background-color: #adf0b9;
+    --primary-foreground-color: #333;
+    --accent-background-color: #348107;
+    --accent-foreground-color: #eee;
+  }
+
   main {
     display: flex;
     justify-content: center;
@@ -41,17 +47,25 @@ const { slug } = Astro.params;
   }
 
   #chat-container {
-    width: 100%;
+    width: 600px;
     max-width: 600px;
     height: 100%;
-    border: 1px solid #ccc;
+    border: 2px solid var(--accent-foreground-color);
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     overflow: hidden;
   }
 
+  #chat-name {
+    background-color: var(--accent-background-color);
+    color: var(--accent-foreground-color);
+    padding: 1rem;
+    font-weight: bold;
+  }
+
   #chat-box {
+    background-color: var(--primary-background-color);
     flex-grow: 1;
     padding: 1rem;
     overflow-y: auto;
@@ -65,6 +79,7 @@ const { slug } = Astro.params;
     border-radius: 1rem;
     max-width: 80%;
     word-wrap: break-word;
+    white-space: pre-wrap;
   }
 
   .user-message {
@@ -83,6 +98,7 @@ const { slug } = Astro.params;
     display: flex;
     padding: 1rem;
     border-top: 1px solid #ccc;
+    background-color: var(--accent-background-color);
   }
 
   #message-input {
