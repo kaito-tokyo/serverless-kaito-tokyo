@@ -21,14 +21,16 @@ const { slug } = Astro.params;
 ---
 
 <Layout title={`${actor.Name} - Roleplay Chat`}>
-  <div id="chat-container">
-    <div id="chat-name">{actor.Name}</div>
-    <div id="chat-box"></div>
-    <div id="input-container">
-      <input type="text" id="message-input" placeholder="Type a message..." />
-      <button id="send-button">Send</button>
+  <section>
+    <div id="chat-container">
+      <div id="chat-name">{actor.Name}</div>
+      <div id="chat-box"></div>
+      <div id="input-container">
+        <input type="text" id="message-input" placeholder="Type a message..." />
+        <button id="send-button">Send</button>
+      </div>
     </div>
-  </div>
+  </section>
 </Layout>
 
 <style>
@@ -39,7 +41,7 @@ const { slug } = Astro.params;
     --accent-foreground-color: #eee;
   }
 
-  main {
+  section {
     display: flex;
     justify-content: center;
     align-items: center;
