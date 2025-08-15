@@ -31,7 +31,7 @@ const { slug } = Astro.params;
   </div>
 </Layout>
 
-<style is:global>
+<style>
   :root {
     --primary-background-color: #adf0b9;
     --primary-foreground-color: #333;
@@ -74,26 +74,6 @@ const { slug } = Astro.params;
     gap: 1rem;
   }
 
-  .message {
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
-    max-width: 80%;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-  }
-
-  .user-message {
-    background-color: #007bff;
-    color: white;
-    align-self: flex-end;
-  }
-
-  .assistant-message {
-    background-color: #e9e9eb;
-    color: black;
-    align-self: flex-start;
-  }
-
   #input-container {
     display: flex;
     padding: 1rem;
@@ -116,6 +96,28 @@ const { slug } = Astro.params;
     color: white;
     border-radius: 4px;
     cursor: pointer;
+  }
+</style>
+
+<style is:global>
+  .message {
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    max-width: 80%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  .user-message {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+  }
+
+  .assistant-message {
+    background-color: #e9e9eb;
+    color: black;
+    align-self: flex-start;
   }
 </style>
 
