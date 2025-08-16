@@ -3,6 +3,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { sign, verify } from "hono/jwt";
+import { decodeBase64 } from "hono/utils/decode";
+import { uuidv7 } from "uuidv7";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
 
 type Bindings = {
@@ -34,6 +36,8 @@ app.use(
 
 app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   const slug = c.req.param("slug");
+  const audience = `https://www.kaito.tokyo/api/vip/roleplay-chat/${slug}`;
+
   const params = await c.req.parseBody();
   const nextUserMessage = params.message as string;
   const previousStateJws = params.previousState as string | undefined;
@@ -42,8 +46,18 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     try {
       const payload = (await verify(
         previousStateJws.toString(),
-        c.env.API_JWS_SECRET,
-      )) as ChatState;
+        decodeBase64(c.env.API_JWS_SECRET),
+        "HS256",
+      )) as ChatState & { iss?: string; aud?: string; nbf?: number };
+      if (payload.iss !== "https://www.kaito.tokyo/api/internal") {
+        return c.json({ error: "Invalid token issuer." }, 400);
+      }
+      if (payload.aud !== audience) {
+        return c.json({ error: "Invalid token audience." }, 400);
+      }
+      if (payload.nbf && payload.nbf > Math.floor(Date.now() / 1000)) {
+        return c.json({ error: "Token is not active yet." }, 400);
+      }
       if (payload) {
         previousMessages = payload.previousMessages;
       }
@@ -93,9 +107,19 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     { role: "assistant", content: response },
   ];
 
+  const now = Math.floor(Date.now() / 1000);
   const previousState = await sign(
-    { previousMessages: responseMessages },
-    c.env.API_JWS_SECRET,
+    {
+      jti: uuidv7(),
+      previousMessages: responseMessages,
+      exp: now + 60 * 60, // 1 hour
+      iss: "https://www.kaito.tokyo/api/internal",
+      aud: audience,
+      nbf: now - 5 * 60, // 5 minutes
+      iat: now,
+    },
+    decodeBase64(c.env.API_JWS_SECRET),
+    "HS256",
   );
 
   return c.json({ response, previousState });

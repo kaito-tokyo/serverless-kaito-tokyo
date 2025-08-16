@@ -22,7 +22,8 @@
     "satori": "^0.16.2",
     "satori-html": "^0.3.2",
     "sharp": "^0.34.3",
-    "unified": "^11.0.5"
+    "unified": "^11.0.5",
+    "uuidv7": "^1.0.2"
   },
   "devDependencies": {
     "@types/node": "^24.2.1",
