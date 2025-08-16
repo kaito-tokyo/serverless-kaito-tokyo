@@ -102,3 +102,12 @@ export async function generateApiInternalToken<T>(
     ALGORITHM,
   );
 }
+
+export function getOpenIDConfiguration() {
+  return {
+    issuer: ISSUER,
+    response_types_supported: ["token"],
+    subject_types_supported: ["public"],
+    id_token_signing_alg_values_supported: [ALGORITHM],
+  };
+}

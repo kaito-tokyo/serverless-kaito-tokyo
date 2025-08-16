@@ -5,6 +5,7 @@ import { cors } from "hono/cors";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
 import {
   generateApiInternalToken,
+  getOpenIDConfiguration,
   verifyApiInternalToken,
 } from "./api-internal-token";
 
@@ -137,6 +138,10 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   });
 
   return c.json({ response, previousState });
+});
+
+app.get("/api/internal/.well-known/openid-configuration", (c) => {
+  return c.json(getOpenIDConfiguration());
 });
 
 export default app;
