@@ -2,16 +2,13 @@
 
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { sign } from "hono/jwt";
-import { decodeBase64 } from "hono/utils/encode";
-import { uuidv7 } from "uuidv7";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
-import { verifyToken } from "./jwt";
+import { generateApiInternalToken, verifyApiInternalToken } from "./api-internal-token";
 
 type Bindings = {
   AI: Ai;
   ASSETS: Fetcher;
-  API_JWS_SECRET: string;
+  API_INTERNAL_JWT_SECRET: string;
   RATE_LIMITER_20_PER_5_MINUTES: RateLimit;
   RATE_LIMITER_100_PER_HOUR: RateLimit;
 };
@@ -73,22 +70,11 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
 
   const params = await c.req.parseBody();
   const nextUserMessage = params.message as string;
-  const previousStateJws = params.previousState as string | undefined;
+  const previousStateToken = params.previousState as string | undefined;
   let previousMessages: Message[] = [];
-  const secretKey = await crypto.subtle.importKey(
-    "raw",
-    new Uint8Array(decodeBase64(c.env.API_JWS_SECRET)),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign", "verify"],
-  );
+
   if (previousStateJws) {
-    const result = await verifyToken(
-      c,
-      previousStateJws.toString(),
-      secretKey,
-      audience,
-    );
+    const result = await verifyApiInternalToken<ChatState>(c, audience, previousStateJws.toString());
     if (!result.success) {
       return result.response;
     }
@@ -139,20 +125,9 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     { role: "assistant", content: response },
   ];
 
-  const now = Math.floor(Date.now() / 1000);
-  const previousState = await sign(
-    {
-      jti: uuidv7(),
-      previousMessages: responseMessages,
-      exp: now + 60 * 60, // 1 hour
-      iss: "https://www.kaito.tokyo/api/internal",
-      aud: audience,
-      nbf: now - 5 * 60, // 5 minutes
-      iat: now,
-    },
-    secretKey,
-    "HS256",
-  );
+  const previousState = await generateApiInternalToken(c, audience, {
+    previousMessages: responseMessages,
+  });
 
   return c.json({ response, previousState });
 });

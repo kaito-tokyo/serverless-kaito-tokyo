@@ -15,22 +15,14 @@ interface ApiInternalToken {
   jti?: string;
 }
 
-interface CustomClaims {
-  [key: string]: any;
+type Without<T, K extends keyof any> = T & { [P in K]?: never };
 
-  iss: never;
-  sub: never;
-  aud: never;
-  exp: never;
-  nbf: never;
-  iat: never;
-  jti: never;
-}
+type CustomClaims<T> = Without<T, keyof ApiInternalToken | "sub">;
 
-interface VerifyTokenOutput {
+type VerifyTokenOutput<T> = {
   success: boolean;
   response?: Response;
-  payload?: ApiInternalToken;
+  payload?: ApiInternalToken & CustomClaims<T>;
 }
 
 async function getSecretKey(c: Context): Promise<CryptoKey> {
@@ -41,18 +33,18 @@ async function getSecretKey(c: Context): Promise<CryptoKey> {
     false,
     ["sign", "verify"],
   );
-};
+}
 
-export async function verifyToken(
+export async function verifyApiInternalToken<T>(
   c: Context,
   audience: string,
   token: string,
-): Promise<VerifyTokenOutput> {
+): Promise<VerifyTokenOutput<T>> {
   const secretKey = await getSecretKey(c);
 
-  let payload: ApiInternalToken;
+  let payload: ApiInternalToken & CustomClaims<T>;
   try {
-    payload = (await verify(token, secretKey, ALGORITHM)) as ApiInternalToken;
+    payload = (await verify(token, secretKey, ALGORITHM)) as ApiInternalToken & CustomClaims<T>;
   } catch (e) {
     return {
       success: false,
@@ -87,10 +79,10 @@ export async function verifyToken(
   return { success: true, payload };
 }
 
-export async function generateToken(
+export async function generateApiInternalToken<T>(
   c: Context,
   audience: string,
-  customClaims: CustomClaims,
+  customClaims: CustomClaims<T>,
 ): Promise<string> {
   const secretKey = await getSecretKey(c);
 
