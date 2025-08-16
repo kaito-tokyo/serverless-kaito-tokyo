@@ -23,7 +23,7 @@ type VerifyTokenOutput<T> = {
   success: boolean;
   response?: Response;
   payload?: ApiInternalToken & CustomClaims<T>;
-}
+};
 
 async function getSecretKey(c: Context): Promise<CryptoKey> {
   return await crypto.subtle.importKey(
@@ -44,7 +44,8 @@ export async function verifyApiInternalToken<T>(
 
   let payload: ApiInternalToken & CustomClaims<T>;
   try {
-    payload = (await verify(token, secretKey, ALGORITHM)) as ApiInternalToken & CustomClaims<T>;
+    payload = (await verify(token, secretKey, ALGORITHM)) as ApiInternalToken &
+      CustomClaims<T>;
   } catch (e) {
     return {
       success: false,
