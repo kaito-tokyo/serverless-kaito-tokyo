@@ -33,18 +33,22 @@ interface VerifyTokenOutput {
   payload?: ApiInternalToken;
 }
 
-export async function verifyToken(
-  c: Context,
-  audience: string,
-  token: string,
-): Promise<VerifyTokenOutput> {
-  const secretKey = await crypto.subtle.importKey(
+async function getSecretKey(c: Context): Promise<CryptoKey> {
+  return await crypto.subtle.importKey(
     "raw",
     new Uint8Array(decodeBase64(c.env.API_INTERNAL_JWT_SECRET)),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign", "verify"],
   );
+};
+
+export async function verifyToken(
+  c: Context,
+  audience: string,
+  token: string,
+): Promise<VerifyTokenOutput> {
+  const secretKey = await getSecretKey(c);
 
   let payload: ApiInternalToken;
   try {
@@ -88,13 +92,7 @@ export async function generateToken(
   audience: string,
   customClaims: CustomClaims,
 ): Promise<string> {
-  const secretKey = await crypto.subtle.importKey(
-    "raw",
-    new Uint8Array(decodeBase64(c.env.API_INTERNAL_JWT_SECRET)),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign", "verify"],
-  );
+  const secretKey = await getSecretKey(c);
 
   const now = Math.floor(Date.now() / 1000);
   return await sign(
