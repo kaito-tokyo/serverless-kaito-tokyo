@@ -15,6 +15,7 @@ on:
     types:
       - "strapi-artwork-update"
       - "strapi-novel-update"
+      - "strapi-roleplay-actor-update"
 
 concurrency:
   group: "${{ github.workflow }}"
