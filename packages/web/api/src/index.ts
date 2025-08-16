@@ -73,8 +73,8 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   const previousStateToken = params.previousState as string | undefined;
   let previousMessages: Message[] = [];
 
-  if (previousStateJws) {
-    const result = await verifyApiInternalToken<ChatState>(c, audience, previousStateJws.toString());
+  if (previousStateToken) {
+    const result = await verifyApiInternalToken<ChatState>(c, audience, previousStateToken.toString());
     if (!result.success) {
       return result.response;
     }
