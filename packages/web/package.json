@@ -17,12 +17,13 @@
     "@cloudflare/vitest-pool-workers": "^0.8.63",
     "astro": "^5.12.9",
     "gray-matter": "^4.0.3",
-    "hono": "^4.9.1",
+    "hono": "^4.9.2",
     "remark-parse": "^11.0.0",
     "satori": "^0.16.2",
     "satori-html": "^0.3.2",
     "sharp": "^0.34.3",
-    "unified": "^11.0.5"
+    "unified": "^11.0.5",
+    "uuidv7": "^1.0.2"
   },
   "devDependencies": {
     "@types/node": "^24.2.1",

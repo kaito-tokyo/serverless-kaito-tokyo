@@ -2,13 +2,18 @@
 
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { sign, verify } from "hono/jwt";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
+import {
+  generateApiInternalToken,
+  verifyApiInternalToken,
+} from "./api-internal-token";
 
 type Bindings = {
   AI: Ai;
   ASSETS: Fetcher;
-  API_JWS_SECRET: string;
+  API_INTERNAL_JWT_SECRET: string;
+  RATE_LIMITER_20_PER_5_MINUTES: RateLimit;
+  RATE_LIMITER_100_PER_HOUR: RateLimit;
 };
 
 type Message = {
@@ -16,7 +21,7 @@ type Message = {
   content: string;
 };
 
-type ChatState = {
+export type ChatState = {
   previousMessages: Message[];
 };
 
@@ -32,23 +37,57 @@ app.use(
   }),
 );
 
+app.use("/api/vip/roleplay-chat/:slug", async (c, next) => {
+  const ip = c.req.header("cf-connecting-ip");
+  if (!ip) {
+    return c.json({ error: "Could not determine client IP." }, 400);
+  }
+
+  const { success: success20 } =
+    await c.env.RATE_LIMITER_20_PER_5_MINUTES.limit({
+      key: ip,
+    });
+  if (!success20) {
+    return c.json(
+      { error: "Rate limit exceeded (20 requests per 5 minutes)." },
+      429,
+    );
+  }
+
+  const { success: success100 } = await c.env.RATE_LIMITER_100_PER_HOUR.limit({
+    key: ip,
+  });
+  if (!success100) {
+    return c.json(
+      { error: "Rate limit exceeded (100 requests per hour)." },
+      429,
+    );
+  }
+
+  await next();
+});
+
 app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   const slug = c.req.param("slug");
+  const audience = `https://www.kaito.tokyo/api/vip/roleplay-chat/${slug}`;
+
   const params = await c.req.parseBody();
   const nextUserMessage = params.message as string;
-  const previousStateJws = params.previousState as string | undefined;
+  const previousStateToken = params.previousState as string | undefined;
   let previousMessages: Message[] = [];
-  if (previousStateJws) {
-    try {
-      const payload = (await verify(
-        previousStateJws.toString(),
-        c.env.API_JWS_SECRET,
-      )) as ChatState;
-      if (payload) {
-        previousMessages = payload.previousMessages;
-      }
-    } catch (e) {
-      return c.json({ error: "Invalid previous state token." }, 400);
+
+  if (previousStateToken) {
+    const result = await verifyApiInternalToken<ChatState>(
+      c,
+      audience,
+      previousStateToken.toString(),
+    );
+    if (!result.success) {
+      return result.response;
+    }
+
+    if (result.payload) {
+      previousMessages = result.payload.previousMessages;
     }
   }
 
@@ -93,10 +132,9 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     { role: "assistant", content: response },
   ];
 
-  const previousState = await sign(
-    { previousMessages: responseMessages },
-    c.env.API_JWS_SECRET,
-  );
+  const previousState = await generateApiInternalToken(c, audience, {
+    previousMessages: responseMessages,
+  });
 
   return c.json({ response, previousState });
 });
