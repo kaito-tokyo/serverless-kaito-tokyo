@@ -3,7 +3,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { sign, verify } from "hono/jwt";
-import { decodeBase64 } from "hono/utils/decode";
+import { decodeBase64 } from "hono/utils/encode";
 import { uuidv7 } from "uuidv7";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
 
@@ -11,6 +11,8 @@ type Bindings = {
   AI: Ai;
   ASSETS: Fetcher;
   API_JWS_SECRET: string;
+  RATE_LIMITER_20_PER_5_MINUTES: RateLimit;
+  RATE_LIMITER_100_PER_HOUR: RateLimit;
 };
 
 type Message = {
@@ -34,6 +36,36 @@ app.use(
   }),
 );
 
+app.use("/api/vip/roleplay-chat/:slug", async (c, next) => {
+  const ip = c.req.header("cf-connecting-ip");
+  if (!ip) {
+    return c.json({ error: "Could not determine client IP." }, 400);
+  }
+
+  const { success: success20 } =
+    await c.env.RATE_LIMITER_20_PER_5_MINUTES.limit({
+      key: ip,
+    });
+  if (!success20) {
+    return c.json(
+      { error: "Rate limit exceeded (20 requests per 5 minutes)." },
+      429,
+    );
+  }
+
+  const { success: success100 } = await c.env.RATE_LIMITER_100_PER_HOUR.limit({
+    key: ip,
+  });
+  if (!success100) {
+    return c.json(
+      { error: "Rate limit exceeded (100 requests per hour)." },
+      429,
+    );
+  }
+
+  await next();
+});
+
 app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   const slug = c.req.param("slug");
   const audience = `https://www.kaito.tokyo/api/vip/roleplay-chat/${slug}`;
@@ -42,11 +74,18 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   const nextUserMessage = params.message as string;
   const previousStateJws = params.previousState as string | undefined;
   let previousMessages: Message[] = [];
+  const secretKey = await crypto.subtle.importKey(
+    "raw",
+    new Uint8Array(decodeBase64(c.env.API_JWS_SECRET)),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign", "verify"],
+  );
   if (previousStateJws) {
     try {
       const payload = (await verify(
         previousStateJws.toString(),
-        decodeBase64(c.env.API_JWS_SECRET),
+        secretKey,
         "HS256",
       )) as ChatState & { iss?: string; aud?: string; nbf?: number };
       if (payload.iss !== "https://www.kaito.tokyo/api/internal") {
@@ -118,7 +157,7 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
       nbf: now - 5 * 60, // 5 minutes
       iat: now,
     },
-    decodeBase64(c.env.API_JWS_SECRET),
+    secretKey,
     "HS256",
   );
 
