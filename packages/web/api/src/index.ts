@@ -2,10 +2,11 @@
 
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { sign, verify } from "hono/jwt";
+import { sign } from "hono/jwt";
 import { decodeBase64 } from "hono/utils/encode";
 import { uuidv7 } from "uuidv7";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
+import { verifyToken } from "./jwt";
 
 type Bindings = {
   AI: Ai;
@@ -20,7 +21,7 @@ type Message = {
   content: string;
 };
 
-type ChatState = {
+export type ChatState = {
   previousMessages: Message[];
 };
 
@@ -82,26 +83,18 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
     ["sign", "verify"],
   );
   if (previousStateJws) {
-    try {
-      const payload = (await verify(
-        previousStateJws.toString(),
-        secretKey,
-        "HS256",
-      )) as ChatState & { iss?: string; aud?: string; nbf?: number };
-      if (payload.iss !== "https://www.kaito.tokyo/api/internal") {
-        return c.json({ error: "Invalid token issuer." }, 400);
-      }
-      if (payload.aud !== audience) {
-        return c.json({ error: "Invalid token audience." }, 400);
-      }
-      if (payload.nbf && payload.nbf > Math.floor(Date.now() / 1000)) {
-        return c.json({ error: "Token is not active yet." }, 400);
-      }
-      if (payload) {
-        previousMessages = payload.previousMessages;
-      }
-    } catch (e) {
-      return c.json({ error: "Invalid previous state token." }, 400);
+    const result = await verifyToken(
+      c,
+      previousStateJws.toString(),
+      secretKey,
+      audience,
+    );
+    if (!result.success) {
+      return result.response;
+    }
+
+    if (result.payload) {
+      previousMessages = result.payload.previousMessages;
     }
   }
 
