@@ -3,7 +3,10 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import type { RoleplayActor } from "../../src/interfaces/RoleplayActor";
-import { generateApiInternalToken, verifyApiInternalToken } from "./api-internal-token";
+import {
+  generateApiInternalToken,
+  verifyApiInternalToken,
+} from "./api-internal-token";
 
 type Bindings = {
   AI: Ai;
@@ -74,7 +77,11 @@ app.post("/api/vip/roleplay-chat/:slug", async (c) => {
   let previousMessages: Message[] = [];
 
   if (previousStateToken) {
-    const result = await verifyApiInternalToken<ChatState>(c, audience, previousStateToken.toString());
+    const result = await verifyApiInternalToken<ChatState>(
+      c,
+      audience,
+      previousStateToken.toString(),
+    );
     if (!result.success) {
       return result.response;
     }
