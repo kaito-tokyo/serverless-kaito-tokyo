@@ -42,6 +42,11 @@ export default ({ env }) => ({
           eventType: "strapi-novel-update",
           actions: ["create", "update", "delete", "publish", "unpublish"],
         },
+        {
+          uid: "api::roleplay-actor.roleplay-actor",
+          eventType: "strapi-roleplay-actor-update",
+          actions: ["create", "update", "delete", "publish", "unpublish"],
+        },
       ],
     },
   },
