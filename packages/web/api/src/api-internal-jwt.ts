@@ -85,8 +85,8 @@ export async function verifyToken(
 
 export async function generateToken(
   c: Context,
-  customClaims: CustomClaims,
   audience: string,
+  customClaims: CustomClaims,
 ): Promise<string> {
   const secretKey = await crypto.subtle.importKey(
     "raw",
