@@ -15,7 +15,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.3",
     "@cloudflare/vitest-pool-workers": "^0.8.63",
-    "astro": "^5.12.9",
+    "astro": "^5.14.7",
     "gray-matter": "^4.0.3",
     "hono": "^4.9.2",
     "remark-parse": "^11.0.0",
