@@ -14,7 +14,7 @@ kaito.tokyo 宇田川 海斗
 umireon@kaito.tokyo
 
 **販売価格**
-Ko-fiページ（https://ko-fi.com/umireon）に表示された金額
+Ko-fiページ（[https://ko-fi.com/umireon](https://ko-fi.com/umireon)）に表示された金額
 
 **商品代金以外の必要料金**
 インターネット接続料金、通信料金等は、お客様のご負担となります。
