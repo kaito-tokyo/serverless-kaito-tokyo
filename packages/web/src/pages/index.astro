@@ -48,18 +48,15 @@ const processedLatest = latest
   .filter((item) => item !== null);
 ---
 
-<Layout title="最新の作品 - Kaito.tokyo">
-  <h1>最新の作品 - Kaito.tokyo</h1>
+<Layout title="kaito.tokyo">
+  <h1>kaito.tokyo</h1>
+  <h2>Links</h2>
   <ul>
-    {
-      processedLatest.map((item) =>
-        item.type === "artwork" ? (
-          <ArtworkCard artwork={item} />
-        ) : (
-          <NovelCard novel={item} />
-        ),
-      )
-    }
+    <li><a href="https://www.youtube.com/@umireon" target="_blank" rel="noopener">X (Twitter)</a></li>
+    <li><a href="https://x.com/umireon" target="_blank" rel="noopener">X (Twitter)</a></li>
+    <li><a href="https://twitch.com/umireon" target="_blank" rel="noopener">X (Twitter)</a></li>
+    <li><a href="https://github.com/umireon" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://ko-fi.com/umireon" target="_blank" rel="noopener">Ko-fi</a></li>
   </ul>
 </Layout>
 
